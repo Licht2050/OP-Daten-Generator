@@ -1,0 +1,47 @@
+import time
+import random
+from kafka import KafkaProducer
+
+class OutdoorEnvironmentGenerator:
+    def generate_outdoor_environment(self):
+        temperature = round(random.uniform(-10.0, 40.0), 2)  # Simuliere eine zufällige Außentemperatur im Bereich von -10°C bis 40°C
+        humidity = round(random.uniform(30.0, 80.0), 2)  # Simuliere eine zufällige Luftfeuchtigkeit im Bereich von 30% bis 80%
+        pressure = round(random.uniform(980.0, 1050.0), 2)  # Simuliere einen zufälligen Luftdruck im Bereich von 980 hPa bis 1050 hPa
+        wind_speed = round(random.uniform(0.0, 30.0), 2)  # Simuliere eine zufällige Windgeschwindigkeit im Bereich von 0 m/s bis 30 m/s
+        precipitation = round(random.uniform(0.0, 10.0), 2)  # Simuliere eine zufällige Niederschlagsmenge im Bereich von 0 mm bis 10 mm
+        
+        outdoor_environment = {
+            "Außentemperatur": temperature,
+            "Luftfeuchtigkeit": humidity,
+            "Luftdruck": pressure,
+            "Windgeschwindigkeit": wind_speed,
+            "Niederschlagsmenge": precipitation
+        }
+        
+        return outdoor_environment
+
+def send_outdoor_environment(producer, topic, interval=60):
+    generator = OutdoorEnvironmentGenerator()
+    print("Umweltparameter-Generator für draußen gestartet:")
+    try:
+        while True:
+            outdoor_environment = generator.generate_outdoor_environment()
+            print(outdoor_environment)
+            producer.send(topic, value=str(outdoor_environment).encode('utf-8'))
+            time.sleep(interval)
+    except KeyboardInterrupt:
+        print("Generator gestoppt.")
+    finally:
+        producer.flush()
+    
+if __name__ == "__main__":
+    bootstrap_servers = "localhost:9092"
+    topic = "outdoor_environment"
+    producer = KafkaProducer(bootstrap_servers=bootstrap_servers)
+
+    try:
+        send_outdoor_environment(producer, topic)
+    except Exception as e:
+        print(f"Fehler: {e}")
+    finally:
+        producer.close()

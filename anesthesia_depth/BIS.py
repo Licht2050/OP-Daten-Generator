@@ -14,15 +14,15 @@ def send_bis_data(producer, topic, interval_seconds=5):
         while True:
             anesthesia_depth = generate_random_bis_value()
             print_anesthesia_depth(anesthesia_depth)
-            data = str(anesthesia_depth)
+            message = f"BIS-Value: {anesthesia_depth}"
 
-            producer.send(topic, value=data.encode())
+            producer.send(topic, value=message.encode('utf-8'))
             time.sleep(interval_seconds)
     except KeyboardInterrupt:
         print("BIS streaming stopped.")
     finally:
         producer.flush()
-        producer.close()
+        
 
 
 if __name__ == "__main__":
@@ -30,5 +30,9 @@ if __name__ == "__main__":
     bootstrap_server = "localhost:9092"
     topic = "Vitalparameter"
     producer = KafkaProducer(bootstrap_servers=bootstrap_server)
-    
-    send_bis_data(producer, topic)
+    try:
+        send_bis_data(producer, topic)
+    except Exception as e:
+        print(f"Error: {e}")
+    finally:
+        producer.close()

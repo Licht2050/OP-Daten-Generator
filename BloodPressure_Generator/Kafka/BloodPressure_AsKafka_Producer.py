@@ -15,8 +15,8 @@ def send_blood_pressure_data(producer, topic, interval_seconds=5):
     try:
         while True:
             systolic, diastolic = generate_random_blood_pressure()
-            data = f"{systolic}, {diastolic}"
-            producer.send(topic, value=data.encode())
+            message = f"Systolic: {systolic}, Diastolic: {diastolic}"
+            producer.send(topic, value=message.encode('utf-8'))
             display_blood_pressure(systolic, diastolic)
             time.sleep(interval_seconds)
     except KeyboardInterrupt:
@@ -30,7 +30,11 @@ if __name__ == "__main__":
 
     bootstrap_server = "localhost:9092"
     topic = "Vitalparameter"
-
     producer = KafkaProducer(bootstrap_servers=bootstrap_server)
-    send_blood_pressure_data(producer, topic)
+    try:
+        send_blood_pressure_data(producer, topic)
+    except Exception as e:
+        print(f"Error: {e}")
+    finally:
+        producer.close()
 

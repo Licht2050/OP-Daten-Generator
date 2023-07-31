@@ -16,15 +16,14 @@ def send_oxygen_saturation_data(producer, topic, interval_seconds=5):
         while True:
             oxygen_saturation = generate_random_oxygen_saturation()
             print_oxygen_saturation(oxygen_saturation)
-            data = str(oxygen_saturation)
+            message = f"Oxygen Saturation: {oxygen_saturation}"
             
-            producer.send(topic, value=data.encode())
+            producer.send(topic, value=message.encode('utf-8'))
             time.sleep(interval_seconds)
     except KeyboardInterrupt:
         print("Oxygen saturation streaming stopped.")
     finally:
         producer.flush()
-        producer.close()
 
 if __name__ == "__main__":
 
@@ -32,4 +31,9 @@ if __name__ == "__main__":
     topic = "Vitalparameter"
     producer = KafkaProducer(bootstrap_servers=bootstrap_server)
 
-    send_oxygen_saturation_data(producer, topic)
+    try:
+        send_oxygen_saturation_data(producer, topic)
+    except Exception as e:
+        print("Error: {e}")
+    finally:
+        producer.close()

@@ -2,6 +2,7 @@
 
 import time
 import random
+from kafka import KafkaProducer
 
 
 class PreExistingIllness:
@@ -43,14 +44,30 @@ class PreExistingIllness:
         }
 
         return pre_existing_illness_record
-
-if __name__ == "__main__":
+    
+def send_patient_pre_existing_illness(producer, topic, interval=5):
     generator = PreExistingIllness()
 
     try:
         while True:
             pre_existing_illness = generator.generate_pre_existing_illness_record()
+            message = f"{pre_existing_illness}"
+            producer.send(topic, value=str(message).encode("utf-8"))
             print(pre_existing_illness)
             time.sleep(5)
     except KeyboardInterrupt:
         print("Pre-existing illness generator stopped.")
+    finally:
+        producer.flush()
+
+if __name__ == "__main__":
+    bootstrap_server = "localhost:9092"
+    topic = "Patientenakte"
+
+    producer = KafkaProducer(bootstrap_servers=bootstrap_server)
+    try:
+        send_patient_pre_existing_illness(producer, topic)
+    except Exception as e:
+        print("Error: {e}")
+    finally:
+        producer.close()

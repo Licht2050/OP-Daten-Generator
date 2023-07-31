@@ -2,6 +2,7 @@
 
 import random
 import time
+from kafka import KafkaProducer
 
 class PatientRecordGenerator:
     def __init__(self):
@@ -60,15 +61,34 @@ class PatientRecordGenerator:
         return patient_record
     
 
-if __name__ == "__main__":
+def send_patient_record(producer, topic, interval=5):
     generator = PatientRecordGenerator()
 
     try:
         while True:
             patient_record = generator.generate_random_patient_record()
+            message = f"{patient_record}"
+
+            producer.send(topic, value=str(message).encode('utf-8'))
             print(patient_record)
             time.sleep(5)
     except KeyboardInterrupt:
         print("Patient record generator stopped.")
+    finally:
+        producer.flush()
+
+if __name__ == "__main__":
+
+    bootstrap_server = "localhost:9092"
+    topic = "Patientenakte"
+
+    producer = KafkaProducer(bootstrap_servers= bootstrap_server)
+    try:
+        send_patient_record(producer, topic)
+    except Exception as e:
+        print("Error: {e}")
+    finally:
+        producer.close()
+    
 
 
