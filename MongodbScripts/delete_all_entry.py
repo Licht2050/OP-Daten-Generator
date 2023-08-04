@@ -3,7 +3,7 @@ import pymongo
 # Verbindung zur MongoDB-Datenbank herstellen
 client = pymongo.MongoClient("mongodb://localhost:27017/")
 database_name = "Patientenakte"
-collection_name = "Holiday-Record"
+collection_name = "HolidayRecords"
 db = client[database_name]
 collection = db[collection_name]
 
