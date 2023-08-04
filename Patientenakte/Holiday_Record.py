@@ -2,6 +2,7 @@
 
 import time
 import random
+import json
 from kafka import KafkaProducer
 
 class HolidayPlace:
@@ -31,7 +32,7 @@ class HolidayPlace:
 
         holiday_place = {
             "Urlaubsort": place,
-            "Aktivität": activity
+            "Aktivitaet": activity
         }
         return holiday_place
     
@@ -39,14 +40,14 @@ class HolidayPlace:
         for key, value in holiday_place.items():   
                 print(f"{key}: {value}")
     
-def send_holidy_place(producer, topic , interval=1):
+def send_holidy_place(producer, topic , interval=5):
     generator = HolidayPlace()
     print("Urlaubsort und Aktivität:")
     try:
         while True:
             urlaubsort = generator.generate_holiday_place()
             generator.print_holiday_place(urlaubsort)
-            message = f"{urlaubsort}"
+            message = json.dumps(urlaubsort)
             producer.send(topic, value=str(message).encode('utf-8'))
             time.sleep(interval)
     except KeyboardInterrupt:
