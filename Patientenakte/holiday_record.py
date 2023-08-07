@@ -35,34 +35,48 @@ class HolidayPlace:
             "Aktivitaet": activity
         }
         return holiday_place
-    
-    def print_holiday_place(self, holiday_place):
-        for key, value in holiday_place.items():   
-                print(f"{key}: {value}")
-    
-def send_holidy_place(producer, topic , interval=5):
-    generator = HolidayPlace()
-    print("Urlaubsort und Aktivität:")
-    try:
-        while True:
-            urlaubsort = generator.generate_holiday_place()
-            generator.print_holiday_place(urlaubsort)
-            message = json.dumps(urlaubsort)
-            producer.send(topic, value=str(message).encode('utf-8'))
-            time.sleep(interval)
-    except KeyboardInterrupt:
-        print("Generator stopped.")
-    finally:
-        producer.flush()
-    
-if __name__ == "__main__":
-    bootstrap_server = "localhost:9092"
-    topic = "Patientenakte"
-    producer = KafkaProducer(bootstrap_servers=bootstrap_server)
 
-    try:
-        send_holidy_place(producer, topic)
-    except Exception as e:
-        print("Error: {e}")
-    finally:
-        producer.close()
+    def generate_random_holiday_places(self, num_places):
+        all_places = self.places.copy()
+        holiday_places = random.sample(all_places, min(len(all_places), num_places))
+
+        holiday_places_list = []
+        for place in holiday_places:
+            activity = random.choice(self.acivities[place])
+            holiday_places_list.append({"Urlaubsort": place, "Aktivitaet": activity})
+
+        return holiday_places_list
+
+
+
+    
+    # def print_holiday_place(self, holiday_place):
+    #     for key, value in holiday_place.items():   
+    #             print(f"{key}: {value}")
+    
+# def send_holidy_place(producer, topic , interval=5):
+#     generator = HolidayPlace()
+#     print("Urlaubsort und Aktivität:")
+#     try:
+#         while True:
+#             urlaubsort = generator.generate_holiday_place()
+#             generator.print_holiday_place(urlaubsort)
+#             message = json.dumps(urlaubsort)
+#             producer.send(topic, value=str(message).encode('utf-8'))
+#             time.sleep(interval)
+#     except KeyboardInterrupt:
+#         print("Generator stopped.")
+#     finally:
+#         producer.flush()
+    
+# if __name__ == "__main__":
+#     bootstrap_server = "localhost:9092"
+#     topic = "Patientenakte"
+#     producer = KafkaProducer(bootstrap_servers=bootstrap_server)
+
+#     try:
+#         send_holidy_place(producer, topic)
+#     except Exception as e:
+#         print("Error: {e}")
+#     finally:
+#         producer.close()

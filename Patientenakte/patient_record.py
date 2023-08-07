@@ -6,6 +6,7 @@ from kafka import KafkaProducer
 
 class PatientRecordGenerator:
     def __init__(self):
+        self.patient_ids = set()
         self.names = ["Müller", "Bäcker", "Schmidt", "Schneider", "Hoffman", "Ajadi", "Weber", "Fischer", "Meyer", "Maier", "Kraus", "Herrmann"]
         self.male_names = [ "Hans", "Karl", "Walter", "Kurt", "Friedrich", "Fritz", "Heinrich"]
         self.female_names = ["Maria", "Elisabeth", "Ruth", "Hilde", "Eva", "charlotte", "Erika"]
@@ -24,8 +25,16 @@ class PatientRecordGenerator:
         birth_date = time.strftime("%d.%m.%Y", time.localtime(random.randint(ten_years_ago, now)))
         return birth_date
 
+    def generate_random_patient_id(self):
+        # Erzeugt eine zufällige 6-stellige ID und überprüft, ob sie bereits existiert
+        while True:
+            patient_id = str(random.randint(100000, 999999))
+            if patient_id not in self.patient_ids:
+                self.patient_ids.add(patient_id)
+                return patient_id
 
     def generate_random_patient_record(self):  
+        patient_id = self.generate_random_patient_id()
         gender = random.choice(self.genders)
         if gender == "weiblich":
             first_name = random.choice(self.female_names)
@@ -46,6 +55,7 @@ class PatientRecordGenerator:
         birth_date = self.generate_random_birth_date()
 
         patient_record = {
+            "Patient_ID": patient_id,
             "Name": last_name,
             "Vorname": first_name,
             "Geschlecht": gender,

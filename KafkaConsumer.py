@@ -18,7 +18,7 @@ if __name__ == "__main__":
 
     bootstraps_server = "localhost:9092"
     # topic = "Patientenakte"
-    topic = "RoomStatus"
+    topic = "Patientenakte"
 
 
 
