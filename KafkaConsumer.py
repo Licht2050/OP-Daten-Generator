@@ -17,7 +17,8 @@ def kafka_consumer(consumer):
 if __name__ == "__main__":
 
     bootstraps_server = "localhost:9092"
-    topic = "Patientenakte"
+    # topic = "Patientenakte"
+    topic = "RoomStatus"
 
 
 

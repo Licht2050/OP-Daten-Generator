@@ -13,9 +13,9 @@ def create_topic(bootstrap_servers, topic_name, partitions=1, replication_factor
         print(f"Error occurred while creating the topic: {e}")
 
 if __name__ == "__main__":
-    bootstrap_servers = "localhost:9092"  # Replace with your Kafka bootstrap servers
-    topic_name = "Patientenakte"          # Replace with the desired topic name
-    partitions = 3                        # Number of partitions for the topic (default: 1)
-    replication_factor = 1                # Replication factor for the topic (default: 1)
+    bootstrap_servers = "localhost:9092"  
+    topic_name = "RoomStatus"          
+    partitions = 3                        
+    replication_factor = 1 
 
     create_topic(bootstrap_servers, topic_name, partitions, replication_factor)
