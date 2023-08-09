@@ -107,7 +107,7 @@ class PatientRecordGenerator:
 
 #             producer.send(topic, value=str(message).encode('utf-8'))
 #             print(patient_record)
-#             time.sleep(5)
+#             time.sleep(interval)
 #     except KeyboardInterrupt:
 #         print("Patient record generator stopped.")
 #     finally:

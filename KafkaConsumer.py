@@ -1,4 +1,5 @@
 
+import json
 from kafka import KafkaConsumer
 
 
@@ -6,7 +7,7 @@ from kafka import KafkaConsumer
 def kafka_consumer(consumer):
     try:
         for message in consumer:
-            data = message.value.decode('utf-8')
+            data = json.loads(message.value.decode('utf-8'))
             print(data)
     except KeyboardInterrupt:
         print("Kafka consumer stopped.")
@@ -18,7 +19,7 @@ if __name__ == "__main__":
 
     bootstraps_server = "localhost:9092"
     # topic = "Patientenakte"
-    topic = "Patientenakte"
+    topic = "OP_Entry_Exit_Events"
 
 
 

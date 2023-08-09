@@ -3,6 +3,11 @@ import random
 from holiday_record import HolidayPlace
 from patient_record import PatientRecordGenerator
 from pre_existing_illness import PreExistingIllness
+import sys
+sys.path.append('../help_funktions')
+from send_to_kafka import send_to_topic
+
+
 
 def generate_patient_data():
     holiday_generator = HolidayPlace()
@@ -25,21 +30,13 @@ def generate_patient_data():
 def send_patient_data(producer, topic):
     try:
         patient_record, holiday_places, pre_existing_illnesses = generate_patient_data()
-        message = json.dumps(patient_record)
-        producer.send(topic, value=str(message).encode('utf-8'))
-        print(patient_record)
+        send_to_topic(producer, topic, patient_record)
 
         for holiday_place in holiday_places:
-            message = json.dumps(holiday_place)
-            producer.send(topic, value=str(message).encode('utf-8'))
-            print(holiday_place)
+            send_to_topic(producer, topic, holiday_place)
 
         for illness_record in pre_existing_illnesses:
-            message = json.dumps(illness_record)
-            producer.send(topic, value=str(message).encode('utf-8'))
-            print(illness_record)
+            send_to_topic(producer, topic, illness_record)
 
     except Exception as e:
         print("Error:", e)
-    finally:
-        producer.flush()
