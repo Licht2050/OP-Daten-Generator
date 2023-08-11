@@ -36,8 +36,8 @@ def send_outdoor_environment_info(producer, topic, interval=10):
 
 
 if __name__ == "__main__":
-    bootstrap_server = "localhost:9092"
-    topic = "outdoor_environment"
+    bootstrap_server = "192.168.29.120:9092"
+    topic = "umgebungsdaten"
     producer = KafkaProducer(bootstrap_servers=bootstrap_server)
     try:
         send_outdoor_environment_info(producer, topic)

@@ -91,8 +91,8 @@ class StaffCommunicationGenerator:
 
 if __name__ == "__main__":
     try:
-        team_member_topic = "ein_ausgangsereignisse"
-        staff_communication_topic = "personal_kommunikation"
+        team_member_topic = "OP_Entry_Exit_Events"
+        staff_communication_topic = "Patientenakte"
         
         staff_generator = StaffCommunicationGenerator()
         

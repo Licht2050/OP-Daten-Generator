@@ -27,8 +27,8 @@ def send_random_heart_data(producer, topic, interval_secondes=5):
 
 
 if __name__ == "__main__":
-    bootstrap_server = "localhost:9092"
-    topic = "Vitalparameter"
+    bootstrap_server = "192.168.29.120:9092"
+    topic = "vitalparameter"
     producer = KafkaProducer(bootstrap_servers=bootstrap_server)
     
     try:

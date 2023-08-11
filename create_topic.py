@@ -30,16 +30,16 @@ if __name__ == "__main__":
     partitions = 3                        
     replication_factor = 1 
 
-    create_topic(bootstrap_servers, topic_name, partitions, replication_factor)
+    # create_topic(bootstrap_servers, topic_name, partitions, replication_factor)
 
-    # topic_configs = [
-    #     {"topic_name": "RoomStatus", "partitions": 3, "replication_factor": 2},
-    #     {"topic_name": "SensorData", "partitions": 5, "replication_factor": 2},
-    #     {"topic_name": "PatientenRecords", "partitions": 3, "replication_factor": 2},
-    #     {"topic_name": "EmergencyAlerts", "partitions": 1, "replication_factor": 1},
-    #     {"topic_name": "StaffCommunication", "partitions": 5, "replication_factor": 2},
-    #     {"topic_name": "InventoryManagement", "partitions": 3, "replication_factor": 2}
-        
-    # ]
+    topic_configs = [
+        {"topic_name": "umgebungsdaten", "partitions": 3, "replication_factor": 2},
+        {"topic_name": "vitalparameter", "partitions": 5, "replication_factor": 2},
+        {"topic_name": "patientendaten", "partitions": 3, "replication_factor": 2},
+        {"topic_name": "op_raum_status", "partitions": 1, "replication_factor": 1},
+        {"topic_name": "personal_kommunikation", "partitions": 5, "replication_factor": 2},
+        {"topic_name": "op_team", "partitions": 3, "replication_factor": 2},
+        {"topic_name": "ein_ausgangsereignisse", "partitions": 3, "replication_factor": 2}
+    ]
 
-    # create_topics(bootstrap_servers, topic_configs)
+    create_topics(bootstrap_servers, topic_configs)

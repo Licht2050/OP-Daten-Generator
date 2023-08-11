@@ -28,8 +28,8 @@ def send_blood_pressure_data(producer, topic, interval_seconds=5):
 
 if __name__ == "__main__":
 
-    bootstrap_server = "localhost:9092"
-    topic = "Vitalparameter"
+    bootstrap_server = "192.168.29.120:9093"
+    topic = "vitalparameter"
     producer = KafkaProducer(bootstrap_servers=bootstrap_server)
     try:
         send_blood_pressure_data(producer, topic)

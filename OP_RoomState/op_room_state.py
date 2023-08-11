@@ -40,8 +40,8 @@ def send_op_room_status(producer, topic, interval=10):
 
 
 if __name__ == "__main__":
-    bootstrap_server = "localhost:9092"
-    topic = "RoomStatus"
+    bootstrap_server = "192.168.29.120:9094"
+    topic = "op_raum_status"
     producer = KafkaProducer(bootstrap_servers=bootstrap_server)
     try:
         send_op_room_status(producer, topic)

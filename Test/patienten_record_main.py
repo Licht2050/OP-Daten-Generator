@@ -2,7 +2,7 @@ from kafka import KafkaProducer
 from patient_data_generator import generate_patient_data, send_patient_data
 
 if __name__ == "__main__":
-    bootstrap_server = "localhost:9092"
+    bootstrap_server = "192.168.29.120:9092"
     topic = "Patientenakte"
     producer = KafkaProducer(bootstrap_servers=bootstrap_server)
 

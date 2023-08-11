@@ -44,8 +44,8 @@ class OPTeamGenerator:
     
 if __name__ == "__main__":
     op_team_generator = OPTeamGenerator()
-    bootstrap_server = "192.168.29.120:9093"
-    topic = "op_team"
+    bootstrap_server = "192.168.29.120:9092"
+    topic = "OPTeam"
     try:
         producer = KafkaProducer(bootstrap_servers=bootstrap_server)
         op_team = op_team_generator.generate_op_team()

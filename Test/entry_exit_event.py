@@ -102,9 +102,9 @@ class OPEventGenerator:
 
 
 if __name__ == "__main__":
-    bootstrap_server = "192.168.29.120:9093"
-    team_member_topic = "op_team"
-    entry_exit_topic = "ein_ausgangsereignisse"
+    bootstrap_server = "192.168.29.120:9092"
+    team_member_topic = "OPTeam"
+    entry_exit_topic = "OP_Entry_Exit_Events"
     
     op_generator = OPEventGenerator(bootstrap_server, team_member_topic, entry_exit_topic)
     op_generator.load_team()
