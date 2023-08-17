@@ -1,0 +1,57 @@
+{
+    "bis": {
+      "bootstrap_servers": "192.168.29.120:9092",
+      "topic": "vitalparameter",
+      "interval_seconds": 5
+    },
+    "blood_pressure": {
+      "bootstrap_servers": "192.168.29.120:9093",
+      "topic": "vitalparameter",
+      "interval_seconds": 10
+    },
+    "etco2": {
+      "bootstrap_servers": "192.168.29.120:9094",
+      "topic": "vitalparameter",
+      "interval_seconds": 5
+    },
+    "heart_rate": {
+      "bootstrap_servers": "192.168.29.120:9092",
+      "topic": "vitalparameter",
+      "interval_seconds": 5
+    },
+    "oxygen_saturation": {
+      "bootstrap_servers": "192.168.29.120:9093",
+      "topic": "vitalparameter",
+      "interval_seconds": 5
+    },
+    "staff_communication": {
+      "bootstrap_servers": "192.168.29.120:9092",
+      "topic": "personal_kommunikation",
+      "interval_min": 3,
+      "interval_max": 20
+    },
+    "entry_exit_events": {
+      "bootstrap_servers": "192.168.29.120:9093",
+      "topic": "ein_ausgangsereignisse"
+    },
+    "patient_records": {
+      "bootstrap_servers": "192.168.29.120:9094",
+      "topic": "patientendaten"
+    },
+    "outdoor_environment": {
+      "bootstrap_servers": "192.168.29.120:9092",
+      "topic": "umgebungsdaten",
+      "interval_seconds": 10
+    },
+    "op_team": {
+      "bootstrap_servers": "192.168.29.120:9093",
+      "topic": "op_team"
+    },
+    "op_room_state": {
+      "bootstrap_servers": "192.168.29.120:9094",
+      "topic": "op_raum_status",
+      "interval_seconds": 10
+    }
+
+}
+  

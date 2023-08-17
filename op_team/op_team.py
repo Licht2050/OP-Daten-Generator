@@ -1,10 +1,9 @@
+import os
 import random
-import json
-
 import sys
-sys.path.append('../help_funktions')
-from send_to_kafka import send_to_topic
-from kafka import KafkaProducer
+sys.path.append('../help_classes_and_functions')
+from source_data_sender import SourceDataSender
+from config_loader import ConfigLoader
 
 
 class OPTeamGenerator:
@@ -43,16 +42,19 @@ class OPTeamGenerator:
 
     
 if __name__ == "__main__":
+
+    source_name = "op_team"
+    config_file_path = os.path.join(os.path.dirname(__file__), '../config/config.json')
+    config_loader = ConfigLoader(config_file_path)
+    op_team_config = config_loader.load_config(source_name)
+
+    sender = SourceDataSender(op_team_config)
     op_team_generator = OPTeamGenerator()
-    bootstrap_server = "192.168.29.120:9093"
-    topic = "op_team"
+
     try:
-        producer = KafkaProducer(bootstrap_servers=bootstrap_server)
         op_team = op_team_generator.generate_op_team()
-        send_to_topic(producer, topic, op_team)
-        
-        print()
+        sender.send_single_data(source_name, op_team)
     except Exception as e:
         print("Error: ", e)
     finally:
-        producer.close()
+        sender.disconnect_producer()

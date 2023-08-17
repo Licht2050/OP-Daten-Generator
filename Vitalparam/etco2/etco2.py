@@ -1,39 +1,25 @@
 
 
-import time
+import logging
 import random
-from kafka import KafkaProducer
+import os
+import sys
+sys.path.append('../../help_classes_and_functions')
+from source_data_sender import SourceDataSender
+from config_loader import ConfigLoader
 
 #Atemwegsüberwachung
-def generate_random_etco2_value():
-    return random.randint(12, 20)
+def generate_random_etco2_value(min_value, max_value):
+    return random.randint(min_value, max_value)
 
-def print_respiratory(data):
-    print(f"Respiratory rate: {data} breaths per minute.")
-
-def send_respiratory_etco2_value(producer, topic, interval_seconds=5):
-    try:
-        while True:
-            respiratory_rate = generate_random_etco2_value()
-            print_respiratory(respiratory_rate)
-            message = f"EtCO2: {respiratory_rate}"
-            
-            producer.send(topic, value=message.encode('utf-8'))
-            time.sleep(interval_seconds)
-    except KeyboardInterrupt:
-        print("Respiratory streaming stopped.")
-    finally:
-        producer.flush()
 
 if __name__ == "__main__":
-
-    bootstrap_server = "192.168.29.120:9094"
-    topic = "vitalparameter"
-    producer = KafkaProducer(bootstrap_servers=bootstrap_server)
-
+    config_file_path = os.path.join(os.path.dirname(__file__), '../../config/config.json')
+    sensor_name = "etco2"
     try:
-        send_respiratory_etco2_value(producer, topic)
+        config_loader = ConfigLoader(config_file_path)
+        config = config_loader.load_config(sensor_name)
+        sender = SourceDataSender(config)
+        sender.send_continuous_data(sensor_name, lambda: generate_random_etco2_value(30, 50))
     except Exception as e:
-        print(f"Error: {e}")
-    finally:
-        producer.close()
+        logging.error(f"Error: {e}")

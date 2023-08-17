@@ -1,6 +1,13 @@
+import os
+import sys
 import time
 import random
 from kafka import KafkaProducer
+sys.path.append('../help_classes_and_functions')
+from config_loader import ConfigLoader
+from source_data_sender import SourceDataSender
+
+
 
 class OPRoomStateGenerator:
     def __init__(self):
@@ -23,29 +30,22 @@ class OPRoomStateGenerator:
 
         return op_room_status
     
-def send_op_room_status(producer, topic, interval=10):
-    generator = OPRoomStateGenerator()
-    print("OP-Raumstatus-Generator gestartet.") 
-    try:
-        while True:
-            op_room_status = generator.generate_op_room_status()
-            print(op_room_status)
-            message = f"{op_room_status}"
-            producer.send(topic, value=message.encode('utf-8'))
-            time.sleep(interval)
-    except KeyboardInterrupt:
-        print("Generator gestoppt.")
-    finally:
-        producer.flush()
 
 
 if __name__ == "__main__":
-    bootstrap_server = "192.168.29.120:9094"
-    topic = "op_raum_status"
-    producer = KafkaProducer(bootstrap_servers=bootstrap_server)
+
+    source_name = "op_room_state"
+    config_file_path = os.path.join(os.path.dirname(__file__), '../config/config.json')
+    config_loader = ConfigLoader(config_file_path)
+    op_room_state_config = config_loader.load_config(source_name)
+
+    sender = SourceDataSender(op_room_state_config)
+    generator = OPRoomStateGenerator()
+    print("OP-Raumstatus-Generator gestartet.") 
+
     try:
-        send_op_room_status(producer, topic)
+        sender.send_continuous_data(source_name, lambda: generator.generate_op_room_status())
     except Exception as e:
         print("Error: {e}")
     finally:
-        producer.close()
+        sender.disconnect_producer()

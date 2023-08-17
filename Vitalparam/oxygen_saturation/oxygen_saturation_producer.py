@@ -1,39 +1,24 @@
 
 
-import time
+import os
+import sys
 import random
-from kafka import KafkaProducer
+import logging
+sys.path.append('../../help_classes_and_functions')
+from source_data_sender import SourceDataSender
+from config_loader import ConfigLoader
 
+def generate_random_oxygen_saturation(min_value=90, max_value=100):
+    return random.randint(min_value, max_value)
 
-def generate_random_oxygen_saturation():
-    return random.randint(90, 100)
-
-def print_oxygen_saturation(data):
-    print(f"Oxygen Saturation: {data}%")
-
-def send_oxygen_saturation_data(producer, topic, interval_seconds=5):
-    try:
-        while True:
-            oxygen_saturation = generate_random_oxygen_saturation()
-            print_oxygen_saturation(oxygen_saturation)
-            message = f"Oxygen Saturation: {oxygen_saturation}"
-            
-            producer.send(topic, value=message.encode('utf-8'))
-            time.sleep(interval_seconds)
-    except KeyboardInterrupt:
-        print("Oxygen saturation streaming stopped.")
-    finally:
-        producer.flush()
 
 if __name__ == "__main__":
-
-    bootstrap_server = "192.168.29.120:9093"
-    topic = "vitalparameter"
-    producer = KafkaProducer(bootstrap_servers=bootstrap_server)
-
+    config_file_path = os.path.join(os.path.dirname(__file__), '../../config/config.json')
+    sensor_name = "oxygen_saturation"
     try:
-        send_oxygen_saturation_data(producer, topic)
+        config_loader = ConfigLoader(config_file_path)
+        config = config_loader.load_config(sensor_name)
+        sender = SourceDataSender(config)
+        sender.send_continuous_data(sensor_name, lambda: generate_random_oxygen_saturation(90, 100))
     except Exception as e:
-        print("Error: {e}")
-    finally:
-        producer.close()
+        logging.error(f"Error: {e}")

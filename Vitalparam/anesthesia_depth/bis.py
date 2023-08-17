@@ -1,38 +1,29 @@
 import random
-import time
-from kafka import KafkaProducer
+import logging
+import sys
+import os
+
+# Den Pfad zum Hauptordner hinzufügen
+sys.path.append('../../help_classes_and_functions')
+
+from source_data_sender import SourceDataSender
+from config_loader import ConfigLoader
+
+logging.basicConfig(level=logging.INFO)
 
 #Narkosetiefe
-def generate_random_bis_value():
-    return round(random.uniform(50, 60), 2)
-
-def print_anesthesia_depth(data):
-    print(f"Bispectral Index (BIS) value: {data}")
-
-def send_bis_data(producer, topic, interval_seconds=5):
-    try:
-        while True:
-            anesthesia_depth = generate_random_bis_value()
-            print_anesthesia_depth(anesthesia_depth)
-            message = f"BIS-Value: {anesthesia_depth}"
-
-            producer.send(topic, value=message.encode('utf-8'))
-            time.sleep(interval_seconds)
-    except KeyboardInterrupt:
-        print("BIS streaming stopped.")
-    finally:
-        producer.flush()
-        
+def generate_random_bis_value(min_value, max_value):
+    return round(random.uniform(min_value, max_value), 2)
 
 
 if __name__ == "__main__":
-
-    bootstrap_server = "192.168.29.120:9092"
-    topic = "vitalparameter"
-    producer = KafkaProducer(bootstrap_servers=bootstrap_server)
+    sensor_name = "bis"
+    config_file_path = os.path.join(os.path.dirname(__file__), '../../config/config.json')
     try:
-        send_bis_data(producer, topic)
+        config_loader = ConfigLoader(config_file_path)
+        config = config_loader.load_config(sensor_name)
+        sender = SourceDataSender(config)
+        
+        sender.send_continuous_data(sensor_name, lambda: generate_random_bis_value(50, 60))
     except Exception as e:
-        print(f"Error: {e}")
-    finally:
-        producer.close()
+        logging.error(f"Error: {e}")

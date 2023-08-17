@@ -29,21 +29,6 @@ class PreExistingIllness:
         treated_date = time.strftime("%d.%m.%Y", time.localtime(random.randint(one_year_after_diagnose, six_years_after_diagnose)))
         return treated_date
     
-    def generate_random_pre_existing_illness(self):
-        pre_existing_illness = random.choice(self.illnesses)
-        diagnosed_date = self.generate_random_diagnose_date()
-        treatment = random.choice(self.treatments)
-        treated_date = self.generate_random_treated_date(diagnosed_date)
-
-        pre_existing_illness_record = {
-            "Vorerkrankung": pre_existing_illness,
-            "Diagnosedatum": diagnosed_date,
-            "Behandlung": treatment,
-            "Behandlungsdatum": treated_date,
-            "Weitere Informationen": "..."
-        }
-
-        return pre_existing_illness_record
     
     def generate_random_pre_existing_illness(self, num_illnesses):
         all_illnesses = self.illnesses.copy()

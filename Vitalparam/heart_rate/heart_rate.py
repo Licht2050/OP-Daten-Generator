@@ -1,38 +1,25 @@
 
 
-import time
+import logging
+import os
 import random
-from kafka import KafkaProducer
+import sys
+sys.path.append('../../help_classes_and_functions')
+from source_data_sender import SourceDataSender
+from config_loader import ConfigLoader
 
 
-def generate_random_heart_rate():
-    return random.randint(60, 100)
-
-def print_heart_rate(data):
-    print(f"Heart Rate: {data} BPM")
-
-def send_random_heart_data(producer, topic, interval_secondes=5):
-    try:
-        while True:
-            heart_rate = generate_random_heart_rate()
-            message = f"BPM: {heart_rate}"
-            print_heart_rate(heart_rate)
-            producer.send(topic, value=message.encode('utf-8'))
-            time.sleep(interval_secondes)
-    except KeyboardInterrupt:
-        print("Heart Rate Producer stopped")
-    finally:
-        producer.flush()
+def generate_random_heart_rate(min_value, max_value):
+    return random.randint(min_value, max_value)
         
 
-
 if __name__ == "__main__":
-    bootstrap_server = "192.168.29.120:9092"
-    topic = "vitalparameter"
-    producer = KafkaProducer(bootstrap_servers=bootstrap_server)
-    
+    config_file_path = os.path.join(os.path.dirname(__file__), '../../config/config.json')
+    sensor_name = "heart_rate"
     try:
-        send_random_heart_data(producer, topic)
+        config_loader = ConfigLoader(config_file_path)
+        config = config_loader.load_config(sensor_name)
+        sender = SourceDataSender(config)
+        sender.send_continuous_data(sensor_name, lambda: generate_random_heart_rate(60, 100))
     except Exception as e:
-        print("Error: {e}")
-
+        logging.error(f"Error: {e}")
