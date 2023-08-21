@@ -6,7 +6,8 @@ import json
 import sys
 from kafka import KafkaConsumer
 from threading import Lock, Thread
-sys.path.append('../help_classes_and_functions')
+# sys.path.append('../help_classes_and_functions')
+sys.path.append(os.path.join(os.path.dirname(__file__), '../help_classes_and_functions'))
 from source_data_sender import SourceDataSender
 from config_loader import ConfigLoadError, ConfigLoader
 

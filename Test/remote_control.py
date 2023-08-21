@@ -6,7 +6,7 @@ import time
 raspberry_pis = {
     "raspberry_pi_1": {
         "ip": "192.168.201.251",
-        "generator_scripts": ["patienten_record_main.py", "op_team.py", "entry_exit_event.py"],
+        "generator_scripts": ["patient_data_generator.py", "op_team.py", "entry_exit_event.py"],
         "processes": []
     },
     "raspberry_pi_2": {
@@ -43,7 +43,9 @@ def start_generator_on_raspberry(pi_info, generator_script_path):
         # Prozess-ID des gestarteten Skripts erhalten und speichern
         stdin, stdout, stderr = ssh.exec_command(f"ps aux | grep 'python {generator_script_path}' | grep -v grep")
         process_info = stdout.read().decode().strip()
+        print("----------------------------------------------------------------: Process info: " + process_info)
         if process_info:
+            print(process_info)
             process_id = int(process_info.split()[1])  # Die zweite Spalte enthält die Prozess-ID
             pi_info["processes"].append(process_id)
         else:
@@ -82,83 +84,62 @@ def stop_generators():
         thread.join()
 
 
-def copy_script_to_raspberry(pi_info, local_script_path, remote_script_path):
-    ssh = paramiko.SSHClient()
-    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    
-    try:
-        ssh.connect(pi_info["ip"], username='pi', password='12345')
-        with open(local_script_path, 'rb') as local_script:
-            remote_script_content = local_script.read()
-            with ssh.open_sftp() as sftp:
-                with sftp.file(remote_script_path, 'wb') as remote_script:
-                    remote_script.write(remote_script_content)
-    except Exception as e:
-        print(f"Fehler beim Kopieren des Skripts auf {pi_info['ip']}: {e}")
-    finally:
-        ssh.close()
 
 def main():
     generator_dir = os.path.dirname(os.path.abspath(__file__))
     threads = []
 
-    # Kopiere die Skripte auf die entsprechenden Raspberry Pis
-    for pi_name, pi_info in raspberry_pis.items():
-        for generator_script in pi_info["generator_scripts"]:
-            local_script_path = os.path.join(generator_dir, generator_script)
-            remote_script_path = f"/home/pi/{generator_script}"
-            copy_script_to_raspberry(pi_info, local_script_path, remote_script_path)
-
     # Starte "patienten_record_main.py", "entry_exit_event.py" und "staff_communication_during_op.py"
     pi_info = raspberry_pis["raspberry_pi_1"]
-    for generator_script in ["patienten_record_main.py", "entry_exit_event.py"]:
-        generator_script_path = f"/home/pi/{generator_script}"
+    for generator_script in ["entry_exit_event.py"]:
+        print(generator_script)
+        generator_script_path = f"op_data_generator/entry_exit_event    /{generator_script}"
         thread = threading.Thread(target=start_generator_on_raspberry, args=(pi_info, generator_script_path))
         threads.append(thread)
         thread.start()
         started_scripts.append(generator_script)
     
-    pi_info = raspberry_pis["raspberry_pi_4"]
-    generator_script = "staff_communication_during_op.py"
-    generator_script_path = f"/home/pi/{generator_script}"
-    thread = threading.Thread(target=start_generator_on_raspberry, args=(pi_info, generator_script_path))
-    threads.append(thread)
-    thread.start()
-    started_scripts.append(generator_script)
+    # pi_info = raspberry_pis["raspberry_pi_4"]
+    # generator_script = "staff_communication_during_op.py"
+    # generator_script_path = f"/home/pi/{generator_script}"
+    # thread = threading.Thread(target=start_generator_on_raspberry, args=(pi_info, generator_script_path))
+    # threads.append(thread)
+    # thread.start()
+    # started_scripts.append(generator_script)
     
 
-    # Warten auf das Ende der Threads
+    # # Warten auf das Ende der Threads
     for thread in threads:
         thread.join()
 
-    print("Gestartete Skripte:", started_scripts)
+    # print("Gestartete Skripte:", started_scripts)
     
-    # Benutzerabfrage für "op_team.py"
-    choice_op_team = input("Möchten Sie den 'op_team.py' Generator starten? (ja/nein): ")
-    if choice_op_team.lower() == "ja":
-        pi_info = raspberry_pis["raspberry_pi_1"]
-        generator_script = "op_team.py"
-        generator_script_path = f"/home/pi/{generator_script}"
-        start_generator_on_raspberry(pi_info, generator_script_path)
-        started_scripts.append(generator_script)
+    # # Benutzerabfrage für "op_team.py"
+    # choice_op_team = input("Möchten Sie den 'op_team.py' Generator starten? (ja/nein): ")
+    # if choice_op_team.lower() == "ja":
+    #     pi_info = raspberry_pis["raspberry_pi_1"]
+    #     generator_script = "op_team.py"
+    #     generator_script_path = f"/home/pi/{generator_script}"
+    #     start_generator_on_raspberry(pi_info, generator_script_path)
+    #     started_scripts.append(generator_script)
         
-        # Benutzerabfrage für die restlichen Skripte auf "raspberry_pi_1"
-        choice_rest = input("Möchten Sie die restlichen Generatoren starten? (ja/nein): ")
-        if choice_rest.lower() == "ja":
-            pi_info = raspberry_pis["raspberry_pi_1"]
-            for generator_script in pi_info["generator_scripts"]:
-                if generator_script not in started_scripts and generator_script != "op_team.py":
-                    generator_script_path = os.path.join(generator_dir, generator_script)
-                    thread = threading.Thread(target=start_generator_on_raspberry, args=(pi_info, generator_script_path))
-                    threads.append(thread)
-                    thread.start()
-                    started_scripts.append(generator_script)
+    #     # Benutzerabfrage für die restlichen Skripte auf "raspberry_pi_1"
+    #     choice_rest = input("Möchten Sie die restlichen Generatoren starten? (ja/nein): ")
+    #     if choice_rest.lower() == "ja":
+    #         pi_info = raspberry_pis["raspberry_pi_1"]
+    #         for generator_script in pi_info["generator_scripts"]:
+    #             if generator_script not in started_scripts and generator_script != "op_team.py":
+    #                 generator_script_path = os.path.join(generator_dir, generator_script)
+    #                 thread = threading.Thread(target=start_generator_on_raspberry, args=(pi_info, generator_script_path))
+    #                 threads.append(thread)
+    #                 thread.start()
+    #                 started_scripts.append(generator_script)
 
-            # Warten auf das Ende der Threads
-            for thread in threads:
-                thread.join()
+    #         # Warten auf das Ende der Threads
+    #         for thread in threads:
+    #             thread.join()
 
-            print("Restliche Generatoren auf raspberry_pi_1 wurden gestartet.")
+    #         print("Restliche Generatoren auf raspberry_pi_1 wurden gestartet.")
 
     # Benutzerabfrage für das Stoppen der Generatoren
     choice_stop = input("Möchten Sie die Generatoren stoppen? (ja/nein): ")

@@ -5,7 +5,7 @@ import json
 from kafka import KafkaProducer
 import logging
 from config_loader import ConfigLoadError
-sys.path.append('../../config')
+# sys.path.append('../../config')
 
 
 logging.basicConfig(level=logging.INFO)

@@ -4,7 +4,21 @@ import logging
 import os
 import random
 import sys
-sys.path.append('../../help_classes_and_functions')
+import platform
+# sys.path.append('../../help_classes_and_functions')
+# sys.path.append('/home/pi/op_data_generator/help_classes_and_functions')
+
+sys.path.append(os.path.join(os.path.dirname(__file__), '../../help_classes_and_functions'))
+
+# # Je nach Plattform den entsprechenden Pfad hinzufügen
+# if platform.system() == "Linux" and "arm" in platform.machine():
+#     # Raspberry Pi
+#     sys.path.append('/home/pi/op_data_generator/help_classes_and_functions')
+# else:
+#     # Lokaler Rechner
+#     sys.path.append('../../help_classes_and_functions')
+
+
 from source_data_sender import SourceDataSender
 from config_loader import ConfigLoader
 

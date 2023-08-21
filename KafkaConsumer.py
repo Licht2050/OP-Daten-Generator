@@ -19,7 +19,10 @@ if __name__ == "__main__":
 
     bootstraps_server = "localhost:9092"
     # topic = "Patientenakte"
+    # topic = "vitalparameter"
+    # topic = "entry_exit_events"
     topic = "op_raum_status"
+    # topic = "op_team"
 
 
     print(f"Starting Consumer on: {bootstraps_server} in topic: {topic}...")

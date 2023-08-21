@@ -3,7 +3,8 @@ import sys
 import time
 import random
 from kafka import KafkaProducer
-sys.path.append('../help_classes_and_functions')
+# sys.path.append('../help_classes_and_functions')
+sys.path.append(os.path.join(os.path.dirname(__file__), '../help_classes_and_functions'))
 from config_loader import ConfigLoader
 from source_data_sender import SourceDataSender
 

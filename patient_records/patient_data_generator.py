@@ -1,15 +1,16 @@
 
+
 import os
 import random
 
 from holiday_record import HolidayPlace
 from patient_record import PatientRecordGenerator
 from pre_existing_illness import PreExistingIllness
-from kafka import KafkaProducer
 import sys
 
 
-sys.path.append('../help_classes_and_functions')
+# sys.path.append('../help_classes_and_functions')
+sys.path.append(os.path.join(os.path.dirname(__file__), '../help_classes_and_functions'))
 from send_to_kafka import send_to_topic
 from config_loader import ConfigLoader
 from source_data_sender import SourceDataSender

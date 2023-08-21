@@ -13,8 +13,8 @@ class ConfigLoader:
             with open(self.config_file, "r") as f:
                 config_data = json.load(f)
                 self.config = config_data.get(source_name)
-                if self.config:
-                    print(self.config)
+                # if self.config:
+                #     print(self.config)
                 if not self.config:
                     raise ConfigLoadError(f"source {source_name} configuration not found in config")
                 return self.config

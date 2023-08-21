@@ -1,10 +1,12 @@
 import datetime
+import os
 import random
 import time
 import json
 from kafka import KafkaProducer, KafkaConsumer
 import sys
-sys.path.append('../help_classes_and_functions')
+# sys.path.append('../help_classes_and_functions')
+sys.path.append(os.path.join(os.path.dirname(__file__), '../help_classes_and_functions'))
 from send_to_kafka import send_to_topic
 from kafka import KafkaConsumer
 

@@ -1,0 +1,69 @@
+
+{
+    "raspberry_pis":{
+        "raspberry_pi_1": 
+        {
+            "ip": "192.168.201.251",
+            "username": "pi",
+            "password": "12345"
+        },
+        "raspberry_pi_2": 
+        {
+            "ip": "192.168.201.250",
+            "username": "pi",
+            "password": "12345"
+        },
+        "raspberry_pi_3": 
+        {
+            "ip": "192.168.201.229",
+            "username": "pi",
+            "password": "12345"
+        },
+        "raspberry_pi_4": 
+        {
+            "ip": "192.168.201.167",
+            "username": "pi",
+            "password": "12345"
+        }
+    },
+
+    "script_execution":{
+        "raspberry_pi_1": [
+            "patient_data_generator.py",
+            "op_team.py",
+            "entry_exit_event.py"
+        ],
+        "raspberry_pi_2": [
+            "heart_rate.py",
+            "blood_pressure.py",
+            "op_room_state.py"
+        ],
+        "raspberry_pi_3": [
+            "bis.py",
+            "outdoor_environment.py",
+            "oxygen_saturation_producer.py"
+        ],
+        "raspberry_pi_4": [
+            "etco2.py",
+            "staff_communication_during_op.py"
+        ]
+    },
+
+    "script_paths":{
+        "patient_data_generator.py": "patient_records",
+        "op_team.py": "op_team",
+        "entry_exit_event.py": "entry_exit_event",
+        "heart_rate.py": "vitalparam/heart_rate",
+        "blood_pressure.py": "vitalparam/blood_pressure",
+        "op_room_state.py": "op_room_state",
+        "bis.py": "vitalparam/anesthesia_depth",
+        "outdoor_environment.py": "outdoor_environment",
+        "oxygen_saturation_producer.py": "vitalparam/oxygen_saturation",
+        "etco2.py": "vitalparam/etco2",
+        "staff_communication_during_op.py": "staff_communication"
+    },
+    "dependency_paths":[
+        "config",
+        "help_classes_and_functions"
+    ]
+}

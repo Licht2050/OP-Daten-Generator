@@ -1,0 +1,18 @@
+INFO:kafka.conn:<BrokerConnection node_id=bootstrap-0 host=192.168.29.120:9094 <connecting> [IPv4 ('192.168.29.120', 9094)]>: connecting to 192.168.29.120:9094 [('192.168.29.120', 9094) IPv4]
+INFO:kafka.conn:Probing node bootstrap-0 broker version
+INFO:kafka.conn:<BrokerConnection node_id=bootstrap-0 host=192.168.29.120:9094 <connecting> [IPv4 ('192.168.29.120', 9094)]>: Connection complete.
+INFO:kafka.conn:Broker version identified as 1.0.0
+INFO:kafka.conn:Set configuration api_version=(1, 0, 0) to skip auto check_version requests on startup
+INFO:root:patient_records single message: {"source": "patient_records", "value": {"Patient_ID": "623895", "Name": "M\u00fcller", "Vorname": "Fritz", "Geschlecht": "m\u00e4nnlich", "Geburtsdatum": "08.04.2020", "Stra\u00dfe": "Goebenstra\u00dfe 40", "Stadt": "Saarbreucken", "Postleitzahl": 66111, "Blutgruppe": "AB+", "Gewicht": 106, "Gr\u00f6\u00dfe": 190}, "timestamp": "2023-08-21 13:34:32"}
+INFO:kafka.conn:<BrokerConnection node_id=1 host=192.168.29.120:9093 <connecting> [IPv4 ('192.168.29.120', 9093)]>: connecting to 192.168.29.120:9093 [('192.168.29.120', 9093) IPv4]
+INFO:kafka.conn:<BrokerConnection node_id=1 host=192.168.29.120:9093 <connecting> [IPv4 ('192.168.29.120', 9093)]>: Connection complete.
+INFO:kafka.conn:<BrokerConnection node_id=bootstrap-0 host=192.168.29.120:9094 <connected> [IPv4 ('192.168.29.120', 9094)]>: Closing connection. 
+INFO:root:patient_records single message: {"source": "patient_records", "value": {"Urlaubsort": "Trolltunga", "Aktivitaet": "Spazierg\u00e4nge"}, "timestamp": "2023-08-21 13:34:32"}
+INFO:kafka.conn:<BrokerConnection node_id=2 host=192.168.29.120:9094 <connecting> [IPv4 ('192.168.29.120', 9094)]>: connecting to 192.168.29.120:9094 [('192.168.29.120', 9094) IPv4]
+INFO:kafka.conn:<BrokerConnection node_id=2 host=192.168.29.120:9094 <connecting> [IPv4 ('192.168.29.120', 9094)]>: Connection complete.
+INFO:root:patient_records single message: {"source": "patient_records", "value": {"Urlaubsort": "New York City", "Aktivitaet": "Central Park erkundet"}, "timestamp": "2023-08-21 13:34:33"}
+INFO:root:patient_records single message: {"source": "patient_records", "value": {"Vorerkrankung": "Asthma", "Diagnosedatum": "16.03.2014", "Behandlung": "Dialyse", "Behandlungsdatum": "03.06.2019", "Weitere Informationen": "..."}, "timestamp": "2023-08-21 13:34:33"}
+INFO:root:patient_records single message: {"source": "patient_records", "value": {"Vorerkrankung": "Nierenversagen", "Diagnosedatum": "30.06.2016", "Behandlung": "Operation", "Behandlungsdatum": "07.03.2021", "Weitere Informationen": "..."}, "timestamp": "2023-08-21 13:34:33"}
+INFO:kafka.producer.kafka:Closing the Kafka producer with 9223372036.0 secs timeout.
+INFO:kafka.producer.kafka:Proceeding to force close the producer since pending requests could not be completed within timeout 9223372036.0.
+INFO:kafka.producer.kafka:Kafka producer closed
