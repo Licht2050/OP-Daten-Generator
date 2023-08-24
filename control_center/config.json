@@ -64,6 +64,6 @@
     },
     "dependency_paths":[
         "config",
-        "help_classes_and_functions"
+        "helper_classes_and_functions"
     ]
 }

@@ -4,6 +4,13 @@ import random
 
 
 class HolidayPlace:
+    """
+    Represents a holiday destination with associated activities.
+
+    Attributes:
+        places (list): List of potential holiday destinations.
+        activities (dict): Dictionary mapping destinations to a list of possible activities.
+    """
     def __init__(self):
         self.places = [
             "Paris", "Malediven", "New York City", "Trolltunga", 
@@ -25,56 +32,40 @@ class HolidayPlace:
         }
 
     def generate_holiday_place(self):
+        """
+        Generate a random holiday place and an associated activity.
+
+        Returns:
+            dict: Contains 'Urlaubsort' (place) and 'Aktivitaet' (activity).
+        """
         place = random.choice(self.places)
         activity = random.choice(self.acivities[place])
 
         holiday_place = {
+            "Patient_ID": "",
             "Urlaubsort": place,
             "Aktivitaet": activity
         }
         return holiday_place
 
-    def generate_random_holiday_places(self, num_places):
+    def generate_random_holiday_places(self, num_places, patient_id):
+        """
+        Generate a list of random holiday places and their associated activities.
+
+        Args:
+            num_places (int): Number of holiday places to generate.
+
+        Returns:
+            list: List of dictionaries containing 'Urlaubsort' and 'Aktivitaet'.
+        """
         all_places = self.places.copy()
         holiday_places = random.sample(all_places, min(len(all_places), num_places))
 
         holiday_places_list = []
         for place in holiday_places:
             activity = random.choice(self.acivities[place])
-            holiday_places_list.append({"Urlaubsort": place, "Aktivitaet": activity})
+            holiday_places_list.append({"Patient_ID": patient_id, "Urlaubsort": place, "Aktivitaet": activity})
 
         return holiday_places_list
 
 
-
-    
-    # def print_holiday_place(self, holiday_place):
-    #     for key, value in holiday_place.items():   
-    #             print(f"{key}: {value}")
-    
-# def send_holidy_place(producer, topic , interval=5):
-#     generator = HolidayPlace()
-#     print("Urlaubsort und Aktivität:")
-#     try:
-#         while True:
-#             urlaubsort = generator.generate_holiday_place()
-#             generator.print_holiday_place(urlaubsort)
-#             message = json.dumps(urlaubsort)
-#             producer.send(topic, value=str(message).encode('utf-8'))
-#             time.sleep(interval)
-#     except KeyboardInterrupt:
-#         print("Generator stopped.")
-#     finally:
-#         producer.flush()
-    
-# if __name__ == "__main__":
-#     bootstrap_server = "localhost:9092"
-#     topic = "Patientenakte"
-#     producer = KafkaProducer(bootstrap_servers=bootstrap_server)
-
-#     try:
-#         send_holidy_place(producer, topic)
-#     except Exception as e:
-#         print("Error: {e}")
-#     finally:
-#         producer.close()

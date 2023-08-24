@@ -1,17 +1,29 @@
 
 
+import logging
 import random
 import time
 import csv
 import os
 
+# Set up basic logging for the script
+logging.basicConfig(level=logging.INFO)
 
 class PatientRecordGenerator:
+    """
+    Generates random patient records with unique patient IDs, names, gender, addresses, etc.
+    Manages patient IDs through a CSV file to ensure uniqueness across different runs.
+    """
+
+    SECONDS_IN_YEAR = 365 * 24 * 60 * 60
+    CSV_FILENAME = 'patient_ids.csv'
     def __init__(self):
         self.patient_ids = set()
         self.names = ["Müller", "Bäcker", "Schmidt", "Schneider", "Hoffman", "Ajadi", "Weber", "Fischer", "Meyer", "Maier", "Kraus", "Herrmann"]
-        self.male_names = [ "Hans", "Karl", "Walter", "Kurt", "Friedrich", "Fritz", "Heinrich"]
-        self.female_names = ["Maria", "Elisabeth", "Ruth", "Hilde", "Eva", "charlotte", "Erika"]
+        self.name_by_gender = {
+            "weiblich": ["Maria", "Elisabeth", "Ruth", "Hilde", "Eva", "Charlotte", "Erika"],
+            "männlich": ["Hans", "Karl", "Walter", "Kurt", "Friedrich", "Fritz", "Heinrich"]
+        }
         self.genders= ["weiblich", "männlich"]
         self.streets = ["Banhofstraße 1", "Goebenstraße 40", "Am Rastpfuhl 3", "St. Johanner Str.", "Breite Str."]
         self.cities = ["Saarbreucken"]
@@ -19,13 +31,20 @@ class PatientRecordGenerator:
         self.blood_groups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "0+", "0-"]
         self.weight_range = (45, 120)
         self.height_range = (140, 195)
-        self.load_existing_ids()
-
-        # ...
+        # Load existing patient IDs
+        self.patient_ids_filename = os.path.join(os.path.dirname(__file__), self.CSV_FILENAME)
+        self.patient_ids = self.load_existing_ids()
+        
 
     def load_existing_ids(self):
+        """
+        Loads existing patient IDs from a CSV file.
+
+        Returns:
+            set: A set of existing patient IDs.
+        """
         try:
-            with open('patient_ids.csv', 'r') as file:
+            with open(self.patient_ids_filename, 'r') as file:
                 reader = csv.reader(file)
                 existing_ids = set(row[0] for row in reader)
             return existing_ids
@@ -33,98 +52,77 @@ class PatientRecordGenerator:
             return set()
         
     def save_new_id(self, patient_id):
+        """
+        Saves a new patient ID to the CSV file.
+
+        Args:
+            patient_id (str): The patient ID to be saved.
+        """
+        mode = 'a' if os.path.exists(self.patient_ids_filename) else 'w'
         try:
-            mode = 'a' if os.path.exists('patient_ids.csv') else 'w'
-            with open('patient_ids.csv', mode) as file:
+            with open(self.patient_ids_filename, mode) as file:
                 writer = csv.writer(file)
                 writer.writerow([patient_id])
         except Exception as e:
-            print("Error:", e)   
+            logging.error(f"Error during saving patient ID: {e}")   
 
 
-    def generate_random_birth_date(slef):
+    def generate_random_birth_date(self):
+        """
+        Generates a random birth date within the last ten years.
+
+        Returns:
+            str: A birth date in the format "dd.mm.yyyy".
+        """
         now = int(time.time())
         #Geburtsdatum in den letzten drei Jahren
-        ten_years_ago = now - (365 * 24 * 60 * 60 * 10)
-        birth_date = time.strftime("%d.%m.%Y", time.localtime(random.randint(ten_years_ago, now)))
-        return birth_date
+        ten_years_ago = now - (self.SECONDS_IN_YEAR * 10)
+        return time.strftime("%d.%m.%Y", time.localtime(random.randint(ten_years_ago, now)))
 
     def generate_random_patient_id(self):
-        # Lade vorhandene Patienten-IDs aus der CSV-Datei
-        existing_ids = self.load_existing_ids()
-        # Generiere eine zufällige 6-stellige ID und überprüfe, ob sie bereits existiert
+        """
+        Generates a unique 6-digit patient ID.
+
+        Returns:
+            str: A unique patient ID.
+        """
         while True:
             patient_id = str(random.randrange(100000, 1000000))
-            if patient_id not in existing_ids:
+            if patient_id not in self.patient_ids:
                 self.save_new_id(patient_id)
+                self.patient_ids.add(patient_id)
                 return patient_id
 
-    def generate_random_patient_record(self):  
+    def generate_random_patient_record(self): 
+        """
+        Generates a random patient record.
+
+        Returns:
+            dict: A dictionary containing patient details.
+        """
         patient_id = self.generate_random_patient_id()
         gender = random.choice(self.genders)
-        if gender == "weiblich":
-            first_name = random.choice(self.female_names)
-        else:
-            first_name = random.choice(self.male_names)
+        first_name = random.choice(self.name_by_gender[gender])
 
         last_name = random.choice(self.names)
-        full_name = f"{first_name} {last_name}"
 
         
-        street = random.choice(self.streets)
-        city = random.choice(self.cities)
-        postal_code = random.choice(self.postal_codes)
-
-        blood_group = random.choice(self.blood_groups)
-        weight = random.randint(*self.weight_range)
-        height = random.randint(*self.height_range)
-        birth_date = self.generate_random_birth_date()
 
         patient_record = {
             "Patient_ID": patient_id,
             "Name": last_name,
             "Vorname": first_name,
             "Geschlecht": gender,
-            "Geburtsdatum": birth_date,
-            "Straße": street,
-            "Stadt": city,
-            "Postleitzahl": postal_code,
-            "Blutgruppe": blood_group,
-            "Gewicht": weight,
-            "Größe": height 
+            "Geburtsdatum": self.generate_random_birth_date(),
+            "Straße": random.choice(self.streets),
+            "Stadt": random.choice(self.cities),
+            "Postleitzahl": random.choice(self.postal_codes),
+            "Blutgruppe": random.choice(self.blood_groups),
+            "Gewicht": random.randint(*self.weight_range),
+            "Größe": random.randint(*self.height_range) 
         }
 
         return patient_record
-    
-
-# def send_patient_record(producer, topic, interval=5):
-#     generator = PatientRecordGenerator()
-
-#     try:
-#         while True:
-#             patient_record = generator.generate_random_patient_record()
-#             message = f"{patient_record}"
-
-#             producer.send(topic, value=str(message).encode('utf-8'))
-#             print(patient_record)
-#             time.sleep(interval)
-#     except KeyboardInterrupt:
-#         print("Patient record generator stopped.")
-#     finally:
-#         producer.flush()
-
-# if __name__ == "__main__":
-
-#     bootstrap_server = "localhost:9092"
-#     topic = "Patientenakte"
-
-#     producer = KafkaProducer(bootstrap_servers= bootstrap_server)
-#     try:
-#         send_patient_record(producer, topic)
-#     except Exception as e:
-#         print("Error: {e}")
-#     finally:
-#         producer.close()
     
 
 
