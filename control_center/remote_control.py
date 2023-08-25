@@ -15,8 +15,12 @@ logger = logging.getLogger(__name__)
 
 
 # Constants
-SCRIPTS_FIRST_PHASE = ["patient_data_generator.py", "staff_communication_during_op.py", "entry_exit_event.py"]
-SCRIPTS_SECOND_PHASE = ["op_team.py"]
+SCRIPTS_FIRST_PHASE = ["consume_op_team_info.py", "consume_op_record.py", "consume_patient_record.py"]
+SCRIPTS_SECOND_PHASE = ["patient_data_generator.py"]
+SCRIPTS_THIRD_PHASE = ["op_team.py", "pre_op_record.py"]
+SCRIPTS_POST_OP_PHASE = ["post_op_record.py"]
+# SCRIPTS_FIRST_PHASE = ["patient_data_generator.py", "staff_communication_during_op.py", "entry_exit_event.py"]
+# SCRIPTS_SECOND_PHASE = ["op_team.py"]
 
 
 class ScriptExecutor:
@@ -202,16 +206,21 @@ def execute_scripts(config_loader):
     executors = execute_scripts_on_raspberries(script_execution_config, raspberry_pis_config, script_paths_config, SCRIPTS_FIRST_PHASE)
 
     # User input to decide if they want to start the rest of the generators
-    if get_valid_input("Möchten Sie den Op-Teamgenerator starten? (j/n): ", ['j', 'n']) == 'j':
+    if get_valid_input(f"Möchten Sie den {SCRIPTS_SECOND_PHASE}-generator starten? (j/n): ", ['j', 'n']) == 'j':
         executors += execute_scripts_on_raspberries(script_execution_config, raspberry_pis_config, script_paths_config, SCRIPTS_SECOND_PHASE)
 
+        if get_valid_input(f"Möchten Sie den {SCRIPTS_THIRD_PHASE}-generator starten? (j/n): ", ['j', 'n']) == 'j':
+            executors += execute_scripts_on_raspberries(script_execution_config, raspberry_pis_config, script_paths_config, SCRIPTS_THIRD_PHASE)
+        
         if get_valid_input("Möchten Sie den Restgeneratoren starten? (j/n): ", ['j', 'n']) == 'j':
             # Execute the remaining scripts that are not in the first or second phase
             all_scripts = get_all_scripts_from_config(script_execution_config)
-            remaining_scripts = all_scripts - set(SCRIPTS_FIRST_PHASE) - set(SCRIPTS_SECOND_PHASE)
+            remaining_scripts = all_scripts - set(SCRIPTS_FIRST_PHASE) - set(SCRIPTS_SECOND_PHASE) - set(SCRIPTS_THIRD_PHASE) - set(SCRIPTS_POST_OP_PHASE)
             if remaining_scripts:
                 executors += execute_scripts_on_raspberries(script_execution_config, raspberry_pis_config, script_paths_config, list(remaining_scripts))
-
+            
+            if get_valid_input("Möchten Sie den Post-OP-Generator starten? (j/n): ", ['j', 'n']) == 'j':
+                executors += execute_scripts_on_raspberries(script_execution_config, raspberry_pis_config, script_paths_config, SCRIPTS_POST_OP_PHASE)
     return executors
 
 

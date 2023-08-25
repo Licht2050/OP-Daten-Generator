@@ -16,11 +16,13 @@ DOOR_STATES = ["Offen", "Geschlossen"]
 
 
 class OPRoomStateGenerator:
-    def __init__(self, config_file_path, source_name):
+    """Klasse zur Generierung des OP-Raum-Status."""
+    def __init__(self, config_file_path, source_name, op_record_path, op_details_name):
         self.source_name = source_name
+        self.op_details_name = op_details_name
 
         self._setup_logging()
-        self._load_configuration(config_file_path)
+        self._load_configuration(config_file_path, op_record_path)
         self._setup_sender()
         
     def _setup_logging(self):
@@ -28,10 +30,13 @@ class OPRoomStateGenerator:
         logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
         self.logger = logging.getLogger(__name__)
 
-    def _load_configuration(self, config_file_path):
+    def _load_configuration(self, config_file_path, op_record_path):
         """Loads the required configurations."""
         config_loader = ConfigLoader(config_file_path)
-        self.room_state_config = config_loader.load_config(source_name)
+        self.room_state_config = config_loader.load_config(SOURCE_NAME)
+
+        op_record_config_loader = ConfigLoader(op_record_path)
+        self.op_record_config = op_record_config_loader.load_config(OP_DETAILS_NAME)
 
     def _setup_sender(self):
         """Initializes the sender for data."""
@@ -46,6 +51,7 @@ class OPRoomStateGenerator:
         illumination = round(random.uniform(*ILLUMINATION_RANGE), 2)
 
         op_room_status = {
+            "Operation_Room": self.op_record_config["Operation_Room"],
             "Türzustand": door_state,
             "Raumtemperatur": temprature,
             "Luftfeuchtigkeit": humidity,
@@ -66,9 +72,12 @@ class OPRoomStateGenerator:
             self.sender.disconnect_producer()
 
 if __name__ == "__main__":
+    OP_DETAILS_NAME = 'op_details'
+    SOURCE_NAME = "op_room_state"
+    CONFIG_FILE_PATH = os.path.join(os.path.dirname(__file__), '../config/config.json')
 
-    source_name = "op_room_state"
-    config_file_path = os.path.join(os.path.dirname(__file__), '../config/config.json')
+    OP_RECORD_PATH = os.path.join(os.path.dirname(__file__), '../consume_op_record/op_record.json')
+
     
-    generator = OPRoomStateGenerator(config_file_path, source_name)
+    generator = OPRoomStateGenerator(CONFIG_FILE_PATH, SOURCE_NAME, OP_RECORD_PATH, OP_DETAILS_NAME)
     generator.start()

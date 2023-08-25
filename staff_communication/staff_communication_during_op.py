@@ -19,23 +19,26 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 CONFIG_PATH = os.path.join(os.path.dirname(__file__), '../config/config.json')
 STAFF_COMMUNICATION_SOURCE = "staff_communication"
 ENTRY_EXIT_EVENTS_SOURCE = "entry_exit_events"
-
+OP_DETAILS_NAME = 'op_details'
+OP_RECORD_PATH = os.path.join(os.path.dirname(__file__), '../consume_op_record/op_record.json')
 
 class StaffCommunicationGenerator:
     """
     A generator that simulates staff communications based on entry and exit events.
     Listens for entry and exit events from a Kafka topic and generates random conversation messages.
     """
-    def __init__(self, entry_exit_events_config , staff_communication_config, sender):
+    def __init__(self, entry_exit_events_config , staff_communication_config, op_record_config, sender):
         """
         Initialize the generator with configurations and a sender.
         
         :param entry_exit_events_config: Configuration related to entry and exit events.
         :param staff_communication_config: Configuration related to staff communication.
+        :param op_record_config: Configuration related to the OP record.
         :param sender: Object responsible for sending messages.
         """
         self.entry_exit_events_config = entry_exit_events_config
         self.staff_communication_config = staff_communication_config
+        self.op_record_config = op_record_config
         self.sender = sender
         self.consumer = None
         self.current_people_in_room = []
@@ -116,7 +119,7 @@ class StaffCommunicationGenerator:
         try:         
             if self.consumer is not None:
                 for record in self.consumer:
-                    message = record.value
+                    message = record.value["value"]
                     event_type = message.get("event_type")
                     handler = event_handlers.get(event_type)
                     if handler:
@@ -134,7 +137,8 @@ class StaffCommunicationGenerator:
         :param sender: The person sending the message.
         :return: A dictionary containing the sender and the generated message.
         """
-        return {   
+        return {
+            "Operation_Room": self.op_record_config["Operation_Room"],
             "sender": sender,
             "message": random.choice(self.conversation_messages)
         }   
@@ -181,14 +185,15 @@ def main():
         config_loader = ConfigLoader(CONFIG_PATH)
         staff_communication_config = config_loader.load_config(STAFF_COMMUNICATION_SOURCE)
         entry_exit_events_config = config_loader.load_config(ENTRY_EXIT_EVENTS_SOURCE)
-        
+        op_record_config_loader = ConfigLoader(OP_RECORD_PATH)
+        op_record_config = op_record_config_loader.load_config(OP_DETAILS_NAME)
         
         # Initialize and connect sender
         sender = SourceDataSender(staff_communication_config)
         sender.connect_producer()
 
         # Initialize staff generator and start processing
-        staff_generator = StaffCommunicationGenerator(entry_exit_events_config , staff_communication_config, sender)
+        staff_generator = StaffCommunicationGenerator(entry_exit_events_config , staff_communication_config, op_record_config, sender)
 
         # Start loading team members in a separate thread
         load_thread = Thread(target=staff_generator.load_team_members)

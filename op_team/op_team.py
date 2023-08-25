@@ -16,8 +16,9 @@ class OPTeamGenerator:
     This class is responsible for generating a random operation team consisting of doctors, 
     nurses, and anesthetists.
     """
-    def __init__(self):
+    def __init__(self, patient_info_config):
         """Initializes lists of doctors, nurses, and anesthetists."""
+        self.patient_info_config = patient_info_config
         self.doctors = self._initialize_names("Dr.")
         self.nurses = self._initialize_names("Krankenschwester")
         self.anesthetists = self._initialize_names("Anästhesist")
@@ -47,6 +48,7 @@ class OPTeamGenerator:
         """
         team_size = random.randint(2, 3)  # Zufällige Größe des Teams (2 bis 3)
         team = {
+            "Patient_ID": self.patient_info_config["Patient_ID"],
             "doctors": random.sample(self.doctors, team_size),
             "nurses": random.sample(self.nurses, team_size),
             "anesthetists": random.sample(self.anesthetists, team_size)
@@ -60,13 +62,19 @@ def main():
     Main execution function.
     Loads the configuration, initializes the sender and generator, and sends a random operation team.
     """
+    PATIENT_INFO_PATH = os.path.join(os.path.dirname(__file__), '../consume_patient_details/patient_info.json')
+    PATIENT_INFO_NAME = 'patient_details'
+    patient_info_config_loader = ConfigLoader(PATIENT_INFO_PATH)
+    patient_info_config = patient_info_config_loader.load_config(PATIENT_INFO_NAME)
+
+
     source_name = "op_team"
     config_file_path = os.path.join(os.path.dirname(__file__), '../config/config.json')
     config_loader = ConfigLoader(config_file_path)
     op_team_config = config_loader.load_config(source_name)
 
     sender = SourceDataSender(op_team_config)
-    op_team_generator = OPTeamGenerator()
+    op_team_generator = OPTeamGenerator(patient_info_config)
 
     try:
         op_team = op_team_generator.generate_op_team()

@@ -31,19 +31,28 @@
         "raspberry_pi_1": [
             "patient_data_generator.py",
             "op_team.py",
-            "entry_exit_event.py"
+            "consume_patient_record.py",
+            "entry_exit_event.py",
+            "consume_op_team_info.py"
         ],
         "raspberry_pi_2": [
             "heart_rate.py",
             "blood_pressure.py",
-            "op_room_state.py"
+            "consume_patient_record.py",
+            "op_room_state.py",
+            "consume_op_record.py"
         ],
         "raspberry_pi_3": [
+            "consume_patient_record.py",
             "bis.py",
             "outdoor_environment.py",
             "oxygen_saturation_producer.py"
         ],
         "raspberry_pi_4": [
+            "consume_patient_record.py",
+            "consume_op_record.py",
+            "pre_op_record.py",
+            "post_op_record.py",
             "etco2.py",
             "staff_communication_during_op.py"
         ]
@@ -60,7 +69,12 @@
         "outdoor_environment.py": "outdoor_environment",
         "oxygen_saturation_producer.py": "vitalparam/oxygen_saturation",
         "etco2.py": "vitalparam/etco2",
-        "staff_communication_during_op.py": "staff_communication"
+        "staff_communication_during_op.py": "staff_communication",
+        "pre_op_record.py": "op_record",
+        "post_op_record.py": "op_record",
+        "consume_patient_record.py": "consume_patient_details",
+        "consume_op_record.py": "consume_op_record",
+        "consume_op_team_info.py": "consume_op_team_info"
     },
     "dependency_paths":[
         "config",

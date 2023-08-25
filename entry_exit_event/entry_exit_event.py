@@ -11,9 +11,10 @@ from config_loader import ConfigLoader
 from source_data_sender import SourceDataSender
 
 
+REQUIRED_TEAM_KEYS = ["doctors", "nurses", "anesthetists"]
 
 class OPEventGenerator:
-    def __init__(self, config_file_path, consumer_name , source_name):  
+    def __init__(self, config_file_path, op_team_info_path, consumer_name , source_name):  
         self.consumer_name = consumer_name
         self.source_name = source_name
         self.consumer = None
@@ -23,7 +24,7 @@ class OPEventGenerator:
         
         # Direkte Initialisierung
         self._setup_logging()
-        self._load_configuration(config_file_path)
+        self._load_configuration(config_file_path, op_team_info_path)
         self._setup_sender()
 
 
@@ -33,62 +34,29 @@ class OPEventGenerator:
         logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
         self.logger = logging.getLogger(__name__)
 
-    def _load_configuration(self, config_file_path):
+    def _load_configuration(self, config_file_path, op_team_info_path):
         """Loads the required configurations."""
         config_loader = ConfigLoader(config_file_path)
-        self.op_team_member_config = config_loader.load_config(self.consumer_name)
         self.entry_exit_events_config = config_loader.load_config(self.source_name)
+
+        op_team_info_config_loader = ConfigLoader(op_team_info_path)
+        self.op_team_member_config = op_team_info_config_loader.load_config(self.consumer_name)
     
     def _setup_sender(self):
         """Initializes the sender for data."""
         self.sender = SourceDataSender(self.entry_exit_events_config)
         self.sender.connect_producer()
 
-    def _validate_configuration(self):
-        """Validates the configurations."""
-        if not all(self.op_team_member_config.get(k) for k in ["bootstrap_servers", "topic"]):
-            self.logger.error("Ungültige Konfiguration für entry_exit_events")
-            raise ValueError("Ungültige Konfiguration für entry_exit_events")
-    
-    def _initialize_consumer(self):
-        """Initializes and returns a Kafka consumer."""
-        return KafkaConsumer(
-            self.op_team_member_config["topic"],
-            bootstrap_servers=self.op_team_member_config["bootstrap_servers"],
-            group_id=None,
-            auto_offset_reset='latest',
-            enable_auto_commit=False,
-            value_deserializer=lambda x: json.loads(x.decode('utf-8'))
-        )
-
-    def _connect_to_consumer(self):
-        """Connects to the Kafka consumer."""
-        if not self.consumer:
-            self._validate_configuration()
-            self.consumer = self._initialize_consumer()
-
     def load_team(self):
-        """Loads the team data from Kafka consumer."""    
-        self._connect_to_consumer()
-        try:
-            if self.consumer:
-                message_data = next(iter(self.consumer))
-                team_data = message_data.value["value"]
-                required_keys = ["doctors", "nurses", "anesthetists"]
-                if all(key in team_data for key in required_keys):
-                    self.team_members = team_data['doctors'] + team_data['nurses'] + team_data['anesthetists']
-                else:
-                    self.logger.error("Fehlende Schlüssel in der Nachricht")
-        except StopIteration:
-            self.logger.error("Keine Nachrichten im Topic gefunden")
-        except json.JSONDecodeError:
-            self.logger.error("Fehler beim Decodieren der Nachricht")
-        except KeyError as e:
-            self.logger.error(f"Fehlender Schlüssel in der Nachricht: {e}")
-        finally:
-            if self.consumer:
-                self.consumer.close()
-    
+        """Loads the team data from Json file."""    
+        missing_keys = [key for key in REQUIRED_TEAM_KEYS if key not in self.op_team_member_config]
+        if missing_keys:
+            self.logger.error(f"Fehlende Schlüssel in der Nachricht: {', '.join(missing_keys)}")
+            raise ValueError(f"Fehlende Schlüssel in der Konfiguration: {', '.join(missing_keys)}")
+
+        self.team_members = sum((self.op_team_member_config[key] for key in REQUIRED_TEAM_KEYS), [])
+
+
     def send_entry_exit_events(self, entry_interval_min=1, entry_interval_max=3, event_interval_min=1, event_interval_max=3):
         self.logger.info("Generator für Eintritt/Austritts-Ereignisse gestartet.")
         try:
@@ -134,17 +102,15 @@ class OPEventGenerator:
             self._send_event_for_person(person, entering=False)
 
     def _send_event_for_person(self, person, entering):
-        event = self.generate_entry_exit_event(person, entering)
+        """Generates and sends the event for a person entering or exiting."""
+        event = {
+            "person": person,
+            "event_type": "Eintritt" if entering else "Verlassen",
+        }
         self.sender.send_single_data(self.source_name, event)
 
-    def generate_entry_exit_event(self, person, entering):
-        event_type = "Eintritt" if entering else "Verlassen"
-        return {
-            "person": person,
-            "event_type": event_type,
-        }
-
     def wait_random_interval(self, interval_min, interval_max):
+        """Waits for a random interval between the given min and max values."""
         interval = random.randint(interval_min, interval_max)
         time.sleep(interval)
      
@@ -152,11 +118,13 @@ class OPEventGenerator:
 
 if __name__ == "__main__":
 
-    consumer_name = "op_team"
-    source_name = "entry_exit_events"
-    config_file_path = os.path.join(os.path.dirname(__file__), '../config/config.json')
+    OP_TEAM_INFO_NAME = "op_team_info"
+    SOURCE_NAME = "entry_exit_events"
+    CONFIG_FILE_PATH = os.path.join(os.path.dirname(__file__), '../config/config.json')
 
-    op_generator = OPEventGenerator(config_file_path, consumer_name , source_name)
+    OP_TEAM_INFO_PATH = os.path.join(os.path.dirname(__file__), '../consume_op_team_info/op_team_info.json')
+
+    op_generator = OPEventGenerator(CONFIG_FILE_PATH, OP_TEAM_INFO_PATH, OP_TEAM_INFO_NAME , SOURCE_NAME)
     op_generator.load_team()
     
     op_generator.send_entry_exit_events()
