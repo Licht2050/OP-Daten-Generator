@@ -3,6 +3,7 @@ import os
 import sys
 import logging
 sys.path.append(os.path.join(os.path.dirname(__file__), '../helper_classes_and_functions'))
+from config import CONFIG_FILE_PATH
 from general_kafka_consumer import GeneralKafkaConsumer
 from json_writer import JSONWriter
 from config_loader import ConfigLoader
@@ -11,8 +12,7 @@ logging.basicConfig(level=logging.INFO)
 
 if __name__ == "__main__":
     source_name = 'op_team'
-    config_file_path = os.path.join(os.path.dirname(__file__), '../config/config.json')
-    config = ConfigLoader(config_file_path)
+    config = ConfigLoader(CONFIG_FILE_PATH)
     op_team_info_config = config.load_config(source_name)
     topic_name = op_team_info_config['topic']
     bootstrap_servers = op_team_info_config['bootstrap_servers']

@@ -20,16 +20,3 @@ def send_humidity(producer, topic, interval=5):
         print("Generator gestoppt.")
     finally:
         producer.flush()
-
-
-if __name__ == "__main__":
-    bootstrap_server = "localhost:9092"
-    topic = "Environmentalinfo"
-
-    producer = KafkaProducer(bootstrap_servers=bootstrap_server)
-    try:
-        send_humidity(producer, topic)
-    except Exception as e:
-        print(f"Error: {e}")
-    finally:
-        producer.close()

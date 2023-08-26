@@ -1,6 +1,5 @@
 import random
 import time
-from kafka import KafkaProducer
 
 #Generierung einer zufälligen Temperatur im Bereich von 20°C bis 40°C
 def generate_random_temperature():
@@ -20,16 +19,4 @@ def send_temperature(producer, topic, interval=5):
     finally:
         producer.flush()
 
-
-if __name__ == "__main__":
-
-    bootstrap_server = "localhost:9092"
-    topic = "Environmentalinfo"
-    producer = KafkaProducer(bootstrap_servers=bootstrap_server)
-
-    try:
-        send_temperature(producer, topic)
-    except Exception as e:
-        print("Error: {e}")
-    finally:
-        producer.close()        
+ 

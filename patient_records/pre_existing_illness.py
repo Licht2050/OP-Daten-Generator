@@ -1,8 +1,12 @@
 
 
+import os
+import sys
 import time
 import random
-
+# Adjust the path to include helper classes and functions
+sys.path.append(os.path.join(os.path.dirname(__file__), '../helper_classes_and_functions'))
+from config import SECONDS_IN_YEAR
 
 
 class PreExistingIllness:
@@ -15,16 +19,13 @@ class PreExistingIllness:
         diagnosed_range (tuple): Range for randomizing the diagnosed date.
         treated_range (tuple): Range for randomizing the treated date.
     """
-    def __init__(self):
-        self.illnesses = [
-            "Herzinsuffizienz", "Schlaganfall", "Herzinfarkt", "Lungenembolie",
-            "Nierenversagen", "Diabetes mellitus", "Asthma", "Bluthochdruck"
-        ]
-        self.treatments = ["Medikamente", "Operation", "Physiotherapie", "Dialyse"]
+    def __init__(self, illnesses, treatments, diagnosed_range, treated_range):
+        self.illnesses = illnesses
+        self.treatments = treatments
         # Zeitraum für Diagnosedatum: 3 bis 15 Jahre zurück
-        self.diagnosed_range = (360*24*60*60*3, 360*24*60*60*15)
+        self.diagnosed_range = diagnosed_range
         # Zeitraum für Behandlungsdatum: 1 bis 6 Jahre nach Diagnose
-        self.treated_range = (360*24*60*60*1, 360*24*60*60*6)
+        self.treated_range = treated_range
 
     def _generate_random_date(self, start_date, date_range):
         """

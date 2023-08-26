@@ -12,6 +12,8 @@ import sys
 
 # Adjust the path to include helper classes and functions
 sys.path.append(os.path.join(os.path.dirname(__file__), '../helper_classes_and_functions'))
+from config import ACTIVITIES, CONFIG_FILE_PATH, PATIENT_RECORD_SOURCE_NAME, PLACES, NAMES, NAME_BY_GENDER, GENDERS, STREETS, CITIES, POSTAL_CODES, BLOOD_GROUPS, WEIGHT_RANGE, HEIGHT_RANGE
+from config import ILLNESSES, TREATMENTS, DIAGNOSED_RANGE, TREATED_RANGE
 from config_loader import ConfigLoader
 from source_data_sender import SourceDataSender
 
@@ -32,9 +34,9 @@ def generate_patient_data():
     Returns:
         tuple: A tuple containing patient record, holiday places, and pre-existing illnesses
     """
-    holiday_generator = HolidayPlace()
-    patient_generator = PatientRecordGenerator()
-    pre_existing_illness_generator = PreExistingIllness()
+    holiday_generator = HolidayPlace(PLACES, ACTIVITIES)
+    patient_generator = PatientRecordGenerator(NAMES, NAME_BY_GENDER, GENDERS, STREETS, CITIES, POSTAL_CODES, BLOOD_GROUPS, WEIGHT_RANGE, HEIGHT_RANGE)
+    pre_existing_illness_generator = PreExistingIllness(ILLNESSES, TREATMENTS, DIAGNOSED_RANGE, TREATED_RANGE)
 
     patient_record = patient_generator.generate_random_patient_record()
     patient_id = patient_record["Patient_ID"]
@@ -83,15 +85,14 @@ def send_patient_data(sender, source_name):
 
 if __name__ == "__main__":
 
-    source_name = "patient_records"
-    config_file_path = os.path.join(os.path.dirname(__file__), '../config/config.json')
-    config_loader = ConfigLoader(config_file_path)
-    patient_records_config = config_loader.load_config(source_name)
+    
+    config_loader = ConfigLoader(CONFIG_FILE_PATH)
+    patient_records_config = config_loader.load_config(PATIENT_RECORD_SOURCE_NAME)
 
     sender = SourceDataSender(patient_records_config)
 
     try:
-        send_patient_data(sender, source_name)
+        send_patient_data(sender, PATIENT_RECORD_SOURCE_NAME)
     except Exception as e:
         logging.error(f"Error in main execution: {e}")
     finally:

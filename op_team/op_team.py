@@ -4,6 +4,7 @@ import random
 import sys
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '../helper_classes_and_functions'))
+from config import CONFIG_FILE_PATH, OP_TEAM_SOURCE_NAME, PATIENT_INFO_NAME, PATIENT_INFO_PATH
 from source_data_sender import SourceDataSender
 from config_loader import ConfigLoader
 
@@ -62,23 +63,21 @@ def main():
     Main execution function.
     Loads the configuration, initializes the sender and generator, and sends a random operation team.
     """
-    PATIENT_INFO_PATH = os.path.join(os.path.dirname(__file__), '../consume_patient_details/patient_info.json')
-    PATIENT_INFO_NAME = 'patient_details'
+        
     patient_info_config_loader = ConfigLoader(PATIENT_INFO_PATH)
     patient_info_config = patient_info_config_loader.load_config(PATIENT_INFO_NAME)
 
 
-    source_name = "op_team"
-    config_file_path = os.path.join(os.path.dirname(__file__), '../config/config.json')
-    config_loader = ConfigLoader(config_file_path)
-    op_team_config = config_loader.load_config(source_name)
+    
+    config_loader = ConfigLoader(CONFIG_FILE_PATH)
+    op_team_config = config_loader.load_config(OP_TEAM_SOURCE_NAME)
 
     sender = SourceDataSender(op_team_config)
     op_team_generator = OPTeamGenerator(patient_info_config)
 
     try:
         op_team = op_team_generator.generate_op_team()
-        sender.send_single_data(source_name, op_team)
+        sender.send_single_data(OP_TEAM_SOURCE_NAME, op_team)
     except Exception as e:
         logging.error(f"Error: {e}")
     finally:

@@ -2,16 +2,14 @@ import logging
 import os
 import random
 import time
-import json
-from kafka import KafkaConsumer
 import sys
-
 sys.path.append(os.path.join(os.path.dirname(__file__), '../helper_classes_and_functions'))
+from config import CONFIG_FILE_PATH, OP_TEAM_INFO_NAME, OP_TEAM_INFO_PATH, REQUIRED_TEAM_KEYS, ENTRY_EXIT_EVENT_SOURCE_NAME
 from config_loader import ConfigLoader
 from source_data_sender import SourceDataSender
 
 
-REQUIRED_TEAM_KEYS = ["doctors", "nurses", "anesthetists"]
+
 
 class OPEventGenerator:
     def __init__(self, config_file_path, op_team_info_path, consumer_name , source_name):  
@@ -26,7 +24,6 @@ class OPEventGenerator:
         self._setup_logging()
         self._load_configuration(config_file_path, op_team_info_path)
         self._setup_sender()
-
 
 
     def _setup_logging(self):
@@ -118,13 +115,7 @@ class OPEventGenerator:
 
 if __name__ == "__main__":
 
-    OP_TEAM_INFO_NAME = "op_team_info"
-    SOURCE_NAME = "entry_exit_events"
-    CONFIG_FILE_PATH = os.path.join(os.path.dirname(__file__), '../config/config.json')
-
-    OP_TEAM_INFO_PATH = os.path.join(os.path.dirname(__file__), '../consume_op_team_info/op_team_info.json')
-
-    op_generator = OPEventGenerator(CONFIG_FILE_PATH, OP_TEAM_INFO_PATH, OP_TEAM_INFO_NAME , SOURCE_NAME)
+    op_generator = OPEventGenerator(CONFIG_FILE_PATH, OP_TEAM_INFO_PATH, OP_TEAM_INFO_NAME , ENTRY_EXIT_EVENT_SOURCE_NAME)
     op_generator.load_team()
     
     op_generator.send_entry_exit_events()

@@ -2,9 +2,13 @@
 
 import logging
 import random
+import sys
 import time
 import csv
 import os
+# Adjust the path to include helper classes and functions
+sys.path.append(os.path.join(os.path.dirname(__file__), '../helper_classes_and_functions'))
+from config import SECONDS_IN_YEAR
 
 # Set up basic logging for the script
 logging.basicConfig(level=logging.INFO)
@@ -15,22 +19,19 @@ class PatientRecordGenerator:
     Manages patient IDs through a CSV file to ensure uniqueness across different runs.
     """
 
-    SECONDS_IN_YEAR = 365 * 24 * 60 * 60
+    
     CSV_FILENAME = 'patient_ids.csv'
-    def __init__(self):
+    def __init__(self, names, name_by_gender, genders, streets, cities, postal_codes, blood_groups, weight_range, height_range):
         self.patient_ids = set()
-        self.names = ["Müller", "Bäcker", "Schmidt", "Schneider", "Hoffman", "Ajadi", "Weber", "Fischer", "Meyer", "Maier", "Kraus", "Herrmann"]
-        self.name_by_gender = {
-            "weiblich": ["Maria", "Elisabeth", "Ruth", "Hilde", "Eva", "Charlotte", "Erika"],
-            "männlich": ["Hans", "Karl", "Walter", "Kurt", "Friedrich", "Fritz", "Heinrich"]
-        }
-        self.genders= ["weiblich", "männlich"]
-        self.streets = ["Banhofstraße 1", "Goebenstraße 40", "Am Rastpfuhl 3", "St. Johanner Str.", "Breite Str."]
-        self.cities = ["Saarbreucken"]
-        self.postal_codes = [66113, 66117, 6123, 66111]
-        self.blood_groups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "0+", "0-"]
-        self.weight_range = (45, 120)
-        self.height_range = (140, 195)
+        self.names = names
+        self.name_by_gender = name_by_gender
+        self.genders = genders
+        self.streets = streets
+        self.cities = cities
+        self.postal_codes = postal_codes
+        self.blood_groups = blood_groups
+        self.weight_range = weight_range
+        self.height_range = height_range
         # Load existing patient IDs
         self.patient_ids_filename = os.path.join(os.path.dirname(__file__), self.CSV_FILENAME)
         self.patient_ids = self.load_existing_ids()
@@ -76,7 +77,7 @@ class PatientRecordGenerator:
         """
         now = int(time.time())
         #Geburtsdatum in den letzten drei Jahren
-        ten_years_ago = now - (self.SECONDS_IN_YEAR * 10)
+        ten_years_ago = now - (SECONDS_IN_YEAR * 10)
         return time.strftime("%d.%m.%Y", time.localtime(random.randint(ten_years_ago, now)))
 
     def generate_random_patient_id(self):

@@ -3,16 +3,10 @@ import os
 import sys
 import random
 sys.path.append(os.path.join(os.path.dirname(__file__), '../helper_classes_and_functions'))
+from config import CONFIG_FILE_PATH, OP_DETAILS_NAME, OP_RECORD_PATH, DOOR_STATES, OP_ROOM_STATE_SOURCE_NAME, TEMP_RANGE, HUMIDITY_RANGE, PRESSURE_RANGE, ILLUMINATION_RANGE
 from config_loader import ConfigLoader
 from source_data_sender import SourceDataSender
 
-
-# Konstanten
-TEMP_RANGE = (20.0, 25.0)
-HUMIDITY_RANGE = (30.0, 60.0)
-PRESSURE_RANGE = (980.0, 1020.0)
-ILLUMINATION_RANGE = (200.0, 1000.0)
-DOOR_STATES = ["Offen", "Geschlossen"]
 
 
 class OPRoomStateGenerator:
@@ -33,7 +27,7 @@ class OPRoomStateGenerator:
     def _load_configuration(self, config_file_path, op_record_path):
         """Loads the required configurations."""
         config_loader = ConfigLoader(config_file_path)
-        self.room_state_config = config_loader.load_config(SOURCE_NAME)
+        self.room_state_config = config_loader.load_config(OP_ROOM_STATE_SOURCE_NAME)
 
         op_record_config_loader = ConfigLoader(op_record_path)
         self.op_record_config = op_record_config_loader.load_config(OP_DETAILS_NAME)
@@ -72,12 +66,8 @@ class OPRoomStateGenerator:
             self.sender.disconnect_producer()
 
 if __name__ == "__main__":
-    OP_DETAILS_NAME = 'op_details'
-    SOURCE_NAME = "op_room_state"
-    CONFIG_FILE_PATH = os.path.join(os.path.dirname(__file__), '../config/config.json')
-
-    OP_RECORD_PATH = os.path.join(os.path.dirname(__file__), '../consume_op_record/op_record.json')
+    
 
     
-    generator = OPRoomStateGenerator(CONFIG_FILE_PATH, SOURCE_NAME, OP_RECORD_PATH, OP_DETAILS_NAME)
+    generator = OPRoomStateGenerator(CONFIG_FILE_PATH, OP_ROOM_STATE_SOURCE_NAME, OP_RECORD_PATH, OP_DETAILS_NAME)
     generator.start()
