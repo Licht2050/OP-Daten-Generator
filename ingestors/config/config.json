@@ -1,0 +1,12 @@
+{
+    "kafka": {
+      "bootstrap_servers": "192.168.29.120:9092",
+      "topic": "vital_parameters"
+    },
+    "cassandra": {
+      "nodes": ["127.0.0.1"],
+      "keyspace": "medical_data",
+      "table": "vital_params"
+    }
+  }
+  

@@ -30,6 +30,11 @@ class ConfigLoader:
         if not self.config:
             raise ConfigLoadError(f"source {source_name} configuration not found in config")
         return self.config
+    
+    def get_all_configs(self):
+        """Retrieve all configurations."""
+        return self.all_configs
+
     def get_current_config(self):    
         """Retrieve the currently loaded configuration."""
         return self.config

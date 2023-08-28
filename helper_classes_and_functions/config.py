@@ -20,6 +20,11 @@ POST_RECORD_SOURCE_NAME = "post_op_record"
 OP_TEAM_SOURCE_NAME = "op_team"
 OUTDOOR_SOURCE_NAME = "outdoor_environment"
 PATIENT_RECORD_SOURCE_NAME = "patient_records"
+BIS_SOURCE_NAME = "bis"
+BLOOD_PRESSURE_SOURCE_NAME = "blood_pressure"
+ETCO2_SOURCE_NAME = "etco2"
+HEART_RATE_SOURCE_NAME = "heart_rate"
+OXYGEN_SATURATION_SOURCE_NAME = "oxygen_saturation"
 
 
 PATIENT_INFO_NAME = "patient_details"
@@ -58,6 +63,10 @@ REQUIRED_TEAM_KEYS = ["doctors", "nurses", "anesthetists"]
 
 
 # === Holiday Record Generator ===
+
+HOLIDAY_DURATION_RANGE = (3, 14) # Range of holiday durations in days.
+START_DATE_RANGE = (30, 180) # Range of start dates for holidays within the last 6 months.
+
 
 PLACES = [
     "Paris", "Malediven", "New York City", "Trolltunga", 
