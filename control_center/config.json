@@ -33,7 +33,8 @@
             "op_team.py",
             "consume_patient_record.py",
             "entry_exit_event.py",
-            "consume_op_team_info.py"
+            "consume_op_team_info.py",
+            "consume_op_record.py"
         ],
         "raspberry_pi_2": [
             "heart_rate.py",

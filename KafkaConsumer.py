@@ -21,11 +21,11 @@ if __name__ == "__main__":
     # topic = "patient_data"
     # topic = "environmental_data"
     # topic = "vital_parameters"
-    # topic = "entry_exit_events"
+    topic = "entry_exit_events"
     # topic = "operation_room_status"
     # topic = "operation_team"
     # topic = "staff_communication"
-    topic = "operation_record"
+    # topic = "operation_record"
 
     print(f"Starting Consumer on: {bootstraps_server} in topic: {topic}...")
 

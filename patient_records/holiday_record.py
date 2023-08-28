@@ -73,7 +73,7 @@ class HolidayPlace:
         # for place in holiday_places:
         #     activity = random.choice(self.activities[place])
         #     holiday_places_list.append({"Patient_ID": patient_id, "Urlaubsort": place, "Aktivitaet": activity})
-
+    
         holiday_places_list = []
         for place in holiday_places:
             activity = random.choice(self.activities[place])

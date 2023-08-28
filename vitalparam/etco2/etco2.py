@@ -30,7 +30,7 @@ def generate_random_etco2_value(patient_id, min_value, max_value):
     etco2_value = random.randint(min_value, max_value)
     return {
         "Patient_ID": patient_id,
-        "etco2_value": etco2_value
+        "etco2": etco2_value
     }
 
 

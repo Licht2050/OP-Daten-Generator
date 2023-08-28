@@ -28,7 +28,7 @@ def generate_random_oxygen_saturation(patient_id, min_value=90, max_value=100):
     oxygen_saturation_value = random.randint(min_value, max_value)
     return {
         "Patient_ID": patient_id,
-        "Oxygen_Saturation": oxygen_saturation_value
+        "oxygen_saturation": oxygen_saturation_value
     }
 
 

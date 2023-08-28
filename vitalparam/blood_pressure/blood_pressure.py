@@ -21,8 +21,8 @@ def generate_random_blood_pressure(patient_id):
     diastolic = random.randint(60, 90)
     return {
         "Patient_ID": patient_id,
-        "Systolic": systolic,
-        "Diastolic": diastolic
+        "systolic": systolic,
+        "diastolic": diastolic
     }
 
 

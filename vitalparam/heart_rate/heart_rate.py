@@ -35,7 +35,7 @@ def generate_random_heart_rate(patient_id, min_value, max_value):
     heart_rate_value = random.randint(min_value, max_value)
     return {
         "Patient_ID": patient_id,
-        "heart_rate_value": heart_rate_value
+        "heart_rate": heart_rate_value
     }
         
 

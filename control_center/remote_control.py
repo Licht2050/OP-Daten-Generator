@@ -241,7 +241,7 @@ if __name__ == "__main__":
     config_loader = ConfigLoader(config_file)
     executors = execute_scripts(config_loader)
 
-    input = input("Press Enter to stop generators...")
+    input = input("Drücken Sie Enter, um die Generatoren zu beenden.")
     
 
     for executer in executors:

@@ -27,7 +27,7 @@ def generate_random_bis_value(patient_id, min_value, max_value):
     bis_value = round(random.uniform(min_value, max_value), 2)
     return {
         "Patient_ID": patient_id,
-        "bis_value": bis_value
+        "bispectral_index": bis_value
     }
 
 

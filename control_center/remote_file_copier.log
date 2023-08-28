@@ -4746,3 +4746,270 @@
 2023-08-28 12:40:45,406 - INFO - [chan 0] sftp session closed.
 2023-08-28 12:40:45,407 - INFO - Disconnected from 192.168.201.167
 2023-08-28 12:40:45,407 - INFO - ==================================================
+2023-08-28 13:43:49,119 - INFO - Connected (version 2.0, client OpenSSH_8.4p1)
+2023-08-28 13:43:49,222 - INFO - Authentication (password) successful!
+2023-08-28 13:43:49,401 - INFO - [chan 0] Opened sftp connection (server version 3)
+2023-08-28 13:43:49,401 - INFO - Connected to 192.168.201.251
+2023-08-28 13:43:49,402 - INFO - Verzeichnis op_data_generator/config auf 192.168.201.251 existiert bereits.
+2023-08-28 13:43:49,406 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/config/config.json nach op_data_generator/config/config.json auf 192.168.201.251 kopiert.
+2023-08-28 13:43:49,409 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/config/op_config.json nach op_data_generator/config/op_config.json auf 192.168.201.251 kopiert.
+2023-08-28 13:43:49,409 - INFO - Finished copying config to 192.168.201.251
+2023-08-28 13:43:49,410 - INFO - Verzeichnis op_data_generator/helper_classes_and_functions auf 192.168.201.251 existiert bereits.
+2023-08-28 13:43:49,413 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/helper_classes_and_functions/config_loader.py nach op_data_generator/helper_classes_and_functions/config_loader.py auf 192.168.201.251 kopiert.
+2023-08-28 13:43:49,417 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/helper_classes_and_functions/source_data_sender.py nach op_data_generator/helper_classes_and_functions/source_data_sender.py auf 192.168.201.251 kopiert.
+2023-08-28 13:43:49,421 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/helper_classes_and_functions/config.py nach op_data_generator/helper_classes_and_functions/config.py auf 192.168.201.251 kopiert.
+2023-08-28 13:43:49,425 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/helper_classes_and_functions/json_writer.py nach op_data_generator/helper_classes_and_functions/json_writer.py auf 192.168.201.251 kopiert.
+2023-08-28 13:43:49,428 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/helper_classes_and_functions/general_kafka_consumer.py nach op_data_generator/helper_classes_and_functions/general_kafka_consumer.py auf 192.168.201.251 kopiert.
+2023-08-28 13:43:49,429 - INFO - Finished copying helper_classes_and_functions to 192.168.201.251
+2023-08-28 13:43:49,429 - INFO - Verzeichnis op_data_generator/patient_records auf 192.168.201.251 existiert bereits.
+2023-08-28 13:43:49,432 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/patient_records/test nach op_data_generator/patient_records/test auf 192.168.201.251 kopiert.
+2023-08-28 13:43:49,436 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/patient_records/holiday_record.py nach op_data_generator/patient_records/holiday_record.py auf 192.168.201.251 kopiert.
+2023-08-28 13:43:49,440 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/patient_records/pre_existing_illness.py nach op_data_generator/patient_records/pre_existing_illness.py auf 192.168.201.251 kopiert.
+2023-08-28 13:43:49,444 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/patient_records/patient_record.py nach op_data_generator/patient_records/patient_record.py auf 192.168.201.251 kopiert.
+2023-08-28 13:43:49,448 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/patient_records/patient_data_generator.py nach op_data_generator/patient_records/patient_data_generator.py auf 192.168.201.251 kopiert.
+2023-08-28 13:43:49,452 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/patient_records/patient_ids.csv nach op_data_generator/patient_records/patient_ids.csv auf 192.168.201.251 kopiert.
+2023-08-28 13:43:49,453 - INFO - Verzeichnis op_data_generator/op_team auf 192.168.201.251 existiert bereits.
+2023-08-28 13:43:49,456 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/op_team/op_team.py nach op_data_generator/op_team/op_team.py auf 192.168.201.251 kopiert.
+2023-08-28 13:43:49,457 - INFO - Verzeichnis op_data_generator/consume_patient_details auf 192.168.201.251 existiert bereits.
+2023-08-28 13:43:49,461 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/consume_patient_details/patient_info.json nach op_data_generator/consume_patient_details/patient_info.json auf 192.168.201.251 kopiert.
+2023-08-28 13:43:49,464 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/consume_patient_details/consume_patient_record.py nach op_data_generator/consume_patient_details/consume_patient_record.py auf 192.168.201.251 kopiert.
+2023-08-28 13:43:49,465 - INFO - Verzeichnis op_data_generator/entry_exit_event auf 192.168.201.251 existiert bereits.
+2023-08-28 13:43:49,469 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/entry_exit_event/entry_exit_event.py nach op_data_generator/entry_exit_event/entry_exit_event.py auf 192.168.201.251 kopiert.
+2023-08-28 13:43:49,470 - INFO - Verzeichnis op_data_generator/consume_op_team_info auf 192.168.201.251 existiert bereits.
+2023-08-28 13:43:49,474 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/consume_op_team_info/op_team_info.json nach op_data_generator/consume_op_team_info/op_team_info.json auf 192.168.201.251 kopiert.
+2023-08-28 13:43:49,477 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/consume_op_team_info/consume_op_team_info.py nach op_data_generator/consume_op_team_info/consume_op_team_info.py auf 192.168.201.251 kopiert.
+2023-08-28 13:43:49,478 - INFO - [chan 0] sftp session closed.
+2023-08-28 13:43:49,478 - INFO - Disconnected from 192.168.201.251
+2023-08-28 13:43:49,478 - INFO - ==================================================
+2023-08-28 13:43:49,579 - INFO - Connected (version 2.0, client OpenSSH_8.4p1)
+2023-08-28 13:43:49,744 - INFO - Authentication (password) successful!
+2023-08-28 13:43:49,981 - INFO - [chan 0] Opened sftp connection (server version 3)
+2023-08-28 13:43:49,981 - INFO - Connected to 192.168.201.250
+2023-08-28 13:43:49,982 - INFO - Verzeichnis op_data_generator/config auf 192.168.201.250 existiert bereits.
+2023-08-28 13:43:49,986 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/config/config.json nach op_data_generator/config/config.json auf 192.168.201.250 kopiert.
+2023-08-28 13:43:49,989 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/config/op_config.json nach op_data_generator/config/op_config.json auf 192.168.201.250 kopiert.
+2023-08-28 13:43:49,989 - INFO - Finished copying config to 192.168.201.250
+2023-08-28 13:43:49,990 - INFO - Verzeichnis op_data_generator/helper_classes_and_functions auf 192.168.201.250 existiert bereits.
+2023-08-28 13:43:49,994 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/helper_classes_and_functions/config_loader.py nach op_data_generator/helper_classes_and_functions/config_loader.py auf 192.168.201.250 kopiert.
+2023-08-28 13:43:49,998 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/helper_classes_and_functions/source_data_sender.py nach op_data_generator/helper_classes_and_functions/source_data_sender.py auf 192.168.201.250 kopiert.
+2023-08-28 13:43:50,002 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/helper_classes_and_functions/config.py nach op_data_generator/helper_classes_and_functions/config.py auf 192.168.201.250 kopiert.
+2023-08-28 13:43:50,006 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/helper_classes_and_functions/json_writer.py nach op_data_generator/helper_classes_and_functions/json_writer.py auf 192.168.201.250 kopiert.
+2023-08-28 13:43:50,010 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/helper_classes_and_functions/general_kafka_consumer.py nach op_data_generator/helper_classes_and_functions/general_kafka_consumer.py auf 192.168.201.250 kopiert.
+2023-08-28 13:43:50,010 - INFO - Finished copying helper_classes_and_functions to 192.168.201.250
+2023-08-28 13:43:50,011 - INFO - Verzeichnis op_data_generator/vitalparam/heart_rate auf 192.168.201.250 existiert bereits.
+2023-08-28 13:43:50,015 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/vitalparam/heart_rate/heart_rate.py nach op_data_generator/vitalparam/heart_rate/heart_rate.py auf 192.168.201.250 kopiert.
+2023-08-28 13:43:50,015 - INFO - Verzeichnis op_data_generator/vitalparam/blood_pressure auf 192.168.201.250 existiert bereits.
+2023-08-28 13:43:50,019 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/vitalparam/blood_pressure/blood_pressure.py nach op_data_generator/vitalparam/blood_pressure/blood_pressure.py auf 192.168.201.250 kopiert.
+2023-08-28 13:43:50,023 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/vitalparam/blood_pressure/test_blood_pressure.py nach op_data_generator/vitalparam/blood_pressure/test_blood_pressure.py auf 192.168.201.250 kopiert.
+2023-08-28 13:43:50,026 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/vitalparam/blood_pressure/TCP_connection/BloodPressure_Producer.py nach op_data_generator/vitalparam/blood_pressure/BloodPressure_Producer.py auf 192.168.201.250 kopiert.
+2023-08-28 13:43:50,030 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/vitalparam/blood_pressure/TCP_connection/Server.py nach op_data_generator/vitalparam/blood_pressure/Server.py auf 192.168.201.250 kopiert.
+2023-08-28 13:43:50,034 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/vitalparam/blood_pressure/Kafka/BloodPressure_AsKafka_Consumer.py nach op_data_generator/vitalparam/blood_pressure/BloodPressure_AsKafka_Consumer.py auf 192.168.201.250 kopiert.
+2023-08-28 13:43:50,035 - INFO - Verzeichnis op_data_generator/consume_patient_details auf 192.168.201.250 existiert bereits.
+2023-08-28 13:43:50,038 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/consume_patient_details/patient_info.json nach op_data_generator/consume_patient_details/patient_info.json auf 192.168.201.250 kopiert.
+2023-08-28 13:43:50,042 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/consume_patient_details/consume_patient_record.py nach op_data_generator/consume_patient_details/consume_patient_record.py auf 192.168.201.250 kopiert.
+2023-08-28 13:43:50,043 - INFO - Verzeichnis op_data_generator/op_room_state auf 192.168.201.250 existiert bereits.
+2023-08-28 13:43:50,047 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/op_room_state/op_room_state.py nach op_data_generator/op_room_state/op_room_state.py auf 192.168.201.250 kopiert.
+2023-08-28 13:43:50,048 - INFO - Verzeichnis op_data_generator/consume_op_record auf 192.168.201.250 existiert bereits.
+2023-08-28 13:43:50,051 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/consume_op_record/consume_op_record.py nach op_data_generator/consume_op_record/consume_op_record.py auf 192.168.201.250 kopiert.
+2023-08-28 13:43:50,055 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/consume_op_record/op_record.json nach op_data_generator/consume_op_record/op_record.json auf 192.168.201.250 kopiert.
+2023-08-28 13:43:50,055 - INFO - [chan 0] sftp session closed.
+2023-08-28 13:43:50,055 - INFO - Disconnected from 192.168.201.250
+2023-08-28 13:43:50,056 - INFO - ==================================================
+2023-08-28 13:43:50,158 - INFO - Connected (version 2.0, client OpenSSH_8.4p1)
+2023-08-28 13:43:50,395 - INFO - Authentication (password) successful!
+2023-08-28 13:43:50,701 - INFO - [chan 0] Opened sftp connection (server version 3)
+2023-08-28 13:43:50,702 - INFO - Connected to 192.168.201.229
+2023-08-28 13:43:50,703 - INFO - Verzeichnis op_data_generator/config auf 192.168.201.229 existiert bereits.
+2023-08-28 13:43:50,707 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/config/config.json nach op_data_generator/config/config.json auf 192.168.201.229 kopiert.
+2023-08-28 13:43:50,711 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/config/op_config.json nach op_data_generator/config/op_config.json auf 192.168.201.229 kopiert.
+2023-08-28 13:43:50,711 - INFO - Finished copying config to 192.168.201.229
+2023-08-28 13:43:50,713 - INFO - Verzeichnis op_data_generator/helper_classes_and_functions auf 192.168.201.229 existiert bereits.
+2023-08-28 13:43:50,717 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/helper_classes_and_functions/config_loader.py nach op_data_generator/helper_classes_and_functions/config_loader.py auf 192.168.201.229 kopiert.
+2023-08-28 13:43:50,722 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/helper_classes_and_functions/source_data_sender.py nach op_data_generator/helper_classes_and_functions/source_data_sender.py auf 192.168.201.229 kopiert.
+2023-08-28 13:43:50,726 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/helper_classes_and_functions/config.py nach op_data_generator/helper_classes_and_functions/config.py auf 192.168.201.229 kopiert.
+2023-08-28 13:43:50,731 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/helper_classes_and_functions/json_writer.py nach op_data_generator/helper_classes_and_functions/json_writer.py auf 192.168.201.229 kopiert.
+2023-08-28 13:43:50,735 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/helper_classes_and_functions/general_kafka_consumer.py nach op_data_generator/helper_classes_and_functions/general_kafka_consumer.py auf 192.168.201.229 kopiert.
+2023-08-28 13:43:50,736 - INFO - Finished copying helper_classes_and_functions to 192.168.201.229
+2023-08-28 13:43:50,737 - INFO - Verzeichnis op_data_generator/consume_patient_details auf 192.168.201.229 existiert bereits.
+2023-08-28 13:43:50,741 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/consume_patient_details/patient_info.json nach op_data_generator/consume_patient_details/patient_info.json auf 192.168.201.229 kopiert.
+2023-08-28 13:43:50,746 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/consume_patient_details/consume_patient_record.py nach op_data_generator/consume_patient_details/consume_patient_record.py auf 192.168.201.229 kopiert.
+2023-08-28 13:43:50,747 - INFO - Verzeichnis op_data_generator/vitalparam/anesthesia_depth auf 192.168.201.229 existiert bereits.
+2023-08-28 13:43:50,751 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/vitalparam/anesthesia_depth/bis.py nach op_data_generator/vitalparam/anesthesia_depth/bis.py auf 192.168.201.229 kopiert.
+2023-08-28 13:43:50,752 - INFO - Verzeichnis op_data_generator/outdoor_environment auf 192.168.201.229 existiert bereits.
+2023-08-28 13:43:50,757 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/outdoor_environment/Humidity.py nach op_data_generator/outdoor_environment/Humidity.py auf 192.168.201.229 kopiert.
+2023-08-28 13:43:50,762 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/outdoor_environment/Temperature.py nach op_data_generator/outdoor_environment/Temperature.py auf 192.168.201.229 kopiert.
+2023-08-28 13:43:50,766 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/outdoor_environment/outdoor_environment.py nach op_data_generator/outdoor_environment/outdoor_environment.py auf 192.168.201.229 kopiert.
+2023-08-28 13:43:50,767 - INFO - Verzeichnis op_data_generator/vitalparam/oxygen_saturation auf 192.168.201.229 existiert bereits.
+2023-08-28 13:43:50,771 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/vitalparam/oxygen_saturation/oxygen_saturation_producer.py nach op_data_generator/vitalparam/oxygen_saturation/oxygen_saturation_producer.py auf 192.168.201.229 kopiert.
+2023-08-28 13:43:50,772 - INFO - [chan 0] sftp session closed.
+2023-08-28 13:43:50,772 - INFO - Disconnected from 192.168.201.229
+2023-08-28 13:43:50,772 - INFO - ==================================================
+2023-08-28 13:43:50,873 - INFO - Connected (version 2.0, client OpenSSH_8.4p1)
+2023-08-28 13:43:51,117 - INFO - Authentication (password) successful!
+2023-08-28 13:43:51,378 - INFO - [chan 0] Opened sftp connection (server version 3)
+2023-08-28 13:43:51,378 - INFO - Connected to 192.168.201.167
+2023-08-28 13:43:51,379 - INFO - Verzeichnis op_data_generator/config auf 192.168.201.167 existiert bereits.
+2023-08-28 13:43:51,384 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/config/config.json nach op_data_generator/config/config.json auf 192.168.201.167 kopiert.
+2023-08-28 13:43:51,388 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/config/op_config.json nach op_data_generator/config/op_config.json auf 192.168.201.167 kopiert.
+2023-08-28 13:43:51,388 - INFO - Finished copying config to 192.168.201.167
+2023-08-28 13:43:51,389 - INFO - Verzeichnis op_data_generator/helper_classes_and_functions auf 192.168.201.167 existiert bereits.
+2023-08-28 13:43:51,394 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/helper_classes_and_functions/config_loader.py nach op_data_generator/helper_classes_and_functions/config_loader.py auf 192.168.201.167 kopiert.
+2023-08-28 13:43:51,399 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/helper_classes_and_functions/source_data_sender.py nach op_data_generator/helper_classes_and_functions/source_data_sender.py auf 192.168.201.167 kopiert.
+2023-08-28 13:43:51,404 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/helper_classes_and_functions/config.py nach op_data_generator/helper_classes_and_functions/config.py auf 192.168.201.167 kopiert.
+2023-08-28 13:43:51,409 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/helper_classes_and_functions/json_writer.py nach op_data_generator/helper_classes_and_functions/json_writer.py auf 192.168.201.167 kopiert.
+2023-08-28 13:43:51,413 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/helper_classes_and_functions/general_kafka_consumer.py nach op_data_generator/helper_classes_and_functions/general_kafka_consumer.py auf 192.168.201.167 kopiert.
+2023-08-28 13:43:51,414 - INFO - Finished copying helper_classes_and_functions to 192.168.201.167
+2023-08-28 13:43:51,415 - INFO - Verzeichnis op_data_generator/consume_patient_details auf 192.168.201.167 existiert bereits.
+2023-08-28 13:43:51,419 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/consume_patient_details/patient_info.json nach op_data_generator/consume_patient_details/patient_info.json auf 192.168.201.167 kopiert.
+2023-08-28 13:43:51,424 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/consume_patient_details/consume_patient_record.py nach op_data_generator/consume_patient_details/consume_patient_record.py auf 192.168.201.167 kopiert.
+2023-08-28 13:43:51,425 - INFO - Verzeichnis op_data_generator/consume_op_record auf 192.168.201.167 existiert bereits.
+2023-08-28 13:43:51,430 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/consume_op_record/consume_op_record.py nach op_data_generator/consume_op_record/consume_op_record.py auf 192.168.201.167 kopiert.
+2023-08-28 13:43:51,435 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/consume_op_record/op_record.json nach op_data_generator/consume_op_record/op_record.json auf 192.168.201.167 kopiert.
+2023-08-28 13:43:51,436 - INFO - Verzeichnis op_data_generator/op_record auf 192.168.201.167 existiert bereits.
+2023-08-28 13:43:51,440 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/op_record/post_op_record.py nach op_data_generator/op_record/post_op_record.py auf 192.168.201.167 kopiert.
+2023-08-28 13:43:51,445 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/op_record/pre_op_record.py nach op_data_generator/op_record/pre_op_record.py auf 192.168.201.167 kopiert.
+2023-08-28 13:43:51,446 - INFO - Verzeichnis op_data_generator/op_record auf 192.168.201.167 existiert bereits.
+2023-08-28 13:43:51,450 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/op_record/post_op_record.py nach op_data_generator/op_record/post_op_record.py auf 192.168.201.167 kopiert.
+2023-08-28 13:43:51,455 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/op_record/pre_op_record.py nach op_data_generator/op_record/pre_op_record.py auf 192.168.201.167 kopiert.
+2023-08-28 13:43:51,456 - INFO - Verzeichnis op_data_generator/vitalparam/etco2 auf 192.168.201.167 existiert bereits.
+2023-08-28 13:43:51,460 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/vitalparam/etco2/etco2.py nach op_data_generator/vitalparam/etco2/etco2.py auf 192.168.201.167 kopiert.
+2023-08-28 13:43:51,461 - INFO - Verzeichnis op_data_generator/staff_communication auf 192.168.201.167 existiert bereits.
+2023-08-28 13:43:51,467 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/staff_communication/staff_communication_during_op.py nach op_data_generator/staff_communication/staff_communication_during_op.py auf 192.168.201.167 kopiert.
+2023-08-28 13:43:51,467 - INFO - [chan 0] sftp session closed.
+2023-08-28 13:43:51,467 - INFO - Disconnected from 192.168.201.167
+2023-08-28 13:43:51,467 - INFO - ==================================================
+2023-08-28 13:57:19,844 - INFO - Connected (version 2.0, client OpenSSH_8.4p1)
+2023-08-28 13:57:19,988 - INFO - Authentication (password) successful!
+2023-08-28 13:57:20,184 - INFO - [chan 0] Opened sftp connection (server version 3)
+2023-08-28 13:57:20,185 - INFO - Connected to 192.168.201.251
+2023-08-28 13:57:20,185 - INFO - Verzeichnis op_data_generator/config auf 192.168.201.251 existiert bereits.
+2023-08-28 13:57:20,189 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/config/config.json nach op_data_generator/config/config.json auf 192.168.201.251 kopiert.
+2023-08-28 13:57:20,192 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/config/op_config.json nach op_data_generator/config/op_config.json auf 192.168.201.251 kopiert.
+2023-08-28 13:57:20,192 - INFO - Finished copying config to 192.168.201.251
+2023-08-28 13:57:20,193 - INFO - Verzeichnis op_data_generator/helper_classes_and_functions auf 192.168.201.251 existiert bereits.
+2023-08-28 13:57:20,196 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/helper_classes_and_functions/config_loader.py nach op_data_generator/helper_classes_and_functions/config_loader.py auf 192.168.201.251 kopiert.
+2023-08-28 13:57:20,199 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/helper_classes_and_functions/source_data_sender.py nach op_data_generator/helper_classes_and_functions/source_data_sender.py auf 192.168.201.251 kopiert.
+2023-08-28 13:57:20,203 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/helper_classes_and_functions/config.py nach op_data_generator/helper_classes_and_functions/config.py auf 192.168.201.251 kopiert.
+2023-08-28 13:57:20,206 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/helper_classes_and_functions/json_writer.py nach op_data_generator/helper_classes_and_functions/json_writer.py auf 192.168.201.251 kopiert.
+2023-08-28 13:57:20,209 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/helper_classes_and_functions/general_kafka_consumer.py nach op_data_generator/helper_classes_and_functions/general_kafka_consumer.py auf 192.168.201.251 kopiert.
+2023-08-28 13:57:20,209 - INFO - Finished copying helper_classes_and_functions to 192.168.201.251
+2023-08-28 13:57:20,210 - INFO - Verzeichnis op_data_generator/patient_records auf 192.168.201.251 existiert bereits.
+2023-08-28 13:57:20,212 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/patient_records/test nach op_data_generator/patient_records/test auf 192.168.201.251 kopiert.
+2023-08-28 13:57:20,216 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/patient_records/holiday_record.py nach op_data_generator/patient_records/holiday_record.py auf 192.168.201.251 kopiert.
+2023-08-28 13:57:20,219 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/patient_records/pre_existing_illness.py nach op_data_generator/patient_records/pre_existing_illness.py auf 192.168.201.251 kopiert.
+2023-08-28 13:57:20,223 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/patient_records/patient_record.py nach op_data_generator/patient_records/patient_record.py auf 192.168.201.251 kopiert.
+2023-08-28 13:57:20,227 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/patient_records/patient_data_generator.py nach op_data_generator/patient_records/patient_data_generator.py auf 192.168.201.251 kopiert.
+2023-08-28 13:57:20,230 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/patient_records/patient_ids.csv nach op_data_generator/patient_records/patient_ids.csv auf 192.168.201.251 kopiert.
+2023-08-28 13:57:20,230 - INFO - Verzeichnis op_data_generator/op_team auf 192.168.201.251 existiert bereits.
+2023-08-28 13:57:20,234 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/op_team/op_team.py nach op_data_generator/op_team/op_team.py auf 192.168.201.251 kopiert.
+2023-08-28 13:57:20,234 - INFO - Verzeichnis op_data_generator/consume_patient_details auf 192.168.201.251 existiert bereits.
+2023-08-28 13:57:20,237 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/consume_patient_details/patient_info.json nach op_data_generator/consume_patient_details/patient_info.json auf 192.168.201.251 kopiert.
+2023-08-28 13:57:20,241 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/consume_patient_details/consume_patient_record.py nach op_data_generator/consume_patient_details/consume_patient_record.py auf 192.168.201.251 kopiert.
+2023-08-28 13:57:20,241 - INFO - Verzeichnis op_data_generator/entry_exit_event auf 192.168.201.251 existiert bereits.
+2023-08-28 13:57:20,245 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/entry_exit_event/entry_exit_event.py nach op_data_generator/entry_exit_event/entry_exit_event.py auf 192.168.201.251 kopiert.
+2023-08-28 13:57:20,246 - INFO - Verzeichnis op_data_generator/consume_op_team_info auf 192.168.201.251 existiert bereits.
+2023-08-28 13:57:20,249 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/consume_op_team_info/op_team_info.json nach op_data_generator/consume_op_team_info/op_team_info.json auf 192.168.201.251 kopiert.
+2023-08-28 13:57:20,252 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/consume_op_team_info/consume_op_team_info.py nach op_data_generator/consume_op_team_info/consume_op_team_info.py auf 192.168.201.251 kopiert.
+2023-08-28 13:57:20,255 - INFO - Verzeichnis op_data_generator/consume_op_record auf 192.168.201.251 erstellt.
+2023-08-28 13:57:20,258 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/consume_op_record/consume_op_record.py nach op_data_generator/consume_op_record/consume_op_record.py auf 192.168.201.251 kopiert.
+2023-08-28 13:57:20,261 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/consume_op_record/op_record.json nach op_data_generator/consume_op_record/op_record.json auf 192.168.201.251 kopiert.
+2023-08-28 13:57:20,261 - INFO - [chan 0] sftp session closed.
+2023-08-28 13:57:20,261 - INFO - Disconnected from 192.168.201.251
+2023-08-28 13:57:20,261 - INFO - ==================================================
+2023-08-28 13:57:20,363 - INFO - Connected (version 2.0, client OpenSSH_8.4p1)
+2023-08-28 13:57:20,534 - INFO - Authentication (password) successful!
+2023-08-28 13:57:20,720 - INFO - [chan 0] Opened sftp connection (server version 3)
+2023-08-28 13:57:20,720 - INFO - Connected to 192.168.201.250
+2023-08-28 13:57:20,721 - INFO - Verzeichnis op_data_generator/config auf 192.168.201.250 existiert bereits.
+2023-08-28 13:57:20,724 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/config/config.json nach op_data_generator/config/config.json auf 192.168.201.250 kopiert.
+2023-08-28 13:57:20,727 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/config/op_config.json nach op_data_generator/config/op_config.json auf 192.168.201.250 kopiert.
+2023-08-28 13:57:20,728 - INFO - Finished copying config to 192.168.201.250
+2023-08-28 13:57:20,728 - INFO - Verzeichnis op_data_generator/helper_classes_and_functions auf 192.168.201.250 existiert bereits.
+2023-08-28 13:57:20,731 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/helper_classes_and_functions/config_loader.py nach op_data_generator/helper_classes_and_functions/config_loader.py auf 192.168.201.250 kopiert.
+2023-08-28 13:57:20,735 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/helper_classes_and_functions/source_data_sender.py nach op_data_generator/helper_classes_and_functions/source_data_sender.py auf 192.168.201.250 kopiert.
+2023-08-28 13:57:20,738 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/helper_classes_and_functions/config.py nach op_data_generator/helper_classes_and_functions/config.py auf 192.168.201.250 kopiert.
+2023-08-28 13:57:20,741 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/helper_classes_and_functions/json_writer.py nach op_data_generator/helper_classes_and_functions/json_writer.py auf 192.168.201.250 kopiert.
+2023-08-28 13:57:20,744 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/helper_classes_and_functions/general_kafka_consumer.py nach op_data_generator/helper_classes_and_functions/general_kafka_consumer.py auf 192.168.201.250 kopiert.
+2023-08-28 13:57:20,745 - INFO - Finished copying helper_classes_and_functions to 192.168.201.250
+2023-08-28 13:57:20,745 - INFO - Verzeichnis op_data_generator/vitalparam/heart_rate auf 192.168.201.250 existiert bereits.
+2023-08-28 13:57:20,748 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/vitalparam/heart_rate/heart_rate.py nach op_data_generator/vitalparam/heart_rate/heart_rate.py auf 192.168.201.250 kopiert.
+2023-08-28 13:57:20,749 - INFO - Verzeichnis op_data_generator/vitalparam/blood_pressure auf 192.168.201.250 existiert bereits.
+2023-08-28 13:57:20,752 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/vitalparam/blood_pressure/blood_pressure.py nach op_data_generator/vitalparam/blood_pressure/blood_pressure.py auf 192.168.201.250 kopiert.
+2023-08-28 13:57:20,755 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/vitalparam/blood_pressure/test_blood_pressure.py nach op_data_generator/vitalparam/blood_pressure/test_blood_pressure.py auf 192.168.201.250 kopiert.
+2023-08-28 13:57:20,758 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/vitalparam/blood_pressure/TCP_connection/BloodPressure_Producer.py nach op_data_generator/vitalparam/blood_pressure/BloodPressure_Producer.py auf 192.168.201.250 kopiert.
+2023-08-28 13:57:20,762 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/vitalparam/blood_pressure/TCP_connection/Server.py nach op_data_generator/vitalparam/blood_pressure/Server.py auf 192.168.201.250 kopiert.
+2023-08-28 13:57:20,765 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/vitalparam/blood_pressure/Kafka/BloodPressure_AsKafka_Consumer.py nach op_data_generator/vitalparam/blood_pressure/BloodPressure_AsKafka_Consumer.py auf 192.168.201.250 kopiert.
+2023-08-28 13:57:20,766 - INFO - Verzeichnis op_data_generator/consume_patient_details auf 192.168.201.250 existiert bereits.
+2023-08-28 13:57:20,769 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/consume_patient_details/patient_info.json nach op_data_generator/consume_patient_details/patient_info.json auf 192.168.201.250 kopiert.
+2023-08-28 13:57:20,772 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/consume_patient_details/consume_patient_record.py nach op_data_generator/consume_patient_details/consume_patient_record.py auf 192.168.201.250 kopiert.
+2023-08-28 13:57:20,773 - INFO - Verzeichnis op_data_generator/op_room_state auf 192.168.201.250 existiert bereits.
+2023-08-28 13:57:20,776 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/op_room_state/op_room_state.py nach op_data_generator/op_room_state/op_room_state.py auf 192.168.201.250 kopiert.
+2023-08-28 13:57:20,777 - INFO - Verzeichnis op_data_generator/consume_op_record auf 192.168.201.250 existiert bereits.
+2023-08-28 13:57:20,780 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/consume_op_record/consume_op_record.py nach op_data_generator/consume_op_record/consume_op_record.py auf 192.168.201.250 kopiert.
+2023-08-28 13:57:20,783 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/consume_op_record/op_record.json nach op_data_generator/consume_op_record/op_record.json auf 192.168.201.250 kopiert.
+2023-08-28 13:57:20,783 - INFO - [chan 0] sftp session closed.
+2023-08-28 13:57:20,783 - INFO - Disconnected from 192.168.201.250
+2023-08-28 13:57:20,783 - INFO - ==================================================
+2023-08-28 13:57:20,885 - INFO - Connected (version 2.0, client OpenSSH_8.4p1)
+2023-08-28 13:57:21,122 - INFO - Authentication (password) successful!
+2023-08-28 13:57:21,365 - INFO - [chan 0] Opened sftp connection (server version 3)
+2023-08-28 13:57:21,365 - INFO - Connected to 192.168.201.229
+2023-08-28 13:57:21,366 - INFO - Verzeichnis op_data_generator/config auf 192.168.201.229 existiert bereits.
+2023-08-28 13:57:21,370 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/config/config.json nach op_data_generator/config/config.json auf 192.168.201.229 kopiert.
+2023-08-28 13:57:21,374 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/config/op_config.json nach op_data_generator/config/op_config.json auf 192.168.201.229 kopiert.
+2023-08-28 13:57:21,374 - INFO - Finished copying config to 192.168.201.229
+2023-08-28 13:57:21,375 - INFO - Verzeichnis op_data_generator/helper_classes_and_functions auf 192.168.201.229 existiert bereits.
+2023-08-28 13:57:21,379 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/helper_classes_and_functions/config_loader.py nach op_data_generator/helper_classes_and_functions/config_loader.py auf 192.168.201.229 kopiert.
+2023-08-28 13:57:21,384 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/helper_classes_and_functions/source_data_sender.py nach op_data_generator/helper_classes_and_functions/source_data_sender.py auf 192.168.201.229 kopiert.
+2023-08-28 13:57:21,389 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/helper_classes_and_functions/config.py nach op_data_generator/helper_classes_and_functions/config.py auf 192.168.201.229 kopiert.
+2023-08-28 13:57:21,393 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/helper_classes_and_functions/json_writer.py nach op_data_generator/helper_classes_and_functions/json_writer.py auf 192.168.201.229 kopiert.
+2023-08-28 13:57:21,397 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/helper_classes_and_functions/general_kafka_consumer.py nach op_data_generator/helper_classes_and_functions/general_kafka_consumer.py auf 192.168.201.229 kopiert.
+2023-08-28 13:57:21,397 - INFO - Finished copying helper_classes_and_functions to 192.168.201.229
+2023-08-28 13:57:21,398 - INFO - Verzeichnis op_data_generator/consume_patient_details auf 192.168.201.229 existiert bereits.
+2023-08-28 13:57:21,402 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/consume_patient_details/patient_info.json nach op_data_generator/consume_patient_details/patient_info.json auf 192.168.201.229 kopiert.
+2023-08-28 13:57:21,407 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/consume_patient_details/consume_patient_record.py nach op_data_generator/consume_patient_details/consume_patient_record.py auf 192.168.201.229 kopiert.
+2023-08-28 13:57:21,408 - INFO - Verzeichnis op_data_generator/vitalparam/anesthesia_depth auf 192.168.201.229 existiert bereits.
+2023-08-28 13:57:21,411 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/vitalparam/anesthesia_depth/bis.py nach op_data_generator/vitalparam/anesthesia_depth/bis.py auf 192.168.201.229 kopiert.
+2023-08-28 13:57:21,412 - INFO - Verzeichnis op_data_generator/outdoor_environment auf 192.168.201.229 existiert bereits.
+2023-08-28 13:57:21,416 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/outdoor_environment/Humidity.py nach op_data_generator/outdoor_environment/Humidity.py auf 192.168.201.229 kopiert.
+2023-08-28 13:57:21,421 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/outdoor_environment/Temperature.py nach op_data_generator/outdoor_environment/Temperature.py auf 192.168.201.229 kopiert.
+2023-08-28 13:57:21,425 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/outdoor_environment/outdoor_environment.py nach op_data_generator/outdoor_environment/outdoor_environment.py auf 192.168.201.229 kopiert.
+2023-08-28 13:57:21,426 - INFO - Verzeichnis op_data_generator/vitalparam/oxygen_saturation auf 192.168.201.229 existiert bereits.
+2023-08-28 13:57:21,430 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/vitalparam/oxygen_saturation/oxygen_saturation_producer.py nach op_data_generator/vitalparam/oxygen_saturation/oxygen_saturation_producer.py auf 192.168.201.229 kopiert.
+2023-08-28 13:57:21,430 - INFO - [chan 0] sftp session closed.
+2023-08-28 13:57:21,430 - INFO - Disconnected from 192.168.201.229
+2023-08-28 13:57:21,430 - INFO - ==================================================
+2023-08-28 13:57:21,532 - INFO - Connected (version 2.0, client OpenSSH_8.4p1)
+2023-08-28 13:57:21,775 - INFO - Authentication (password) successful!
+2023-08-28 13:57:22,025 - INFO - [chan 0] Opened sftp connection (server version 3)
+2023-08-28 13:57:22,025 - INFO - Connected to 192.168.201.167
+2023-08-28 13:57:22,026 - INFO - Verzeichnis op_data_generator/config auf 192.168.201.167 existiert bereits.
+2023-08-28 13:57:22,030 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/config/config.json nach op_data_generator/config/config.json auf 192.168.201.167 kopiert.
+2023-08-28 13:57:22,034 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/config/op_config.json nach op_data_generator/config/op_config.json auf 192.168.201.167 kopiert.
+2023-08-28 13:57:22,034 - INFO - Finished copying config to 192.168.201.167
+2023-08-28 13:57:22,035 - INFO - Verzeichnis op_data_generator/helper_classes_and_functions auf 192.168.201.167 existiert bereits.
+2023-08-28 13:57:22,039 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/helper_classes_and_functions/config_loader.py nach op_data_generator/helper_classes_and_functions/config_loader.py auf 192.168.201.167 kopiert.
+2023-08-28 13:57:22,044 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/helper_classes_and_functions/source_data_sender.py nach op_data_generator/helper_classes_and_functions/source_data_sender.py auf 192.168.201.167 kopiert.
+2023-08-28 13:57:22,048 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/helper_classes_and_functions/config.py nach op_data_generator/helper_classes_and_functions/config.py auf 192.168.201.167 kopiert.
+2023-08-28 13:57:22,052 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/helper_classes_and_functions/json_writer.py nach op_data_generator/helper_classes_and_functions/json_writer.py auf 192.168.201.167 kopiert.
+2023-08-28 13:57:22,057 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/helper_classes_and_functions/general_kafka_consumer.py nach op_data_generator/helper_classes_and_functions/general_kafka_consumer.py auf 192.168.201.167 kopiert.
+2023-08-28 13:57:22,057 - INFO - Finished copying helper_classes_and_functions to 192.168.201.167
+2023-08-28 13:57:22,058 - INFO - Verzeichnis op_data_generator/consume_patient_details auf 192.168.201.167 existiert bereits.
+2023-08-28 13:57:22,062 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/consume_patient_details/patient_info.json nach op_data_generator/consume_patient_details/patient_info.json auf 192.168.201.167 kopiert.
+2023-08-28 13:57:22,066 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/consume_patient_details/consume_patient_record.py nach op_data_generator/consume_patient_details/consume_patient_record.py auf 192.168.201.167 kopiert.
+2023-08-28 13:57:22,067 - INFO - Verzeichnis op_data_generator/consume_op_record auf 192.168.201.167 existiert bereits.
+2023-08-28 13:57:22,071 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/consume_op_record/consume_op_record.py nach op_data_generator/consume_op_record/consume_op_record.py auf 192.168.201.167 kopiert.
+2023-08-28 13:57:22,075 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/consume_op_record/op_record.json nach op_data_generator/consume_op_record/op_record.json auf 192.168.201.167 kopiert.
+2023-08-28 13:57:22,076 - INFO - Verzeichnis op_data_generator/op_record auf 192.168.201.167 existiert bereits.
+2023-08-28 13:57:22,080 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/op_record/post_op_record.py nach op_data_generator/op_record/post_op_record.py auf 192.168.201.167 kopiert.
+2023-08-28 13:57:22,084 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/op_record/pre_op_record.py nach op_data_generator/op_record/pre_op_record.py auf 192.168.201.167 kopiert.
+2023-08-28 13:57:22,085 - INFO - Verzeichnis op_data_generator/op_record auf 192.168.201.167 existiert bereits.
+2023-08-28 13:57:22,093 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/op_record/post_op_record.py nach op_data_generator/op_record/post_op_record.py auf 192.168.201.167 kopiert.
+2023-08-28 13:57:22,097 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/op_record/pre_op_record.py nach op_data_generator/op_record/pre_op_record.py auf 192.168.201.167 kopiert.
+2023-08-28 13:57:22,098 - INFO - Verzeichnis op_data_generator/vitalparam/etco2 auf 192.168.201.167 existiert bereits.
+2023-08-28 13:57:22,102 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/vitalparam/etco2/etco2.py nach op_data_generator/vitalparam/etco2/etco2.py auf 192.168.201.167 kopiert.
+2023-08-28 13:57:22,103 - INFO - Verzeichnis op_data_generator/staff_communication auf 192.168.201.167 existiert bereits.
+2023-08-28 13:57:22,108 - INFO - Datei /home/erl.local/sayed.sajadi/Projekt/OP-Daten-Generator/staff_communication/staff_communication_during_op.py nach op_data_generator/staff_communication/staff_communication_during_op.py auf 192.168.201.167 kopiert.
+2023-08-28 13:57:22,108 - INFO - [chan 0] sftp session closed.
+2023-08-28 13:57:22,108 - INFO - Disconnected from 192.168.201.167
+2023-08-28 13:57:22,108 - INFO - ==================================================

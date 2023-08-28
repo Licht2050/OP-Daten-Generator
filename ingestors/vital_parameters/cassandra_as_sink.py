@@ -71,11 +71,17 @@ class KafkaToCassandra:
 if __name__ == '__main__':
     CONFIG_FILE_PATH = os.path.join(os.path.dirname(__file__), '../config/config.json')
     TABLE_DEFINITION = """
-    CREATE TABLE IF NOT EXISTS my_table (
-        id UUID PRIMARY KEY,
-        field1 TEXT,
-        ...
-    )
+        CREATE TABLE IF NOT EXISTS vital_params (
+            Patient_ID UUID,
+            timestamp TIMESTAMP,
+            source TEXT,
+            oxygen_saturation INT,
+            systolic INT,
+            diastolic INT,
+            etco2 INT,
+            bispectral_index INT,
+            PRIMARY KEY (Patient_ID, timestamp)
+        )
     """
 
     connector = KafkaToCassandra(CONFIG_FILE_PATH)

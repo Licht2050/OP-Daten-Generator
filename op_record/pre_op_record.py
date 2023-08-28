@@ -50,6 +50,7 @@ class PreOperationRecordGenerator:
 
         return pre_operation_record
     
+
 if __name__ == "__main__":
     op_config_loader = ConfigLoader(OP_CONFIG_FILE_PATH)
     patient_config_loader = ConfigLoader(PATIENT_INFO_PATH)

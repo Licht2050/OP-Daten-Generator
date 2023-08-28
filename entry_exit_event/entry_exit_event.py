@@ -4,7 +4,7 @@ import random
 import time
 import sys
 sys.path.append(os.path.join(os.path.dirname(__file__), '../helper_classes_and_functions'))
-from config import CONFIG_FILE_PATH, OP_TEAM_INFO_NAME, OP_TEAM_INFO_PATH, REQUIRED_TEAM_KEYS, ENTRY_EXIT_EVENT_SOURCE_NAME
+from config import CONFIG_FILE_PATH, OP_DETAILS_NAME, OP_RECORD_PATH, OP_TEAM_INFO_NAME, OP_TEAM_INFO_PATH, REQUIRED_TEAM_KEYS, ENTRY_EXIT_EVENT_SOURCE_NAME
 from config_loader import ConfigLoader
 from source_data_sender import SourceDataSender
 
@@ -12,7 +12,7 @@ from source_data_sender import SourceDataSender
 
 
 class OPEventGenerator:
-    def __init__(self, config_file_path, op_team_info_path, consumer_name , source_name):  
+    def __init__(self, config_file_path, op_team_info_path, consumer_name , source_name, op_record_path, op_details_name):  
         self.consumer_name = consumer_name
         self.source_name = source_name
         self.consumer = None
@@ -22,8 +22,9 @@ class OPEventGenerator:
         
         # Direkte Initialisierung
         self._setup_logging()
-        self._load_configuration(config_file_path, op_team_info_path)
+        self._load_configuration(config_file_path, op_team_info_path, op_record_path, op_details_name)
         self._setup_sender()
+
 
 
     def _setup_logging(self):
@@ -31,8 +32,11 @@ class OPEventGenerator:
         logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
         self.logger = logging.getLogger(__name__)
 
-    def _load_configuration(self, config_file_path, op_team_info_path):
+    def _load_configuration(self, config_file_path, op_team_info_path, op_record_path, op_details_name):
         """Loads the required configurations."""
+        op_record_config_loader = ConfigLoader(op_record_path)
+        self.op_record_config = op_record_config_loader.load_config(op_details_name)
+
         config_loader = ConfigLoader(config_file_path)
         self.entry_exit_events_config = config_loader.load_config(self.source_name)
 
@@ -101,6 +105,7 @@ class OPEventGenerator:
     def _send_event_for_person(self, person, entering):
         """Generates and sends the event for a person entering or exiting."""
         event = {
+            "Operation_Room": self.op_record_config["Operation_Room"],
             "person": person,
             "event_type": "Eintritt" if entering else "Verlassen",
         }
@@ -115,7 +120,7 @@ class OPEventGenerator:
 
 if __name__ == "__main__":
 
-    op_generator = OPEventGenerator(CONFIG_FILE_PATH, OP_TEAM_INFO_PATH, OP_TEAM_INFO_NAME , ENTRY_EXIT_EVENT_SOURCE_NAME)
+    op_generator = OPEventGenerator(CONFIG_FILE_PATH, OP_TEAM_INFO_PATH, OP_TEAM_INFO_NAME , ENTRY_EXIT_EVENT_SOURCE_NAME, OP_RECORD_PATH, OP_DETAILS_NAME)
     op_generator.load_team()
     
     op_generator.send_entry_exit_events()
