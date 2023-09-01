@@ -20,7 +20,7 @@ POST_RECORD_SOURCE_NAME = "post_op_record"
 OP_TEAM_SOURCE_NAME = "op_team"
 OUTDOOR_SOURCE_NAME = "outdoor_environment"
 PATIENT_RECORD_SOURCE_NAME = "patient_records"
-BIS_SOURCE_NAME = "bis"
+BIS_SOURCE_NAME = "bispectral_index"
 BLOOD_PRESSURE_SOURCE_NAME = "blood_pressure"
 ETCO2_SOURCE_NAME = "etco2"
 HEART_RATE_SOURCE_NAME = "heart_rate"
@@ -55,6 +55,28 @@ OUTDOOR_TEMP_RANGE = (-10.0, 40.0) # Range of temperature values for outdoor env
 OUTDOOR_HUMIDITY_RANGE = (30.0, 80.0) # Range of humidity values for outdoor environment.
 OUTDOOR_PRESSURE_RANGE = (980.0, 1050.0) # Range of pressure values for outdoor environment.
 OUTDOOR_WIND_SPEED_RANGE = (0.0, 30.0) # Range of wind speed values for outdoor environment.
+
+
+# === blood_pressure Generator ===
+
+SYSTOLIC_RANGE = (80, 160) # Range of systolic values for blood pressure.
+DIASTOLIC_RANGE = (40, 120) # Range of diastolic values for blood pressure.
+
+# === bispiral_index Generator ===
+
+BISPIRAL_INDEX_RANGE = (30, 70) # Range of bispiral index values.
+
+# === etco2 Generator ===
+
+ETCO2_RANGE = (20, 60) # Range of etco2 values.
+
+# === heart_rate Generator ===
+
+HEART_RATE_RANGE = (40, 120) # Range of heart rate values.
+
+# === oxygen_saturation Generator ===
+
+OXYGEN_SATURATION_RANGE = (80, 110) # Range of oxygen saturation values.
 
 # === Sonstige Konstanten ===
 

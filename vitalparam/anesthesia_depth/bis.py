@@ -5,7 +5,7 @@ import os
 
 # Adjust the path to include helper classes and functions
 sys.path.append(os.path.join(os.path.dirname(__file__), '../../helper_classes_and_functions'))
-from config import PATIENT_INFO_NAME, BIS_SOURCE_NAME
+from config import BISPIRAL_INDEX_RANGE, PATIENT_INFO_NAME, BIS_SOURCE_NAME
 from source_data_sender import SourceDataSender
 from config_loader import ConfigLoader
 
@@ -47,6 +47,6 @@ if __name__ == "__main__":
         sender = SourceDataSender(config)
         
         # Send continuous data
-        sender.send_continuous_data(BIS_SOURCE_NAME, lambda: generate_random_bis_value(patient_id, 50, 60))
+        sender.send_continuous_data(BIS_SOURCE_NAME, lambda: generate_random_bis_value(patient_id, *BISPIRAL_INDEX_RANGE))
     except Exception as e:
         logging.error(f"Error: {e}")

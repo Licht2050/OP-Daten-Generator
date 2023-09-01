@@ -1,0 +1,9 @@
+{
+    "udp_server": {
+        "host": "192.168.29.120",
+        "port": 6000
+    },
+    "synchronization": {
+        "request_interval": 2
+    }
+}

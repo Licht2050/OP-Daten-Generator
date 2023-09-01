@@ -8,7 +8,7 @@ import sys
 
 # Adjust the path to include helper classes and functions
 sys.path.append(os.path.join(os.path.dirname(__file__), '../../helper_classes_and_functions'))
-from config import ETCO2_SOURCE_NAME, PATIENT_INFO_NAME
+from config import ETCO2_RANGE, ETCO2_SOURCE_NAME, PATIENT_INFO_NAME
 from source_data_sender import SourceDataSender
 from config_loader import ConfigLoader
 
@@ -50,6 +50,6 @@ if __name__ == "__main__":
         sender = SourceDataSender(config)
 
         # Send continuous data
-        sender.send_continuous_data(ETCO2_SOURCE_NAME, lambda: generate_random_etco2_value(patient_id, 30, 50))
+        sender.send_continuous_data(ETCO2_SOURCE_NAME, lambda: generate_random_etco2_value(patient_id, *ETCO2_RANGE))
     except Exception as e:
         logging.error(f"Error: {e}")

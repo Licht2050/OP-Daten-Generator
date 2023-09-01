@@ -7,7 +7,7 @@ import logging
 
 # Adjust the path to include helper classes and functions
 sys.path.append(os.path.join(os.path.dirname(__file__), '../../helper_classes_and_functions'))
-from config import OXYGEN_SATURATION_SOURCE_NAME, PATIENT_INFO_NAME
+from config import OXYGEN_SATURATION_RANGE, OXYGEN_SATURATION_SOURCE_NAME, PATIENT_INFO_NAME
 from source_data_sender import SourceDataSender
 from config_loader import ConfigLoader
 
@@ -47,6 +47,6 @@ if __name__ == "__main__":
         sender = SourceDataSender(config)
 
         # Send continuous data
-        sender.send_continuous_data(OXYGEN_SATURATION_SOURCE_NAME, lambda: generate_random_oxygen_saturation(patient_id, 90, 100))
+        sender.send_continuous_data(OXYGEN_SATURATION_SOURCE_NAME, lambda: generate_random_oxygen_saturation(patient_id, *OXYGEN_SATURATION_RANGE))
     except Exception as e:
         logging.error(f"Error: {e}")

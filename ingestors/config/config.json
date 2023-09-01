@@ -1,12 +1,41 @@
 {
     "kafka": {
       "bootstrap_servers": "192.168.29.120:9092",
-      "topic": "vital_parameters"
+      "topic": "vital_parameters",
+      "group_id": "VitalParameters_To_Cassandra"
     },
     "cassandra": {
       "nodes": ["127.0.0.1"],
       "keyspace": "medical_data",
-      "table": "vital_params"
+      "table": "vital_parameters"
+    },
+    "thresholds": {
+      "blood_pressure": {
+        "systolic": {
+          "LOW": 90, 
+          "HIGH": 140
+        },
+        "diastolic": {
+          "LOW": 60, 
+          "HIGH": 90
+        }
+      },
+      "oxygen_saturation": {
+        "LOW": 90, 
+        "HIGH": 100
+      },
+      "bispectral_index": {
+        "LOW": 40, 
+        "HIGH": 60
+      },
+      "etco2": {
+        "LOW": 30,
+        "HIGH": 43
+      },
+      "heart_rate": {
+        "LOW": 60,
+        "HIGH": 100
+      }
     }
   }
   

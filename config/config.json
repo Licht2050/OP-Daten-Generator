@@ -1,5 +1,5 @@
 {
-    "bis": {
+    "bispectral_index": {
       "bootstrap_servers": "192.168.29.120:9092",
       "topic": "vital_parameters",
       "interval_seconds": 5
@@ -12,17 +12,17 @@
     "etco2": {
       "bootstrap_servers": "192.168.29.120:9094",
       "topic": "vital_parameters",
-      "interval_seconds": 5
+      "interval_seconds": 8
     },
     "heart_rate": {
       "bootstrap_servers": "192.168.29.120:9092",
       "topic": "vital_parameters",
-      "interval_seconds": 5
+      "interval_seconds": 15
     },
     "oxygen_saturation": {
       "bootstrap_servers": "192.168.29.120:9093",
       "topic": "vital_parameters",
-      "interval_seconds": 5
+      "interval_seconds": 6
     },
     "staff_communication": {
       "bootstrap_servers": "192.168.29.120:9092",

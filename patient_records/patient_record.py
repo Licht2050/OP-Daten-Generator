@@ -6,6 +6,7 @@ import sys
 import time
 import csv
 import os
+import uuid
 # Adjust the path to include helper classes and functions
 sys.path.append(os.path.join(os.path.dirname(__file__), '../helper_classes_and_functions'))
 from config import SECONDS_IN_YEAR
@@ -82,17 +83,16 @@ class PatientRecordGenerator:
 
     def generate_random_patient_id(self):
         """
-        Generates a unique 6-digit patient ID.
+        Generates a unique UUID as patient ID.
 
         Returns:
-            str: A unique patient ID.
+            str: A unique patient ID as UUID.
         """
-        while True:
-            patient_id = str(random.randrange(100000, 1000000))
-            if patient_id not in self.patient_ids:
-                self.save_new_id(patient_id)
-                self.patient_ids.add(patient_id)
-                return patient_id
+        patient_id = str(uuid.uuid4())
+        if patient_id not in self.patient_ids:
+            self.save_new_id(patient_id)
+            self.patient_ids.add(patient_id)
+            return patient_id
 
     def generate_random_patient_record(self): 
         """

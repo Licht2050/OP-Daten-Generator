@@ -10,7 +10,7 @@ import sys
 
 # Adjust the path to include helper classes and functions
 sys.path.append(os.path.join(os.path.dirname(__file__), '../../helper_classes_and_functions'))
-from config import PATIENT_INFO_NAME, HEART_RATE_SOURCE_NAME
+from config import HEART_RATE_RANGE, PATIENT_INFO_NAME, HEART_RATE_SOURCE_NAME
 
 
 # Configure logging for the script
@@ -55,6 +55,6 @@ if __name__ == "__main__":
         sender = SourceDataSender(config)
 
         # Send continuous data
-        sender.send_continuous_data(HEART_RATE_SOURCE_NAME, lambda: generate_random_heart_rate(patient_id, 60, 100))
+        sender.send_continuous_data(HEART_RATE_SOURCE_NAME, lambda: generate_random_heart_rate(patient_id, *HEART_RATE_RANGE))
     except Exception as e:
         logging.error(f"Error: {e}")

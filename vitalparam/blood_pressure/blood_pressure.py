@@ -5,7 +5,7 @@ import sys
 
 # Adjust the path to include helper classes and functions
 sys.path.append(os.path.join(os.path.dirname(__file__), '../../helper_classes_and_functions'))
-from config import BLOOD_PRESSURE_SOURCE_NAME, PATIENT_INFO_NAME
+from config import BLOOD_PRESSURE_SOURCE_NAME, DIASTOLIC_RANGE, PATIENT_INFO_NAME, SYSTOLIC_RANGE
 from source_data_sender import SourceDataSender
 from config_loader import ConfigLoader
 
@@ -17,8 +17,9 @@ def generate_random_blood_pressure(patient_id):
     """
     Generates a random blood pressure value.
     """
-    systolic = random.randint(90, 140)
-    diastolic = random.randint(60, 90)
+    
+    systolic = random.randint(*SYSTOLIC_RANGE)
+    diastolic = random.randint(*DIASTOLIC_RANGE)
     return {
         "Patient_ID": patient_id,
         "systolic": systolic,
