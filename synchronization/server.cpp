@@ -46,7 +46,7 @@ RecieveData Server::receive(struct sockaddr_in &clientAddr){
     // time in milliseconds
     
     // time in microseconds
-    auto receive_timestamp = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+    auto receive_timestamp = get_current_timestamp();
     return RecieveData(lamport_clock, receive_timestamp);
 }
 
@@ -73,18 +73,12 @@ int main(){
         cout << "Received: " << recieve_data.receive_timestamp << endl;
         recieve_data.lamport_clock.increment();
         DataPacket data_packet(recieve_data.lamport_clock, "server", recieve_data.receive_timestamp);
-        // time in milliseconds
-        // auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
-
+        
         // time in microseconds
-        auto us = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
-        // time in nanoseconds
-        // auto ns = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
-        data_packet.reply_timestamp = us;
+        auto send_timestamp = get_current_timestamp();
+        data_packet.reply_timestamp = send_timestamp;
         s.send(data_packet, clientAddr);
         cout << "Sending: " << data_packet.to_string() << endl;
-
-        // s.send(data_packet, clientAddr);
     }
     
 

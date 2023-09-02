@@ -1,4 +1,4 @@
-# include "lamport_clock.h"
+#include "lamport_clock.h"
 
 LamportClock::LamportClock(){
     clock = 0;

@@ -36,6 +36,11 @@
         "LOW": 60,
         "HIGH": 100
       }
-    }
+    },
+    "synchronization":{
+      "shared_memory_path": "/dev/shm/MySharedMemory",
+      "data_format": "ll",
+      "buffer_size": 16
+    }    
   }
   

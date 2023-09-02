@@ -4,6 +4,6 @@
         "port": 6000
     },
     "synchronization": {
-        "request_interval": 2
+        "request_interval": 10 
     }
 }

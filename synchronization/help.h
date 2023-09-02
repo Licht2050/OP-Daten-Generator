@@ -8,7 +8,7 @@
 #include <nlohmann/json.hpp>
 #include <chrono>
 
-using json = nlohmann::json;
+
 
 // DataPacket struct to hold information for each packet
 struct DataPacket {
@@ -38,7 +38,7 @@ struct RecieveData {
 
 
 bool load_server_config(const std::string& file_path, std::string& host, int& port);
-bool load_config_to_json (const std::string& file_path, json& json_file);
-
+bool load_config_to_json (const std::string& file_path, nlohmann::json& json_file);
+long long get_current_timestamp();
 
 #endif

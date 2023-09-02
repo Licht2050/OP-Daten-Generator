@@ -1,6 +1,6 @@
 #include "help.h"
 
-using namespace std;
+using nlohmann::json;
 
 // Initialize members using initializer list
 DataPacket::DataPacket() : lamport_clock(), sender(""), reply_timestamp(0), receive_timestamp(0) {}
@@ -74,4 +74,17 @@ bool load_config_to_json (const std::string& file_path, json& json_file){
     i >> json_file;
     
     return true;
+}
+
+long long get_current_timestamp() {
+    // time in milliseconds
+    // auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+    //     std::chrono::system_clock::now().time_since_epoch()).count();
+
+    // time in nanoseconds
+    // auto ns = std::chrono::duration_cast<std::chrono::nanoseconds>(
+    //    std::chrono::system_clock::now().time_since_epoch()).count();
+    // return microseconds
+    return std::chrono::duration_cast<std::chrono::microseconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
 }
