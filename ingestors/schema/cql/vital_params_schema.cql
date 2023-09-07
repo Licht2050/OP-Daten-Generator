@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS blood_pressure (
     Patient_ID UUID,
     bucket_date DATE,
     timestamp TIMESTAMP,
+    estimated_time TIMESTAMP,
     systolic INT,
     diastolic INT,
     status TEXT,
@@ -44,6 +45,7 @@ CREATE TABLE IF NOT EXISTS heart_rate (
     Patient_ID UUID,
     bucket_date DATE,
     timestamp TIMESTAMP,
+    estimated_time TIMESTAMP,
     heart_rate INT,
     status TEXT,
     PRIMARY KEY ((patient_id, bucket_date), timestamp)

@@ -4,9 +4,13 @@
 #include <boost/interprocess/shared_memory_object.hpp>
 #include <boost/interprocess/sync/named_semaphore.hpp>
 #include <boost/interprocess/mapped_region.hpp>
+#include <boost/date_time/posix_time/posix_time.hpp>
+#include <memory>
 
 
 using namespace boost::interprocess;
+using namespace boost::posix_time;
+
 using nlohmann::json;
 using namespace std;
 
@@ -97,26 +101,38 @@ void calculate_ntp_offset(long long client_receive_timestamp, long long client_r
     
 
 
+const std::string SHARED_MEMORY_NAME = "MySharedMemory";
+const std::string SEMAPHORE_NAME = "MySemaphore";
+
+std::unique_ptr<shared_memory_object> initializeSharedMemory() {
+    try {
+        return std::make_unique<shared_memory_object>(open_only, SHARED_MEMORY_NAME.c_str(), read_write);
+    } catch(...) {
+        auto shm = std::make_unique<shared_memory_object>(create_only, SHARED_MEMORY_NAME.c_str(), read_write);
+        shm->truncate(sizeof(SharedData));
+        return shm;
+    }
+}
 
 
-int main(int argc, char const *argv[]){
+std::unique_ptr<named_semaphore> initializeSemaphore() {
+    try {
+        return std::make_unique<named_semaphore>(open_only, SEMAPHORE_NAME.c_str());
+    } catch(...) {
+        return std::make_unique<named_semaphore>(create_only, SEMAPHORE_NAME.c_str(), 1);
+    }
+}
+
+int main(int argc, char const *argv[]){ 
     try{
-        // Entfernen des Shared Memory und des Semaphores, falls sie bereits existieren
-        shared_memory_object::remove("MySharedMemory");  
-        named_semaphore::remove("MySemaphore");
+        auto pShm = initializeSharedMemory();
+        auto pSem = initializeSemaphore();
 
-        // Erzeugung des Shared Memory
-        shared_memory_object shm(create_only, "MySharedMemory", read_write);
-        shm.truncate(sizeof(SharedData));
-    
-        // Erzeugung des Semaphores
-        named_semaphore sem(create_only, "MySemaphore", read_write);
-        
         // Mappen des Shared Memory in den Prozessadressraum
-        mapped_region region(shm, read_write);
+        mapped_region region(*pShm, read_write);
 
         // Ein Zeiger auf den gemappten Bereich
-        SharedData* data = static_cast<SharedData*>(region.get_address());
+        auto data = static_cast<SharedData*>(region.get_address());
 
         json json_file;
         if (!load_config_to_json("synchronization_config.json", json_file)) {
@@ -135,16 +151,17 @@ int main(int argc, char const *argv[]){
         long long send_timestamp = 0, receive_timestamp = 0;
         long long message_duration = 0, clock_drift = 0;
 
+        boost::posix_time::ptime timeout = boost::posix_time::microsec_clock::universal_time() + 
+                                           boost::posix_time::milliseconds(1000);
+
         while (true){
             // std::this_thread::sleep_for(std::chrono::seconds(request_interval));
             std::this_thread::sleep_for(std::chrono::milliseconds(request_interval));
             lamport_clock.increment();
 
-            cout << "Sending: " << lamport_clock.get() << endl;
             c.send(lamport_clock, send_timestamp);
 
             DataPacket received_data = c.receive(receive_timestamp);
-            cout << received_data.to_string() << endl;
 
             calculate_ntp_offset(
                 received_data.receive_timestamp,
@@ -164,12 +181,13 @@ int main(int argc, char const *argv[]){
                 clock_drift = clock_drift_sum / num_samples;
                 
                 // lock the shared memory for writing 
-                sem.wait();
-                data->message_duration = message_duration;
-                data->offset = clock_drift;
-                
-                // unlock the shared memory
-                sem.post();
+                if (pSem->timed_wait(timeout)) {
+                    data->message_duration = message_duration;
+                    data->offset = clock_drift;
+                    pSem->post();
+                } else {
+                    std::cout << "Semaphor timed out" << std::endl;
+                }
                 // reset the variables
                 num_samples = 0;
                 message_duration_sum = 0;
@@ -181,7 +199,6 @@ int main(int argc, char const *argv[]){
         // Entfernen des Shared Memory
         named_semaphore::remove("MySemaphore");
         shared_memory_object::remove("MySharedMemory");
-        
         return 1;
     }
 

@@ -79,6 +79,11 @@
     },
     "dependency_paths":[
         "config",
-        "helper_classes_and_functions"
-    ]
+        "helper_classes_and_functions",
+        "synchronization_server"
+    ],
+
+    "ingestors_path":{
+        "vital_parameters.py": "ingestors/vital_parameters"
+    }
 }

@@ -165,7 +165,7 @@ class StaffCommunicationGenerator:
         """
         Send conversations for a given source.
         """
-        print("OP-Teamgesprächsgenerator gestartet.")
+        logging.info("OP-Teamgesprächsgenerator gestartet.")
         try:
             interval_min = self.staff_communication_config["interval_min"]
             interval_max = self.staff_communication_config["interval_max"]
@@ -173,7 +173,7 @@ class StaffCommunicationGenerator:
             while True:
                 next(generator)
         except KeyboardInterrupt:
-            print("Generator gestoppt.")
+            logging.info("Teamgesprächsgenerator gestoppt.")
 
 
 def main():

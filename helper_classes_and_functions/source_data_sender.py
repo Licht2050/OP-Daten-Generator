@@ -55,7 +55,7 @@ class SourceDataSender:
         message = {
             "source": source_name,
             "value": data,
-            "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
         }
         return json.dumps(message)
     

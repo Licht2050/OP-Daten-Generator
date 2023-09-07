@@ -1,6 +1,6 @@
 # Variablen
 CXX = g++
-CXXFLAGS = -Wall -std=c++11 -I/usr/include/boost
+CXXFLAGS = -Wall -std=c++14 -I/usr/include/boost
 LDFLAGS = -L/usr/lib/x86_64-linux-gnu/ -lboost_system
 
 # Targets

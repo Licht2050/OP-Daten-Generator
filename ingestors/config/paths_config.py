@@ -4,7 +4,7 @@ import os
 
 
 # === constants ===
-
+MICROSECONDS_IN_A_SECOND = 1e6 
 POLL_TIMEOUT = 1.0
 STATUS_LOW = 'LOW'
 STATUS_HIGH = 'HIGH'

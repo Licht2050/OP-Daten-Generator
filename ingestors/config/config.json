@@ -1,46 +1,75 @@
 {
-    "kafka": {
+  "threads": {
+    "max_workers": 10
+  },
+  "topics":{
+    "vital_parameters": {
       "bootstrap_servers": "192.168.29.120:9092",
-      "topic": "vital_parameters",
+      "topic_name": "vital_parameters",
       "group_id": "VitalParameters_To_Cassandra"
     },
-    "cassandra": {
-      "nodes": ["127.0.0.1"],
-      "keyspace": "medical_data",
-      "table": "vital_parameters"
+    "staff_communication": {
+      "bootstrap_servers": "192.168.29.120:9093",
+      "topic_name": "staff_communication",
+      "group_id": "StaffCommunication_To_InfluxDB"
     },
-    "thresholds": {
-      "blood_pressure": {
-        "systolic": {
-          "LOW": 90, 
-          "HIGH": 140
-        },
-        "diastolic": {
-          "LOW": 60, 
-          "HIGH": 90
-        }
-      },
-      "oxygen_saturation": {
+    "patient_data": {
+      "bootstrap_servers": "192.168.29.120:9094",
+      "topic_name": "patient_data",
+      "group_id": "PatientData_To_InfluxDB"
+    }
+  },
+  "mongodb": {
+    "host": "localhost",
+    "port": 27017,
+    "database": "medical_data",
+    "collection": "patient_data"
+  },
+
+  "cassandra": {
+    "nodes": ["127.0.0.1"],
+    "keyspace": "medical_data",
+    "table": "vital_parameters"
+  },
+  "influxdb": {
+    "host": "localhost",
+    "port": 8086,
+    "database": "medical_data"
+  },
+
+  "thresholds": {
+    "blood_pressure": {
+      "systolic": {
         "LOW": 90, 
-        "HIGH": 100
+        "HIGH": 140
       },
-      "bispectral_index": {
-        "LOW": 40, 
-        "HIGH": 60
-      },
-      "etco2": {
-        "LOW": 30,
-        "HIGH": 43
-      },
-      "heart_rate": {
-        "LOW": 60,
-        "HIGH": 100
+      "diastolic": {
+        "LOW": 60, 
+        "HIGH": 90
       }
     },
-    "synchronization":{
-      "shared_memory_path": "/dev/shm/MySharedMemory",
-      "data_format": "ll",
-      "buffer_size": 16
-    }    
-  }
+    "oxygen_saturation": {
+      "LOW": 90, 
+      "HIGH": 100
+    },
+    "bispectral_index": {
+      "LOW": 40, 
+      "HIGH": 60
+    },
+    "etco2": {
+      "LOW": 30,
+      "HIGH": 43
+    },
+    "heart_rate": {
+      "LOW": 60,
+      "HIGH": 100
+    }
+  },
+  "synchronization":{
+    "shared_memory_path": "/dev/shm/MySharedMemory",
+    "data_format": "ll",
+    "buffer_size": 16,
+    "generators": ["blood_pressure", "heart_rate"]
+  }    
+}
   
