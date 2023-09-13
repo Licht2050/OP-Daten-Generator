@@ -50,7 +50,7 @@ class OPRoomStateGenerator:
             "Raumtemperatur": temprature,
             "Luftfeuchtigkeit": humidity,
             "Luftdruck": pressure,
-            "Bleuchtungsstärke": illumination
+            "Beleuchtungsstärke": illumination
         }
 
         return op_room_status

@@ -14,6 +14,6 @@ class DataProcessor(Base):
     def process_data(self, data):
         """Process data before writing to database """
         # message_dict = self._decode_message(data)
-        print(f"Processing data -============: {data.raw_message}")
+        # print(f"Processing data -============: {data.raw_message}")
         processed_data = data.raw_message
         return processed_data

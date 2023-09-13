@@ -1,0 +1,32 @@
+2023-09-13 08:05:13,753 - INFO - Starting patient data consumer
+2023-09-13 08:05:13,754 - INFO - <BrokerConnection node_id=bootstrap-0 host=192.168.29.120:9094 <connecting> [IPv4 ('192.168.29.120', 9094)]>: connecting to 192.168.29.120:9094 [('192.168.29.120', 9094) IPv4]
+2023-09-13 08:05:13,754 - INFO - Probing node bootstrap-0 broker version
+2023-09-13 08:05:13,755 - INFO - <BrokerConnection node_id=bootstrap-0 host=192.168.29.120:9094 <connecting> [IPv4 ('192.168.29.120', 9094)]>: Connection complete.
+2023-09-13 08:05:13,857 - INFO - Broker version identified as 2.5.0
+2023-09-13 08:05:13,857 - INFO - Set configuration api_version=(2, 5, 0) to skip auto check_version requests on startup
+2023-09-13 08:05:13,864 - INFO - Successfully connected to MongoDB on attempt 1
+2023-09-13 08:05:13,864 - INFO - Starting patient data handler
+2023-09-13 08:05:13,864 - INFO - Updating subscribed topics to: ['patient_data']
+2023-09-13 08:05:13,865 - INFO - Group coordinator for PatientData_To_MongoDB is BrokerMetadata(nodeId='coordinator-0', host='192.168.29.120', port=9092, rack=None)
+2023-09-13 08:05:13,866 - INFO - Discovered coordinator coordinator-0 for group PatientData_To_MongoDB
+2023-09-13 08:05:13,866 - INFO - Starting new heartbeat thread
+2023-09-13 08:05:13,866 - INFO - Revoking previously assigned partitions set() for group PatientData_To_MongoDB
+2023-09-13 08:05:13,866 - INFO - <BrokerConnection node_id=coordinator-0 host=192.168.29.120:9092 <connecting> [IPv4 ('192.168.29.120', 9092)]>: connecting to 192.168.29.120:9092 [('192.168.29.120', 9092) IPv4]
+2023-09-13 08:05:13,867 - INFO - <BrokerConnection node_id=coordinator-0 host=192.168.29.120:9092 <connecting> [IPv4 ('192.168.29.120', 9092)]>: Connection complete.
+2023-09-13 08:05:13,867 - INFO - <BrokerConnection node_id=bootstrap-0 host=192.168.29.120:9094 <connected> [IPv4 ('192.168.29.120', 9094)]>: Closing connection. 
+2023-09-13 08:05:13,969 - INFO - (Re-)joining group PatientData_To_MongoDB
+2023-09-13 08:05:13,970 - INFO - Elected group leader -- performing partition assignments using range
+2023-09-13 08:05:13,971 - INFO - <BrokerConnection node_id=0 host=192.168.29.120:9092 <connecting> [IPv4 ('192.168.29.120', 9092)]>: connecting to 192.168.29.120:9092 [('192.168.29.120', 9092) IPv4]
+2023-09-13 08:05:13,971 - INFO - <BrokerConnection node_id=0 host=192.168.29.120:9092 <connecting> [IPv4 ('192.168.29.120', 9092)]>: Connection complete.
+2023-09-13 08:05:13,971 - INFO - Successfully joined group PatientData_To_MongoDB with generation 9
+2023-09-13 08:05:13,972 - INFO - Updated partition assignment: [TopicPartition(topic='patient_data', partition=0), TopicPartition(topic='patient_data', partition=1), TopicPartition(topic='patient_data', partition=2)]
+2023-09-13 08:05:13,972 - INFO - Setting newly assigned partitions {TopicPartition(topic='patient_data', partition=0), TopicPartition(topic='patient_data', partition=1), TopicPartition(topic='patient_data', partition=2)} for group PatientData_To_MongoDB
+2023-09-13 08:05:14,074 - INFO - <BrokerConnection node_id=1 host=192.168.29.120:9093 <connecting> [IPv4 ('192.168.29.120', 9093)]>: connecting to 192.168.29.120:9093 [('192.168.29.120', 9093) IPv4]
+2023-09-13 08:05:14,075 - INFO - <BrokerConnection node_id=2 host=192.168.29.120:9094 <connecting> [IPv4 ('192.168.29.120', 9094)]>: connecting to 192.168.29.120:9094 [('192.168.29.120', 9094) IPv4]
+2023-09-13 08:05:14,075 - INFO - <BrokerConnection node_id=1 host=192.168.29.120:9093 <connecting> [IPv4 ('192.168.29.120', 9093)]>: Connection complete.
+2023-09-13 08:05:14,075 - INFO - <BrokerConnection node_id=2 host=192.168.29.120:9094 <connecting> [IPv4 ('192.168.29.120', 9094)]>: Connection complete.
+2023-09-13 08:05:14,076 - INFO - Processing and saving patient data
+2023-09-13 08:05:14,077 - INFO - Processing and saving patient data
+2023-09-13 08:05:14,080 - INFO - Processing and saving patient data
+2023-09-13 08:05:14,081 - INFO - Processing and saving patient data
+2023-09-13 08:05:14,081 - INFO - Processing and saving patient data

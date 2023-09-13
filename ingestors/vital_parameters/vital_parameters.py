@@ -198,7 +198,7 @@ class KafkaToCassandra(Base):
         """Run the Kafka consumer."""
         try:
             #print("Some debug output...", flush=True)
-            self.consumer.subscribe([self.vital_parameters_config['topic']])
+            self.consumer.subscribe([self.vital_parameters_config['topic_name']])
             self.consume_and_store()
         except KeyboardInterrupt:
             self._handle_exception("Operation stopped by the user")

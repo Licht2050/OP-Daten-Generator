@@ -56,6 +56,5 @@
       "bootstrap_servers": "192.168.29.120:9092",
       "topic": "operation_record"
     }
-
 }
   

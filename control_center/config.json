@@ -84,6 +84,10 @@
     ],
 
     "ingestors_path":{
-        "vital_parameters.py": "ingestors/vital_parameters"
+        "vital_parameters.py": "ingestors/vital_parameters",
+        "staff_communication.py": "ingestors/staff_communication",
+        "patient_data.py": "ingestors/patient_data",
+        "operation_team.py": "ingestors/operation_team",
+        "op_room_state.py": "ingestors/op_room_state"
     }
 }

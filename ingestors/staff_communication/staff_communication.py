@@ -1,6 +1,7 @@
 
 import os
 import sys
+import traceback
 from typing import Any, Dict
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '../config'))
@@ -20,15 +21,30 @@ from middelware_manager import MiddlewareManager
 
 
 class StaffCommunicationHandler(Base):
-    def __init__(self, staffC_config: Dict[str, Any], influxdb_config: Dict[str, Any], max_workers: int=10):
+    def __init__(self, staffC_config: Dict[str, Any], influxdb_config: Dict[str, Any], max_workers: int=10) -> None:
         super().__init__()
         self._setup_logging()
-        self.staffC_config = staffC_config
         self.max_workers = max_workers
-        self.kafka_consumer = KafkaTopicConsumer(self.staffC_config, callback=self.process_and_save_data)
         self.influxdb_connector = InfluxDBConnector(**influxdb_config)
         self.executor = ThreadPoolExecutor(self.max_workers)
         self.middleware_manager = MiddlewareManager()
+
+        self._start_consumer(staffC_config)
+
+
+    def _start_consumer(self, staff_config) -> None:
+        """Initialize and start the Kafka consumer."""
+        try:
+            self.consumer = KafkaTopicConsumer(
+                config=staff_config,
+                callback=self.process_and_save_data,
+                max_workers=self.max_workers
+            )
+            
+        except Exception as e:
+            self._handle_exception(f"Error starting Kafka consumer: {e}")
+            self.logger.error(traceback.format_exc())
+            raise
 
     def add_middleware(self, middleware_fn):
         self.middleware_manager.add_middleware(middleware_fn)
@@ -77,7 +93,7 @@ class StaffCommunicationHandler(Base):
 
     def run(self) -> None:
         # Start consuming messages from Kafka
-        self.kafka_consumer.consume()
+        self.consumer.consume()
 
 
 

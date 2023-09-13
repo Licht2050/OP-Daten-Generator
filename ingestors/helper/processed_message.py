@@ -9,6 +9,7 @@ class ProcessedMessage:
     def get_data(self, key):
         return self.additional_data.get(key, None)
     
+
     def to_dict(self):
         """Converts the raw_message and additional_data to a single dictionary."""
         result_dict = self.raw_message.copy()  # Start with a copy of raw_message

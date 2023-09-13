@@ -16,14 +16,25 @@
     "patient_data": {
       "bootstrap_servers": "192.168.29.120:9094",
       "topic_name": "patient_data",
-      "group_id": "PatientData_To_InfluxDB"
+      "group_id": "PatientData_To_MongoDB"
+    },
+    "operation_team": {
+      "bootstrap_servers": "192.168.29.120:9094",
+      "topic_name": "operation_team",
+      "group_id": "OperationTeam_To_MongoDB"
+    },
+    "operation_room_status": {
+      "bootstrap_servers": "192.168.29.120:9092",
+      "topic_name": "operation_room_status",
+      "group_id": "OperationRoomStatus_To_InfluxDB"
     }
   },
   "mongodb": {
     "host": "localhost",
     "port": 27017,
     "database": "medical_data",
-    "collection": "patient_data"
+    "collection": "patient_data",
+    "collection_operation_team": "operation_team"
   },
 
   "cassandra": {
@@ -70,6 +81,7 @@
     "data_format": "ll",
     "buffer_size": 16,
     "generators": ["blood_pressure", "heart_rate"]
-  }    
+  }
+  
 }
   
