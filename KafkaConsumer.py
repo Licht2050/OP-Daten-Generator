@@ -20,16 +20,22 @@ if __name__ == "__main__":
     bootstraps_server = "localhost:9092"
     # topic = "patient_data"
     # topic = "environmental_data"
-    topic = "vital_parameters"
-    # topic = "entry_e xit_events"
-    # topic = "operation_room_status"
+    # topic = "vital_parameters"
+    # topic = "entry_exit_events"
+    # topic = "indoor_environment_data"
     # topic = "operation_team"
     # topic = "staff_communication"
-    # topic = "operation_record"
+    topic = "operation_record"
 
     print(f"Starting Consumer on: {bootstraps_server} in topic: {topic}...")
 
     
-    consumer = KafkaConsumer(topic, bootstrap_servers=bootstraps_server)
+    consumer = KafkaConsumer(
+        topic, 
+        bootstrap_servers=bootstraps_server,
+
+        auto_offset_reset='earliest',
+
+        )
     kafka_consumer(consumer)
     

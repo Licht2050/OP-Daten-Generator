@@ -40,7 +40,7 @@
             "heart_rate.py",
             "blood_pressure.py",
             "consume_patient_record.py",
-            "op_room_state.py",
+            "indoor_environment_data.py",
             "consume_op_record.py"
         ],
         "raspberry_pi_3": [
@@ -65,7 +65,7 @@
         "entry_exit_event.py": "entry_exit_event",
         "heart_rate.py": "vitalparam/heart_rate",
         "blood_pressure.py": "vitalparam/blood_pressure",
-        "op_room_state.py": "op_room_state",
+        "indoor_environment_data.py": "indoor_environment_data",
         "bis.py": "vitalparam/anesthesia_depth",
         "outdoor_environment.py": "outdoor_environment",
         "oxygen_saturation_producer.py": "vitalparam/oxygen_saturation",
@@ -88,6 +88,11 @@
         "staff_communication.py": "ingestors/staff_communication",
         "patient_data.py": "ingestors/patient_data",
         "operation_team.py": "ingestors/operation_team",
-        "op_room_state.py": "ingestors/op_room_state"
+        "indoor_environment_data.py": "ingestors/indoor_environment_data",
+        "entry_exit_events.py": "ingestors/entry_exit_events",
+        "outdoor_environment_data.py": "ingestors/outdoor_environment_data",
+        "op_record.py": "ingestors/op_record"
+
+        
     }
 }

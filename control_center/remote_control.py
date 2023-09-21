@@ -314,6 +314,7 @@ def execute_scripts(config_loader):
         return executors, local_runner
 
 
+
 def start_synchronization_client(local_runner):
     script_path = f"../synchronization_client"
     local_runner.run_cpp_program("synchronization", script_path, "client", "client.log")

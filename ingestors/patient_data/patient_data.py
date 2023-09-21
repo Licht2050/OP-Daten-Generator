@@ -11,13 +11,17 @@ from pydantic import BaseModel
 
 
 
+
+
 sys.path.append(os.path.join(os.path.dirname(__file__), '../config'))
 sys.path.append(os.path.join(os.path.dirname(__file__), '../../helper_classes_and_functions'))
 sys.path.append(os.path.join(os.path.dirname(__file__), '../helper'))
 sys.path.append(os.path.join(os.path.dirname(__file__), '../db_connectors'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '../schema/mongodb'))
 
 
 from base import Base
+from db_schema import Patient
 from paths_config import CONFIG_FILE_PATH
 from config_loader import ConfigLoader
 from kafka_consumer import KafkaTopicConsumer
@@ -74,6 +78,11 @@ class PatientDataHandler(Base):
         try:
             self.logger.info("Processing and saving patient data")
             processed_data = self.process_middelwares(data)
+            
+            if 'source' not in processed_data:
+                self.logger.warning("No data source found")
+                return
+
             source = processed_data['source']
             patient_id = processed_data.get('patient_id')
             
@@ -85,29 +94,48 @@ class PatientDataHandler(Base):
             if not isinstance(record, BaseModel):
                 self.logger.warning("No valid record data found to save")
                 return
-            record_dict = record.model_dump(by_alias=False)
+            
         
             with self.lock:
                 existing_patient = self.mongo_connector.find_data({"patient_id": patient_id})
                 field_name = self.SOURCE_TO_FIELD_MAP.get(source)
 
                 if existing_patient:
+                    record_dict = record.model_dump(by_alias=False)
                     # Update the existing record dynamically based on the source
                     if field_name:  # For illness and holiday records
                         update_data = {"$push": {field_name: record_dict}}
                     else:  # For patient records
-                        record_dict.pop('illness_records', None)
-                        record_dict.pop('holiday_records', None)
-                        record_dict.pop('op_team', None)
-                        update_data = {"$set": record_dict} 
+                        non_null_fields = {k: v for k, v in record_dict.items() if v is not None and v != []}
+                        
+                        non_null_fields.pop('illness_records', None)
+                        non_null_fields.pop('holiday_records', None)
+                        non_null_fields.pop('op_team', None)
+                        non_null_fields.pop('operation_records', None)
+                        update_data = {"$set": non_null_fields} 
+                        print(f"non_null_fields: {update_data}")
                     self.mongo_connector.update_data({"patient_id": patient_id}, update_data, update_many=False)
                 else:
-                    # Insert a new patient record
-                    if source == 'patient_records':
-                        self.mongo_connector.insert_data(record_dict)
+                    record_dict = record.model_dump(by_alias=True)
+                    # Create a new Patient data with default values
+                    new_patient_data_dict = {"Patient_ID": patient_id}
+                    
+                    # If the source is 'illness_records' or 'holiday_records', add the record to the respective list
+                    if field_name:
+                        new_patient_data_dict[field_name] = [record_dict]
+                    # If the source is 'patient_records', update the new patient data with the record data
                     else:
-                        new_patient_data = {"patient_id": patient_id, field_name: [record_dict]}
-                        self.mongo_connector.insert_data(new_patient_data)
+                        new_patient_data_dict.update(record_dict)
+
+                    # Create a new Patient model instance
+                    new_patient_data_model = Patient.model_validate(new_patient_data_dict)
+                    
+                    # Convert the Patient model instance to a dictionary
+                    new_patient_data = new_patient_data_model.model_dump(by_alias=False)
+
+                    # Insert the new patient data into the database
+                    self.mongo_connector.insert_data(new_patient_data)
+
         except KeyboardInterrupt:
             self.logger.info("Interrupted by user. Closing connections...")
             self.consumer.close()
@@ -120,6 +148,25 @@ class PatientDataHandler(Base):
             raise
         finally:
             self.lock.release()
+
+
+        
+    def _update_exiting_data(self, existing_patient, record, field_name, patient_id):
+        record_dict = record.model_dump(by_alias=False)
+        # Update the existing record dynamically based on the source
+        if field_name:  # For illness and holiday records
+            update_data = {"$push": {field_name: record_dict}}
+        else:  # For patient records
+            non_null_fields = {k: v for k, v in record_dict.items() if v is not None and v != []}
+            
+            non_null_fields.pop('illness_records', None)
+            non_null_fields.pop('holiday_records', None)
+            non_null_fields.pop('op_team', None)
+            non_null_fields.pop('operation_records', None)
+            update_data = {"$set": non_null_fields} 
+            print(f"non_null_fields: {update_data}")
+        self.mongo_connector.update_data({"patient_id": patient_id}, update_data, update_many=False)
+
         
 
     def run(self) -> None:

@@ -80,6 +80,18 @@ class MongoDBConnector(Base):
         except Exception as e:
             self._handle_exception(f"Error during data retrieval: {e}")
             raise e
+    
+    def find_all_data(self, query):
+        collection = self.get_collection()
+        try:
+            result = collection.find(query)
+            return result
+        except Exception as e:
+            self._handle_exception(f"Error during data retrieval: {e}")
+            raise e
+    
+
+
 
     def update_data(self, query, new_values, update_many=False):
         collection = self.get_collection()

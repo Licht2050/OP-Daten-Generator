@@ -47,9 +47,9 @@
       "bootstrap_servers": "192.168.29.120:9093",
       "topic": "operation_team"
     },
-    "op_room_state": {
+    "indoor_environment_data": {
       "bootstrap_servers": "192.168.29.120:9094",
-      "topic": "operation_room_status",
+      "topic": "indoor_environment_data",
       "interval_seconds": 10
     },
     "op_record": {

@@ -1,0 +1,31 @@
+2023-09-19 07:56:23,185 - INFO - <BrokerConnection node_id=bootstrap-0 host=192.168.29.120:9094 <connecting> [IPv4 ('192.168.29.120', 9094)]>: connecting to 192.168.29.120:9094 [('192.168.29.120', 9094) IPv4]
+2023-09-19 07:56:23,185 - INFO - Probing node bootstrap-0 broker version
+2023-09-19 07:56:23,185 - INFO - <BrokerConnection node_id=bootstrap-0 host=192.168.29.120:9094 <connecting> [IPv4 ('192.168.29.120', 9094)]>: Connection complete.
+2023-09-19 07:56:23,288 - INFO - Broker version identified as 2.5.0
+2023-09-19 07:56:23,288 - INFO - Set configuration api_version=(2, 5, 0) to skip auto check_version requests on startup
+2023-09-19 07:56:23,289 - INFO - <BrokerConnection node_id=bootstrap-0 host=192.168.29.120:9094 <connecting> [IPv4 ('192.168.29.120', 9094)]>: connecting to 192.168.29.120:9094 [('192.168.29.120', 9094) IPv4]
+2023-09-19 07:56:23,290 - INFO - Probing node bootstrap-0 broker version
+2023-09-19 07:56:23,290 - INFO - <BrokerConnection node_id=bootstrap-0 host=192.168.29.120:9094 <connecting> [IPv4 ('192.168.29.120', 9094)]>: Connection complete.
+2023-09-19 07:56:23,392 - INFO - Broker version identified as 2.5.0
+2023-09-19 07:56:23,392 - INFO - Set configuration api_version=(2, 5, 0) to skip auto check_version requests on startup
+2023-09-19 07:56:23,402 - INFO - Successfully connected to MongoDB on attempt 1
+2023-09-19 07:56:23,403 - INFO - Updating subscribed topics to: ['operation_team']
+2023-09-19 07:56:23,404 - INFO - Group coordinator for OperationTeam_To_MongoDB is BrokerMetadata(nodeId='coordinator-0', host='192.168.29.120', port=9092, rack=None)
+2023-09-19 07:56:23,405 - INFO - Discovered coordinator coordinator-0 for group OperationTeam_To_MongoDB
+2023-09-19 07:56:23,405 - INFO - Starting new heartbeat thread
+2023-09-19 07:56:23,405 - INFO - Revoking previously assigned partitions set() for group OperationTeam_To_MongoDB
+2023-09-19 07:56:23,406 - INFO - <BrokerConnection node_id=coordinator-0 host=192.168.29.120:9092 <connecting> [IPv4 ('192.168.29.120', 9092)]>: connecting to 192.168.29.120:9092 [('192.168.29.120', 9092) IPv4]
+2023-09-19 07:56:23,406 - INFO - <BrokerConnection node_id=coordinator-0 host=192.168.29.120:9092 <connecting> [IPv4 ('192.168.29.120', 9092)]>: Connection complete.
+2023-09-19 07:56:23,406 - INFO - <BrokerConnection node_id=bootstrap-0 host=192.168.29.120:9094 <connected> [IPv4 ('192.168.29.120', 9094)]>: Closing connection. 
+2023-09-19 07:56:23,507 - INFO - (Re-)joining group OperationTeam_To_MongoDB
+2023-09-19 07:56:23,508 - INFO - Elected group leader -- performing partition assignments using range
+2023-09-19 07:56:23,509 - INFO - <BrokerConnection node_id=1 host=192.168.29.120:9093 <connecting> [IPv4 ('192.168.29.120', 9093)]>: connecting to 192.168.29.120:9093 [('192.168.29.120', 9093) IPv4]
+2023-09-19 07:56:23,509 - INFO - <BrokerConnection node_id=1 host=192.168.29.120:9093 <connecting> [IPv4 ('192.168.29.120', 9093)]>: Connection complete.
+2023-09-19 07:56:23,510 - INFO - Successfully joined group OperationTeam_To_MongoDB with generation 87
+2023-09-19 07:56:23,510 - INFO - Updated partition assignment: [TopicPartition(topic='operation_team', partition=0), TopicPartition(topic='operation_team', partition=1), TopicPartition(topic='operation_team', partition=2)]
+2023-09-19 07:56:23,510 - INFO - Setting newly assigned partitions {TopicPartition(topic='operation_team', partition=1), TopicPartition(topic='operation_team', partition=2), TopicPartition(topic='operation_team', partition=0)} for group OperationTeam_To_MongoDB
+2023-09-19 07:56:23,612 - INFO - <BrokerConnection node_id=2 host=192.168.29.120:9094 <connecting> [IPv4 ('192.168.29.120', 9094)]>: connecting to 192.168.29.120:9094 [('192.168.29.120', 9094) IPv4]
+2023-09-19 07:56:23,613 - INFO - <BrokerConnection node_id=0 host=192.168.29.120:9092 <connecting> [IPv4 ('192.168.29.120', 9092)]>: connecting to 192.168.29.120:9092 [('192.168.29.120', 9092) IPv4]
+2023-09-19 07:56:23,613 - INFO - <BrokerConnection node_id=2 host=192.168.29.120:9094 <connecting> [IPv4 ('192.168.29.120', 9094)]>: Connection complete.
+2023-09-19 07:56:23,613 - INFO - <BrokerConnection node_id=0 host=192.168.29.120:9092 <connecting> [IPv4 ('192.168.29.120', 9092)]>: Connection complete.
+2023-09-19 07:56:24,115 - INFO - Received message: {'source': 'op_team', 'value': {'Patient_ID': '57dbde46-0366-4407-b9f8-8536d28c4afb', 'doctors': ['Dr. Wagner', 'Dr. Schneider', 'Dr. Weber'], 'nurses': ['Krankenschwester Koch', 'Krankenschwester Fischer', 'Krankenschwester Weber'], 'anesthetists': ['Anästhesist Becker', 'Anästhesist Weber', 'Anästhesist Hoffmann']}, 'timestamp': '2023-09-19 09:56:16.707188'}

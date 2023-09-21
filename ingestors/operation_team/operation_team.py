@@ -54,12 +54,18 @@ class OperationTeamHandler(Base):
     def _start_consumer(self) -> None:
         """Initialize and start the Kafka consumer."""
         try:
-            self.consumer = KafkaTopicConsumer(
+            self.patient_consumer = KafkaTopicConsumer(
                 config=self.operation_team_config,
                 callback=self._process_and_save_message,
                 max_workers=self.max_workers
             )
             
+            self.op_team_consumer = KafkaTopicConsumer(
+                config=self.operation_team_config,
+                callback=self._process_and_save_message,
+                max_workers=self.max_workers
+            )
+
         except Exception as e:
             self._handle_exception(f"Error starting Kafka consumer: {e}")
             self.logger.error(traceback.format_exc())
@@ -98,7 +104,7 @@ class OperationTeamHandler(Base):
         except KeyboardInterrupt:
             self.logger.info("Interrupted by user. Closing connections...")
             self.lock.release()
-            self.consumer.close()
+            self.patient_consumer.close()
             
         except Exception as e:
             self._handle_exception(f"Error processing message: {e}")
@@ -140,7 +146,7 @@ class OperationTeamHandler(Base):
 
 
     def run(self) -> None:
-        self.consumer.consume()
+        self.patient_consumer.consume()
 
 
 if __name__ == '__main__':

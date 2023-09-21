@@ -14,7 +14,7 @@ CONFIG_FILE_PATH = os.path.join(os.path.dirname(__file__), '../config/config.jso
 OP_TEAM_INFO_NAME = "op_team_info"
 ENTRY_EXIT_EVENT_SOURCE_NAME = "entry_exit_events"
 OP_DETAILS_NAME = 'op_details'
-OP_ROOM_STATE_SOURCE_NAME = "op_room_state"
+OP_ROOM_STATE_SOURCE_NAME = "indoor_environment_data"
 OP_RECORD_SOURCE_NAME = "op_record"
 POST_RECORD_SOURCE_NAME = "post_op_record"
 OP_TEAM_SOURCE_NAME = "op_team"
@@ -47,6 +47,9 @@ TEMP_RANGE = (20.0, 25.0) # Range of temperature values for operation room.
 HUMIDITY_RANGE = (30.0, 60.0) # Range of humidity values for operation room.
 PRESSURE_RANGE = (980.0, 1020.0) # Range of pressure values for operation room.
 ILLUMINATION_RANGE = (200.0, 1000.0)  # Range of illumination values for operation room.
+CO2_RANGE = (300.0, 1000.0) # Range of CO2 values in ppm for operation room.
+NOISE_RANGE = (30.0, 120.0) # Range of noise values in dB for operation room.
+UV_INDEX_RANGE = (0.0, 11.0) # Range of UV index values for operation room.
 DOOR_STATES = ["Offen", "Geschlossen"] # Possible door states for operation room.
 
 # === Outdoor Generator ===

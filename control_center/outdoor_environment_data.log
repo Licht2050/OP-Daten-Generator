@@ -1,0 +1,24 @@
+2023-09-19 07:56:23,237 - INFO - <BrokerConnection node_id=bootstrap-0 host=192.168.29.120:9094 <connecting> [IPv4 ('192.168.29.120', 9094)]>: connecting to 192.168.29.120:9094 [('192.168.29.120', 9094) IPv4]
+2023-09-19 07:56:23,237 - INFO - Probing node bootstrap-0 broker version
+2023-09-19 07:56:23,237 - INFO - <BrokerConnection node_id=bootstrap-0 host=192.168.29.120:9094 <connecting> [IPv4 ('192.168.29.120', 9094)]>: Connection complete.
+2023-09-19 07:56:23,339 - INFO - Broker version identified as 2.5.0
+2023-09-19 07:56:23,339 - INFO - Set configuration api_version=(2, 5, 0) to skip auto check_version requests on startup
+2023-09-19 07:56:23,340 - INFO - Updating subscribed topics to: ['environmental_data']
+2023-09-19 07:56:23,341 - INFO - Group coordinator for OutdoorEnvironment_To_InfluxDB is BrokerMetadata(nodeId='coordinator-0', host='192.168.29.120', port=9092, rack=None)
+2023-09-19 07:56:23,341 - INFO - Discovered coordinator coordinator-0 for group OutdoorEnvironment_To_InfluxDB
+2023-09-19 07:56:23,341 - INFO - Starting new heartbeat thread
+2023-09-19 07:56:23,341 - INFO - Revoking previously assigned partitions set() for group OutdoorEnvironment_To_InfluxDB
+2023-09-19 07:56:23,341 - INFO - <BrokerConnection node_id=coordinator-0 host=192.168.29.120:9092 <connecting> [IPv4 ('192.168.29.120', 9092)]>: connecting to 192.168.29.120:9092 [('192.168.29.120', 9092) IPv4]
+2023-09-19 07:56:23,342 - INFO - <BrokerConnection node_id=coordinator-0 host=192.168.29.120:9092 <connecting> [IPv4 ('192.168.29.120', 9092)]>: Connection complete.
+2023-09-19 07:56:23,342 - INFO - <BrokerConnection node_id=bootstrap-0 host=192.168.29.120:9094 <connected> [IPv4 ('192.168.29.120', 9094)]>: Closing connection. 
+2023-09-19 07:56:23,442 - INFO - (Re-)joining group OutdoorEnvironment_To_InfluxDB
+2023-09-19 07:56:23,443 - INFO - Elected group leader -- performing partition assignments using range
+2023-09-19 07:56:23,444 - INFO - <BrokerConnection node_id=0 host=192.168.29.120:9092 <connecting> [IPv4 ('192.168.29.120', 9092)]>: connecting to 192.168.29.120:9092 [('192.168.29.120', 9092) IPv4]
+2023-09-19 07:56:23,444 - INFO - <BrokerConnection node_id=0 host=192.168.29.120:9092 <connecting> [IPv4 ('192.168.29.120', 9092)]>: Connection complete.
+2023-09-19 07:56:23,444 - INFO - Successfully joined group OutdoorEnvironment_To_InfluxDB with generation 42
+2023-09-19 07:56:23,444 - INFO - Updated partition assignment: [TopicPartition(topic='environmental_data', partition=0), TopicPartition(topic='environmental_data', partition=1), TopicPartition(topic='environmental_data', partition=2)]
+2023-09-19 07:56:23,444 - INFO - Setting newly assigned partitions {TopicPartition(topic='environmental_data', partition=0), TopicPartition(topic='environmental_data', partition=1), TopicPartition(topic='environmental_data', partition=2)} for group OutdoorEnvironment_To_InfluxDB
+2023-09-19 07:56:23,547 - INFO - <BrokerConnection node_id=1 host=192.168.29.120:9093 <connecting> [IPv4 ('192.168.29.120', 9093)]>: connecting to 192.168.29.120:9093 [('192.168.29.120', 9093) IPv4]
+2023-09-19 07:56:23,548 - INFO - <BrokerConnection node_id=2 host=192.168.29.120:9094 <connecting> [IPv4 ('192.168.29.120', 9094)]>: connecting to 192.168.29.120:9094 [('192.168.29.120', 9094) IPv4]
+2023-09-19 07:56:23,548 - INFO - <BrokerConnection node_id=1 host=192.168.29.120:9093 <connecting> [IPv4 ('192.168.29.120', 9093)]>: Connection complete.
+2023-09-19 07:56:23,548 - INFO - <BrokerConnection node_id=2 host=192.168.29.120:9094 <connecting> [IPv4 ('192.168.29.120', 9094)]>: Connection complete.
