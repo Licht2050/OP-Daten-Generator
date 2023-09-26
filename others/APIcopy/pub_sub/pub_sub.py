@@ -1,5 +1,6 @@
-from rx.subject.subject import Subject
-from async_iterable_wrapper import AsyncIterableWrapper
+
+from rx.subjects import Subject
+from .async_iterable_wrapper import AsyncIterableWrapper
 
 # Create an instance of AsyncIterableWrapper
 async_iterable_wrapper: AsyncIterableWrapper = AsyncIterableWrapper()

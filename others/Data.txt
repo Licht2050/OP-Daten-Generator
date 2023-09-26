@@ -1,0 +1,83 @@
+patient_data
+
+{'source': 'patient_records', 'value': {'Patient_ID': '269797', 'Name': 'Meyer', 'Vorname': 'Karl', 'Geschlecht': 'männlich', 'Geburtsdatum': '09.12.2021', 'Straße': 'Banhofstraße 1', 'Stadt': 'Saarbreucken', 'Postleitzahl': 6123, 'Blutgruppe': 'B-', 'Gewicht': 67, 'Größe': 193}, 'timestamp': '2023-08-28 12:37:35'}
+{'source': 'holiday_records', 'value': {'Patient_ID': '269797', 'Urlaubsort': 'Trolltunga', 'Aktivitaet': 'Campingtouren'}, 'timestamp': '2023-08-28 12:37:35'}
+{'source': 'holiday_records', 'value': {'Patient_ID': '269797', 'Urlaubsort': 'New York City', 'Aktivitaet': 'Broadway-Show gesehen'}, 'timestamp': '2023-08-28 12:37:35'}
+{'source': 'holiday_records', 'value': {'Patient_ID': '269797', 'Urlaubsort': 'Paris', 'Aktivitaet': 'Louvre Museum besucht'}, 'timestamp': '2023-08-28 12:37:35'}
+{'source': 'holiday_records', 'value': {'Patient_ID': '269797', 'Urlaubsort': 'Grand Canyon', 'Aktivitaet': 'Skywalk'}, 'timestamp': '2023-08-28 12:37:35'}
+{'source': 'holiday_records', 'value': {'Patient_ID': '269797', 'Urlaubsort': 'Botswana und Simbabwe', 'Aktivitaet': 'Pirschfahrt'}, 'timestamp': '2023-08-28 12:37:35'}
+{'source': 'illness_records', 'value': {'Patient_ID': '269797', 'Vorerkrankung': 'Diabetes mellitus', 'Diagnosedatum': '11.06.2009', 'Behandlung': 'Medikamente', 'Behandlungsdatum': '21.12.2014', 'Weitere Informationen': '...'}, 'timestamp': '2023-08-28 12:37:35'}
+{'source': 'illness_records', 'value': {'Patient_ID': '269797', 'Vorerkrankung': 'Asthma', 'Diagnosedatum': '16.06.2013', 'Behandlung': 'Operation', 'Behandlungsdatum': '21.12.2016', 'Weitere Informationen': '...'}, 'timestamp': '2023-08-28 12:37:35'}
+{'source': 'illness_records', 'value': {'Patient_ID': '269797', 'Vorerkrankung': 'Herzinfarkt', 'Diagnosedatum': '30.01.2014', 'Behandlung': 'Operation', 'Behandlungsdatum': '03.02.2016', 'Weitere Informationen': '...'}, 'timestamp': '2023-08-28 12:37:35'}
+{'source': 'illness_records', 'value': {'Patient_ID': '269797', 'Vorerkrankung': 'Lungenembolie', 'Diagnosedatum': '04.06.2013', 'Behandlung': 'Physiotherapie', 'Behandlungsdatum': '25.10.2016', 'Weitere Informationen': '...'}, 'timestamp': '2023-08-28 12:37:35'}
+{'source': 'illness_records', 'value': {'Patient_ID': '269797', 'Vorerkrankung': 'Schlaganfall', 'Diagnosedatum': '05.06.2020', 'Behandlung': 'Dialyse', 'Behandlungsdatum': '11.02.2024', 'Weitere Informationen': '...'}, 'timestamp': '2023-08-28 12:37:35'}
+
+
+environmental_data
+
+{'source': 'outdoor_environment', 'value': {'Außentemperatur': 30.12, 'Luftfeuchtigkeit': 63.81, 'Luftdruck': 1007.16, 'Windgeschwindigkeit': 3.62}, 'timestamp': '2023-08-28 12:40:00'}
+
+
+
+vital_parameters
+
+
+{'source': 'blood_pressure', 'value': {'Patient_ID': '269797', 'Systolic': 136, 'Diastolic': 77}, 'timestamp': '2023-08-28 12:40:49'}
+{'source': 'heart_rate', 'value': {'Patient_ID': '269797', 'heart_rate_value': 78}, 'timestamp': '2023-08-28 12:40:50'}
+{'source': 'etco2', 'value': {'Patient_ID': '269797', 'etco2_value': 40}, 'timestamp': '2023-08-28 12:40:50'}
+{'source': 'bis', 'value': {'Patient_ID': '269797', 'bis_value': 53.62}, 'timestamp': '2023-08-28 12:40:50'}
+{'source': 'oxygen_saturation', 'value': {'Patient_ID': '269797', 'Oxygen_Saturation': 93}, 'timestamp': '2023-08-28 12:40:50'}
+
+
+
+entry_exit_event
+
+{'source': 'entry_exit_events', 'value': {'person': 'Dr. Wagner', 'event_type': 'Eintritt'}, 'timestamp': '2023-08-28 12:41:11'}
+{'source': 'entry_exit_events', 'value': {'person': 'Anästhesist Weber', 'event_type': 'Eintritt'}, 'timestamp': '2023-08-28 12:41:14'}
+{'source': 'entry_exit_events', 'value': {'person': 'Krankenschwester Hoffmann', 'event_type': 'Verlassen'}, 'timestamp': '2023-08-28 12:41:17'}
+{'source': 'entry_exit_events', 'value': {'person': 'Anästhesist Müller', 'event_type': 'Eintritt'}, 'timestamp': '2023-08-28 12:41:19'}
+{'source': 'entry_exit_events', 'value': {'person': 'Anästhesist Müller', 'event_type': 'Verlassen'}, 'timestamp': '2023-08-28 12:41:20'}
+
+
+
+operation_room_status
+
+
+{'source': 'op_room_state', 'value': {'Operation_Room': 'C', 'Türzustand': 'Geschlossen', 'Raumtemperatur': 22.79, 'Luftfeuchtigkeit': 56.42, 'Luftdruck': 984.2, 'Bleuchtungsstärke': 480.55}, 'timestamp': '2023-08-28 12:41:09'}
+{'source': 'op_room_state', 'value': {'Operation_Room': 'C', 'Türzustand': 'Offen', 'Raumtemperatur': 20.41, 'Luftfeuchtigkeit': 35.58, 'Luftdruck': 986.72, 'Bleuchtungsstärke': 331.29}, 'timestamp': '2023-08-28 12:41:19'}
+{'source': 'op_room_state', 'value': {'Operation_Room': 'C', 'Türzustand': 'Geschlossen', 'Raumtemperatur': 24.79, 'Luftfeuchtigkeit': 38.38, 'Luftdruck': 995.75, 'Bleuchtungsstärke': 929.03}, 'timestamp': '2023-08-28 12:41:29'}
+
+
+
+
+operation_team
+
+
+{'source': 'op_team', 'value': {'Patient_ID': '269797', 'doctors': ['Dr. Wagner', 'Dr. Müller', 'Dr. Becker'], 'nurses': ['Krankenschwester Schäfer', 'Krankenschwester Hoffmann', 'Krankenschwester Schneider'], 'anesthetists': ['Anästhesist Weber', 'Anästhesist Müller', 'Anästhesist Wagner']}, 'timestamp': '2023-08-28 12:37:38'}
+
+
+
+
+staff_communication
+
+
+{'source': 'staff_communication', 'value': {'Operation_Room': 'C', 'sender': 'Dr. Wagner', 'message': 'Die Naht sieht ordentlich aus.'}, 'timestamp': '2023-08-28 12:41:14'}
+{'source': 'staff_communication', 'value': {'Operation_Room': 'C', 'sender': 'Krankenschwester Hoffmann', 'message': 'Bitte reichen Sie mir das Skalpell.'}, 'timestamp': '2023-08-28 12:41:32'}
+{'source': 'staff_communication', 'value': {'Operation_Room': 'C', 'sender': 'Krankenschwester Hoffmann', 'message': 'Bitte reichen Sie mir das Skalpell.'}, 'timestamp': '2023-08-28 12:41:47'}
+{'source': 'staff_communication', 'value': {'Operation_Room': 'C', 'sender': 'Krankenschwester Hoffmann', 'message': 'Brauchen wir noch weitere Schmerzmittel?'}, 'timestamp': '2023-08-28 12:42:01'}
+
+
+
+
+operation_record
+
+pre_op_record
+
+{'source': 'pre_op_record', 'value': {'Patient_ID': '269797', 'Operation_Type': 'Herzoperation', 'Operation_Room': 'C', 'Duration': '20 minutes', 'Date': '28.08.2023 12:38:54', 'Anaesthesia_Type': 'Lokalanästhesie', 'Medical_Devices': ['Elektrokauter', 'Endoskop'], 'Medications': ['Ephedrin', 'Midazolam']}, 'timestamp': '2023-08-28 12:37:39'}
+
+
+post_op_record
+
+
+{'source': 'post_op_record', 'value': {'Patient_ID': '269797', 'Operation_Outcome': 'abgebrochen', 'Notes': 'Keine besonderen Vorfälle während der Operation.'}, 'timestamp': '2023-08-28 12:43:08'}
+

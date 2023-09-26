@@ -14,12 +14,7 @@ from resolvers.patient_resolvers import (resolve_get_all_patient_by_op_type, res
                                 )
 from .types.environment_types import IndoorEnvironmentData
 from resolvers.environment_resolvers import resolve_get_all_indoor_environment_data   
-from pub_sub.pub_sub import async_iterable_wrapper
 
-import asyncio
-from datetime import datetime
-from graphene import ObjectType, String, Schema, Field
-from rx import Observable
 
 class Query(graphene.ObjectType):
     get_patient_by_id = graphene.Field(PatientType, patient_id=graphene.String(required=True), resolver=resolve_get_patient_by_id)
@@ -36,48 +31,32 @@ class Query(graphene.ObjectType):
 
 
 
-class MessageType(graphene.ObjectType):
-    content = graphene.String()
-
-class Subscription(graphene.ObjectType):
-    count_seconds = graphene.Field(MessageType)
-
-    async def resolve_count_seconds(root, info):
-        count = 0
-        while True:
-            await asyncio.sleep(1)
-            count += 1
-            yield {"content": f"Seconds: {count}"}
+logging.basicConfig(level=logging.INFO)
 
 
+class IndoorEnvironmentDataSubscription(graphene.ObjectType):
+    indoor_environment_data_update = graphene.Field(
+        IndoorEnvironmentData,
+        op_room=graphene.String(required=True),
+    )
 
-schema = graphene.Schema(query=Query, subscription=Subscription)
+    @staticmethod
+    async def resolve_indoor_environment_data_update(root, info, op_room):
+        print("Resolver called")  # Add this print statement
+        if info is not None:
+            info.context['logger'].info(f"Started subscription for op_room: {op_room}")
 
-# logging.basicConfig(level=logging.INFO)
-
-
-# class IndoorEnvironmentDataSubscription(graphene.ObjectType):
-#     indoor_environment_data_update = graphene.Field(
-#         IndoorEnvironmentData,
-#         op_room=graphene.String(required=True),
-#     )
-
-#     @staticmethod
-#     async def resolve_indoor_environment_data_update(root, info, op_room):
-#         print("Resolver called")  # Add this print statement
-#         if info is not None:
-#             info.context['logger'].info(f"Started subscription for op_room: {op_room}")
-
-#         async_iter_wrapper = AsyncIterableWrapper()
-#         print(f"Async iterable wrapper before generating test data: {async_iter_wrapper}")  # Add this print statement
-#         asyncio.create_task(generate_test_data(async_iter_wrapper, op_room))
+        async_iter_wrapper = AsyncIterableWrapper()
+        print(f"Async iterable wrapper before generating test data: {async_iter_wrapper}")  # Add this print statement
+        asyncio.create_task(generate_test_data(async_iter_wrapper, op_room))
         
-#         print(f"Returning async iterable: {async_iter_wrapper}")  # Add this print statement
-#         return async_iter_wrapper
+        print(f"Returning async iterable: {async_iter_wrapper}")  # Add this print statement
+        return async_iter_wrapper
 
 
-# async def generate_test_data(async_iter_wrapper, op_room):
-#     for i in range(10):
-#         async_iter_wrapper.on_next({'opRoom': op_room, 'co2': i})
-#         await asyncio.sleep(1)
+async def generate_test_data(async_iter_wrapper, op_room):
+    for i in range(10):
+        async_iter_wrapper.on_next({'opRoom': op_room, 'co2': i})
+        await asyncio.sleep(1)
 
+schema = graphene.Schema(query=Query, subscription=IndoorEnvironmentDataSubscription)

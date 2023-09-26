@@ -9,6 +9,7 @@ from ariadne.asgi.handlers import GraphQLWSHandler
 
 
 
+
 # Initialize broadcaster with in-memory channel
 broadcast = Broadcast("memory://")
 

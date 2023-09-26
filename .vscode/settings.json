@@ -1,0 +1,7 @@
+{
+    "python.analysis.extraPaths": [
+        "./ingestors/db_connectors",
+        "./helper_classes_and_functions",
+        "./ingestors/config"
+    ]
+}

@@ -1,0 +1,76 @@
+# schema/type_defs.graphql
+
+
+type Address {
+    street: String
+    city: String
+    postal_code: Int
+}
+
+type IllnessRecord {
+    illness: String
+    diagnosis_date: String
+    treatment: String
+    treatment_date: String
+    additional_info: String
+}
+
+type HolidayRecord {
+    destination: String
+    activity: String
+    duration: Int
+    start_date: String
+    end_date: String
+}
+
+type OPTeam {
+    doctors: [String]
+    nurses: [String]
+    anesthetists: [String]
+}
+
+type PreOPRecord {
+    operation_type: String
+    operation_room: String
+    duration: Int
+    operation_date: String
+    anesthesia_typ: String
+    medical_devices: [String]
+}
+
+type PostOPRecord {
+    operation_outcome: String
+    notes: String
+}
+
+type OperationRecord {
+    pre_op_record: PreOPRecord
+    post_op_record: PostOPRecord
+}
+
+type Patient {
+    _id: ID
+    patient_id: String
+    first_name: String
+    last_name: String
+    gender: String
+    birthdate: String
+    blood_group: String
+    weight: Float
+    height: Int
+    address: Address
+    illness_records: [IllnessRecord]
+    holiday_records: [HolidayRecord]
+    op_team: [OPTeam]
+    operation_records: OperationRecord
+}
+
+type Query {
+    getPatientById(patient_id: String!): Patient
+    getAllPatients: [Patient]
+    getAllPatientByOpRoom(op_room: String!): [Patient]
+    getAllPatientsByOpDate(op_date: String!): [Patient]
+    getAllPatientsByOpType(op_type: String!): [Patient]
+    getAllPatientsByAnesthesiaType(anesthesia_type: String!): [Patient]
+    # getAllEnvironmentData: [IndoorEnvironmentData]
+}

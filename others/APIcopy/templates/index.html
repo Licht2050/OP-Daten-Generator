@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+<head>
+    <title>GraphQL Subscription Test</title>
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const socket = io('http://192.168.29.120:5000');
+
+            socket.on('connect', () => {
+                console.log('Connected to server');
+
+                // Subscribe to a GraphQL subscription
+                socket.emit('graphql_subscription', { query: 'subscription { indoorEnvironmentDataUpdate(opRoom: "test") { opRoom co2 } }' });
+            });
+
+            socket.on('graphql_subscription', (data) => {
+                console.log('Subscription data:', data);
+            });
+
+            socket.on('disconnect', () => {
+                console.log('Disconnected from server');
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>GraphQL Subscription Test</h1>
+    <p>Open the browser console to see subscription updates.</p>
+</body>
+</html>
