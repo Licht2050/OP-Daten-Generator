@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WebSocket Example</title>
+</head>
+<body>
+    <button onclick="requestNumbers()">Request Numbers</button>
+    <div id="numberContainer"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script type="text/javascript">
+        var socket = io.connect('http://' + document.domain + ':' + location.port);
+        
+        socket.on('number', function(number) {
+            console.log('Received number:', number);
+            // Display the received number on the webpage
+            var container = document.getElementById('numberContainer');
+            var numberElement = document.createElement('div');
+            numberElement.textContent = 'Received number: ' + number;
+            container.appendChild(numberElement);
+        });
+        
+        function requestNumbers() {
+            socket.emit('request_numbers');
+        }
+    </script>
+</body>
+</html>

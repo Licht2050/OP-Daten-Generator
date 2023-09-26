@@ -1,0 +1,15 @@
+{
+    "patient_details": {
+        "Patient_ID": "787643",
+        "Name": "Müller",
+        "Vorname": "Kurt",
+        "Geschlecht": "männlich",
+        "Geburtsdatum": "28.02.2017",
+        "Straße": "Banhofstraße 1",
+        "Stadt": "Saarbreucken",
+        "Postleitzahl": 66117,
+        "Blutgruppe": "A-",
+        "Gewicht": 90,
+        "Größe": 158
+    }
+}

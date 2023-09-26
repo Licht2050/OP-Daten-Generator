@@ -1,0 +1,18 @@
+{
+    "op_details": {
+        "Patient_ID": "792056",
+        "Operation_Type": "Herzoperation",
+        "Operation_Room": "C",
+        "Duration": "28 minutes",
+        "Date": "25.08.2023 11:15:43",
+        "Anaesthesia_Type": "Lokalanästhesie",
+        "Medical_Devices": [
+            "Elektrokauter",
+            "Endoskop"
+        ],
+        "Medications": [
+            "Ephedrin",
+            "Midazolam"
+        ]
+    }
+}

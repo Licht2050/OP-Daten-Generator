@@ -1,0 +1,16 @@
+flask 
+graphene 
+ariadne
+graphql-server[flask]
+pymongo
+pydantic
+python-dateutil
+rx
+influxdb
+flask-socketio
+django
+graphene-django
+channels
+fastapi
+ariadne
+graphql-ws

@@ -1,0 +1,6 @@
+{
+    "shared_memory_path": "/dev/shm/MySharedMemory",
+    "data_format": "ll",
+    "buffer_size": 16
+  }
+  

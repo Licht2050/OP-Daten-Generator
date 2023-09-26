@@ -1,0 +1,6 @@
+-- QUERIES
+-- zum Beispiel:
+-- SELECT * FROM vital_params WHERE Patient_ID = ?;
+-- SELECT * FROM vital_params WHERE Patient_ID = ? AND Date = ?;
+-- SELECT * FROM vital_params WHERE Patient_ID = ? AND Date >= ? AND Date <= ?;
+-- SELECT * FROM vital_params WHERE Patient_ID = ? AND Date >= ? AND Date <= ? AND Time >= ? AND Time <= ?;

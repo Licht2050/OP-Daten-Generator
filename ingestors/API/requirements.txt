@@ -1,0 +1,12 @@
+
+Flask-SocketIO==5.*
+python-socketio==5.*
+python-engineio==4.*
+Flask==2.*
+graphene
+graphql-server[all]
+pytmongo
+python-dateutil
+influxdb
+rx
+eventlet
