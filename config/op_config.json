@@ -1,7 +1,7 @@
 
 {
     "operation_details": {
-        "operation_rooms": ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"],
+        "operation_rooms": ["A", "B", "C", "D"],
         "operation_types": ["Herzoperation", "Knieersatz", "Hüftoperation", "Gallenblasenentfernung", "Appendektomie"],
         "operation_duration_range": [15, 30],
         "operation_date_offset_range": [60, 180],

@@ -65,12 +65,47 @@ type Patient {
     operation_records: OperationRecord
 }
 
-type Query {
-    getPatientById(patient_id: String!): Patient
+type PatientQuery {
+    """
+    Holt einen Patienten anhand seiner ID.
+    """
+    getPatientById(
+        """
+        Die ID des Patienten.
+        Beispiel: a5aab5a2-81c1-49ca-8654-9d172ac419cc
+        """
+        patient_id: String!
+    ): Patient
     getAllPatients: [Patient]
-    getAllPatientByOpRoom(op_room: String!): [Patient]
-    getAllPatientsByOpDate(op_date: String!): [Patient]
-    getAllPatientsByOpType(op_type: String!): [Patient]
-    getAllPatientsByAnesthesiaType(anesthesia_type: String!): [Patient]
-    # getAllEnvironmentData: [IndoorEnvironmentData]
+    getAllPatientByOpRoom(
+        """
+        Der Name des Operationssaals.
+        Beispiel: A, B, C, D
+        """
+        op_room: String!
+    ): [Patient]
+    getAllPatientsByOpDate(
+        """
+        Das Datum der Operation.
+        Beispiel: 2023-09-26
+        """
+        op_date: String!
+    ): [Patient]
+    getAllPatientsByOpType(
+        """
+        Der Typ der Operation.
+        Beispiel: Herzoperation", "Knieersatz", "Hüftoperation", "Gallenblasenentfernung", "Appendektomie
+        """
+        op_type: String!): [Patient]
+    getAllPatientsByAnesthesiaType(
+        """
+        Die Art der Anästhesie.
+        Beispiel: Vollnarkose", "Lokalanästhesie", "Regionalanästhesie
+        """
+        anesthesia_type: String!): [Patient]
 }
+
+extend type Query {
+    patient: PatientQuery
+}
+

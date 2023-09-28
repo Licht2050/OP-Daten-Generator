@@ -1,0 +1,30 @@
+# schema/environment_data.graphql
+
+type IndoorEnvironmentData {
+    temperature: Float
+    humidity: Float
+    co2: Float
+    uv: Float
+    pressure: Float
+    illuminance: Float
+    noise: Float
+    timestamp: String
+    door_state: String
+    op_room: String
+}
+
+type EnvironmentDataQuery {
+    getIndoorEnvironmentData: [IndoorEnvironmentData]
+}
+
+
+
+
+
+extend type Query {
+    environmentData: EnvironmentDataQuery
+}
+
+type Subscription {
+    indoorEnvironmentDataUpdated: IndoorEnvironmentData
+}

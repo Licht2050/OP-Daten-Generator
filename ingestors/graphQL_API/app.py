@@ -5,7 +5,7 @@ from starlette.routing import Route
 from ariadne.asgi.handlers import GraphQLWSHandler
 
 # Import your query resolvers
-from schema.resolvers.patient_resolvers import query
+from schema.query_resolvers.patient_resolvers import patient_query
 from schema.schema import schema
 
 

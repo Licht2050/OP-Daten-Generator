@@ -1,0 +1,5 @@
+# schema/base_typ_defs.graphql
+
+type Query{
+    _: Boolean
+}

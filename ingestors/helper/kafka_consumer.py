@@ -1,3 +1,4 @@
+import asyncio
 import os
 import sys
 from kafka import KafkaConsumer
@@ -48,10 +49,19 @@ class KafkaTopicConsumer(Base):
         """Consume messages from Kafka topic."""
         self.consumer.subscribe([self.topic_name])
 
+        # neue integration:
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+
         try:
             for message in self.consumer:
                 if self.callback:
-                    self.executor.submit(self.callback, message.value)
+                    # neue integration:
+                    if asyncio.iscoroutinefunction(self.callback):
+                        future = loop.run_until_complete(self.callback(message.value))
+                    else:
+                        # alte integration:
+                        self.executor.submit(self.callback, message.value)
                 else:
                     self.logger.info(f"Received message: {message.value}")
         except KeyboardInterrupt:
@@ -62,6 +72,7 @@ class KafkaTopicConsumer(Base):
             self._handle_exception(f"Error while consuming data: {e}")
         finally:
             self.close()
+            loop.close()
 
 
 

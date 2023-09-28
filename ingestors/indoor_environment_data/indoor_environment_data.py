@@ -1,3 +1,4 @@
+import asyncio
 import datetime
 import sys
 import os
@@ -9,14 +10,17 @@ from pydantic import BaseModel
 
 
 
+
+
 sys.path.extend([
     os.path.join(os.path.dirname(__file__), '../config'),
     os.path.join(os.path.dirname(__file__), '../../helper_classes_and_functions'),
     os.path.join(os.path.dirname(__file__), '../helper'),
-    os.path.join(os.path.dirname(__file__), '../db_connectors')
+    os.path.join(os.path.dirname(__file__), '../db_connectors'),
+    os.path.join(os.path.dirname(__file__), '../data_publisher'),
 ])
 
-
+from data_publisher_singleton import DataPublisherSingleton
 from influxdb_connector import InfluxDBConnector
 from base import Base
 from paths_config import CONFIG_FILE_PATH
@@ -70,15 +74,15 @@ class IndoorEnvironmentDataHandler(Base):
     
     def process_middleware(self, message: Dict[str, Any]) -> Dict[str, Any]:
         """Process the message through the middleware manager."""
-        return self.middleware_manager.process_middlewares(message).to_dict()
+        return self.middleware_manager.process_middlewares(message)
 
     
-    def _process_and_save_message(self, data) -> None:
+    async def _process_and_save_message(self, data) -> None:
         """Process and save the message."""
         try:
-            processed_message = self.process_middleware(data)
+            processed_message = await self.process_middleware(data)
             # print(f"Processed message------------------: {processed_message}")
-            schema = self.create_operation_room_status_schema(processed_message) 
+            schema = self.create_operation_room_status_schema(processed_message.to_dict()) 
             self.influxdb_connector.write_points([schema])
         except Exception as e:
             self._handle_exception(f"Error processing message: {e}")
@@ -132,23 +136,35 @@ class IndoorEnvironmentDataHandler(Base):
             raise
         finally:
             self.consumer.close()
-            self.lock.release()
+            #self.lock.release()
 
 if __name__ == "__main__":
+    graphql_publisher = None
+    try:
+        config_loader = ConfigLoader(CONFIG_FILE_PATH)
+        config = config_loader.get_all_configs()
+        indoor_environment_config = config.get("topics", {}).get("indoor_environment_data")
+        influxdb_config = config.get("influxdb")
+        max_workers = config.get("threads", {}).get("max_workers", 10)
 
-    config_loader = ConfigLoader(CONFIG_FILE_PATH)
-    config = config_loader.get_all_configs()
-    indoor_environment_config = config.get("topics", {}).get("indoor_environment_data")
-    influxdb_config = config.get("influxdb")
-    max_workers = config.get("threads", {}).get("max_workers", 10)
+        data_processor = DataProcessor()
 
-    data_processor = DataProcessor()
-    graphql_publisher = GraphQLPublisher()
+        data_publisher = DataPublisherSingleton.get_instance()
+        graphql_publisher = GraphQLPublisher()
+        asyncio.run(graphql_publisher.initialize())
+        handler = IndoorEnvironmentDataHandler(indoor_environment_config, influxdb_config, max_workers=max_workers)
 
-    handler = IndoorEnvironmentDataHandler(indoor_environment_config, influxdb_config, max_workers=max_workers)
-
-    handler.add_middleware(data_processor.process_data)
-    handler.add_middleware(graphql_publisher.process_data)
+        handler.add_middleware(data_processor.process_data)
+        handler.add_middleware(graphql_publisher.process_data)
+        
+        handler.run()
+    except Exception as e:
+        print(f"Error starting IndoorEnvironmentDataHandler: {e}")
+        print(traceback.format_exc())
+    except KeyboardInterrupt:
+        print("Interrupted by user. Closing connections...")
+    finally:
+        if graphql_publisher is not None:
+            asyncio.run(graphql_publisher.close_redis())
     
-    handler.run()
     

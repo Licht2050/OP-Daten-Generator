@@ -1,6 +1,6 @@
 from typing import Any, Callable
 from processed_message import ProcessedMessage
-
+import asyncio
 
 class MiddlewareManager:
     def __init__(self):
@@ -10,9 +10,16 @@ class MiddlewareManager:
         """Add middleware function."""
         self.middlewares.append(middleware_fn)
 
-    def process_middlewares(self, message: Any) -> Any:
+    async def process_middlewares(self, message: Any) -> Any:
         """Process middleware functions on message."""
         processed_message = ProcessedMessage(message)
+        
         for middleware in self.middlewares:
-            middleware(processed_message)
+            if asyncio.iscoroutinefunction(middleware):
+                await middleware(processed_message)
+
+            else:
+                middleware(processed_message)
+            if processed_message is None:
+                print(f"Warning: processed_message is None after {middleware.__name__}")
         return processed_message

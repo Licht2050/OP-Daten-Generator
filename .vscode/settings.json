@@ -2,6 +2,9 @@
     "python.analysis.extraPaths": [
         "./ingestors/db_connectors",
         "./helper_classes_and_functions",
-        "./ingestors/config"
+        "./ingestors/config",
+        "./ingestors/schema/influxdb",
+        "./ingestors/helper",
+        "./ingestors/data_publisher"
     ]
 }

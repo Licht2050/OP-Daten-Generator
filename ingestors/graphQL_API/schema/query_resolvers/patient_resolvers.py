@@ -2,7 +2,7 @@ from datetime import timedelta
 import os
 import sys
 import logging
-import ariadne
+from ariadne import ObjectType, QueryType
 
 sys.path.extend([
     os.path.join(os.path.dirname(__file__), '../../../config'),
@@ -38,11 +38,12 @@ except Exception as e:
     raise e
 
 
-query = ariadne.QueryType()
+patient_query = ObjectType("PatientQuery")
 
 
-@query.field("getPatientById")
+@patient_query.field("getPatientById")
 def resolve_get_patient_by_id(root, info, patient_id):
+    print("Resolver getPatientById aufgerufen")  # Logging
     """
     Resolver function for the getPatientById query.
     
@@ -62,7 +63,7 @@ def resolve_get_patient_by_id(root, info, patient_id):
         raise e
 
 
-@query.field("getAllPatients")
+@patient_query.field("getAllPatients")
 def resolve_get_all_patients(root, info):
     """
     Resolver function for the getAllPatient query.
@@ -81,7 +82,7 @@ def resolve_get_all_patients(root, info):
         print(f"Error getting all patients: {e}")
         raise e
 
-@query.field("getAllPatientByOpRoom")
+@patient_query.field("getAllPatientByOpRoom")
 def resolve_get_all_patient_by_op_room(root, info, op_room):
     """
     Resolver function for the getPatientByOperationRoom query.
@@ -101,7 +102,7 @@ def resolve_get_all_patient_by_op_room(root, info, op_room):
         print(f"Error getting patient by operation room: {e}")
         raise e
 
-@query.field("getAllPatientsByOpDate")
+@patient_query.field("getAllPatientsByOpDate")
 def resolve_get_all_patients_by_op_date(root, info, op_date):
     """
     Resolver function for the getPatientByOperationDate query.
@@ -130,7 +131,7 @@ def resolve_get_all_patients_by_op_date(root, info, op_date):
         print(f"Error getting patient by operation date: {e}")
         raise e
 
-@query.field("getAllPatientsByOpType")
+@patient_query.field("getAllPatientsByOpType")
 def resolve_get_all_patients_by_op_type(root, info, op_type):
     """
     Resolver function for the getAllPatientByOpType query.
@@ -153,7 +154,7 @@ def resolve_get_all_patients_by_op_type(root, info, op_type):
         print(f"Error getting patient by operation type: {e}")
         raise e
 
-@query.field("getAllPatientsByAnesthesiaType")
+@patient_query.field("getAllPatientsByAnesthesiaType")
 def resolve_get_all_patients_by_anesthesia_type(root, info, anesthesia_type):
     """
     Resolver function for the getAllPatientByAnesthesiaType query.

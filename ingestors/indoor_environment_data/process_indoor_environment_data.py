@@ -29,6 +29,7 @@ class DataProcessor(Base):
 
             indoor_environment_value = IndoorEnvironmentDataValue(**value)
             processed_message.add_data('value', indoor_environment_value)
+
         except ValidationError as e:
             self.logger.error(f"Data validation error: {e}")
             raise

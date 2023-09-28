@@ -12,3 +12,9 @@ python manage.py migrate
 python manage.py createsuperuser
 python manage.py runserver
 ```
+
+# run API GraphQL-Server
+```bash
+uvicorn app:app --host 192.168.29.120 --port 5000 --reload --ws wsproto
+```
+

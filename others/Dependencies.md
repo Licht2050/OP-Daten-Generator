@@ -26,5 +26,6 @@ echo -e '[Desktop Entry]\n Name=Postman\n Exec=/opt/Postman/Postman\n Icon=/opt/
 pip install -U channels["daphne"]
 
 
-
+# aioredis
+pip install aioredis
 
