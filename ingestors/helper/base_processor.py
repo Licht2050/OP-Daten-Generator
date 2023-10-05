@@ -71,11 +71,12 @@ class BaseProcessor(Base):
         msg = json.loads(message.decode('utf-8'))
         timestamp = msg.get("timestamp")
         value = msg.get("value")
-        # print(f"Value-----------------: {value} and time stamp: {timestamp}")
+        print(f"Patient entry exit evet-----------------: {value} and time stamp: {timestamp}")
         patient_id = value.get("Patient_ID")
 
         with self.patients_locks:
             if value.get("event_type") == "patient_entered":
+                print(f"Patient entered: {patient_id} and op_room: {value.get('op_room')}")
                 op_room = self._fetch_patient_op_room(patient_id)
                 self.current_patients[patient_id] = {
                     "op_room": op_room,

@@ -7,11 +7,6 @@ import threading
 import traceback
 from typing import Any, Dict
 
-from pydantic import BaseModel
-import signal
-
-
-
 
 sys.path.extend([
     os.path.join(os.path.dirname(__file__), '../config'),
@@ -21,7 +16,6 @@ sys.path.extend([
     os.path.join(os.path.dirname(__file__), '../data_publisher'),
 ])
 
-from data_publisher_singleton import DataPublisherSingleton
 from influxdb_connector import InfluxDBConnector
 from base import Base
 from paths_config import CONFIG_FILE_PATH
@@ -30,7 +24,7 @@ from kafka_consumer import KafkaTopicConsumer
 from middelware_manager_async import MiddlewareManager
 from process_indoor_environment_data import DataProcessor
 from graphql_publisher import GraphQLPublisher
-from mongodb_conncetor import MongoDBConnector
+
 
 
 class IndoorEnvironmentDataHandler(Base):

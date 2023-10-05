@@ -23,7 +23,7 @@ def delete_topic(bootstrap_servers, topic_name):
 
 if __name__ == "__main__":
     bootstrap_servers = "localhost:9092"
-    topic_names = ["patient_data", "staff_communication", "environmental_data", "vital_parameters", "entry_exit_events", "operation_room_status", "operation_team"]
+    topic_names = ["patient_data", "staff_communication", "environmental_data", "vital_parameters", "entry_exit_events", "operation_room_status", "operation_team", "patient_entry_exit_events"]
     
     for topic in topic_names:
         delete_topic(bootstrap_servers, topic)

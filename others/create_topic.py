@@ -33,16 +33,17 @@ if __name__ == "__main__":
     partitions = 3                        
     replication_factor = 2 
 
-    create_topic(bootstrap_servers, topic_name, partitions, replication_factor)
+    # create_topic(bootstrap_servers, topic_name, partitions, replication_factor)
 
     topic_configs = [
-        {"topic_name": "environmental_data", "partitions": 3, "replication_factor": 2},
-        {"topic_name": "vital_parameters", "partitions": 5, "replication_factor": 2},
-        {"topic_name": "patient_data", "partitions": 3, "replication_factor": 2},
-        {"topic_name": "operation_room_status", "partitions": 1, "replication_factor": 1},
-        {"topic_name": "staff_communication", "partitions": 5, "replication_factor": 2},
-        {"topic_name": "operation_team", "partitions": 3, "replication_factor": 2},
-        {"topic_name": "entry_exit_events", "partitions": 3, "replication_factor": 2}
+        {"topic_name": "environmental_data", "partitions": 7, "replication_factor": 2},
+        {"topic_name": "vital_parameters", "partitions": 7, "replication_factor": 2},
+        {"topic_name": "patient_data", "partitions": 7, "replication_factor": 2},
+        {"topic_name": "operation_room_status", "partitions": 7, "replication_factor": 1},
+        {"topic_name": "staff_communication", "partitions": 7, "replication_factor": 2},
+        {"topic_name": "operation_team", "partitions": 7, "replication_factor": 2},
+        {"topic_name": "entry_exit_events", "partitions": 7, "replication_factor": 2},
+        {"topic_name": "patient_entry_exit_events", "partitions": 10, "replication_factor": 2}
     ]
-    # create_topics(bootstrap_servers, topic_configs)
+    create_topics(bootstrap_servers, topic_configs)
     

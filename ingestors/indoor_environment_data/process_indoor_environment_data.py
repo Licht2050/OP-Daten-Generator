@@ -14,11 +14,8 @@ sys.path.extend([
 ])
 
 
-from paths_config import CONFIG_FILE_PATH
-from config_loader import ConfigLoader
 from typing import Dict, Any
 from indoor_environment_data_schema import IndoorEnvironmentDataStatus, IndoorEnvironmentDataValue
-from base import Base
 from base_processor import BaseProcessor
 
 
@@ -29,12 +26,13 @@ class DataProcessor(BaseProcessor):
 
     def process_data(self, processed_message):
         """Process data before writing to database """
-        data = processed_message.raw_message
-        indoor_data_datetime_obj = self._convert_to_datetime(data.get("timestamp"))
-        value = data.get('value')
+        data = processed_message.raw_message     
         try:
             # print(f"Processing data: {data.raw_message}")
             self._validate_data(data)
+            
+            indoor_data_datetime_obj = self._convert_to_datetime(data.get("timestamp"))
+            value = data.get('value')
 
             indoor_environment_value = IndoorEnvironmentDataValue(**value)
             processed_message.add_data('value', indoor_environment_value)
@@ -48,7 +46,7 @@ class DataProcessor(BaseProcessor):
                         schema = self._create_indoor_environment_schema(processed_message.to_dict(), patient_id) 
                         self.influxdb_connector.write_points([schema])
         except ValidationError as e:
-            self.logger.error(f"Data validation error: {e}")
+            self.logger.error(f"Error processing inddor environment data: {e}")
             raise
     
     def _create_indoor_environment_schema(self, processed_message, patient_id):

@@ -22,8 +22,9 @@ SCRIPTS_FIRST_PHASE = ["consume_op_team_info.py", "consume_op_record.py", "consu
 SCRIPTS_SECOND_PHASE = ["patient_data_generator.py"]
 SCRIPTS_THIRD_PHASE = ["op_team.py", "pre_op_record.py"]
 SCRIPTS_FOURTH_PHASE = ["entry_exit_event.py", "indoor_environment_data.py", "outdoor_environment.py"]
+SCRIPTS_STAFF_COMMUNICATION = ["staff_communication_during_op.py"]
 SCRIPTS_FIFTH_PHASE = ["patient_enter_event.py"]
-SCRIPTS_SIXTH_PHASE = ["heart_rate.py", "blood_pressure.py", "bis.py", "etco2.py", "oxygen_saturation_producer.py", "staff_communication_during_op.py"]
+SCRIPTS_SIXTH_PHASE = ["heart_rate.py", "blood_pressure.py", "bis.py", "etco2.py", "oxygen_saturation_producer.py"]
 SCRIPTS_POST_OP_PHASE = ["post_op_record.py"]
 SCRIPTS_SEVENTH_PHASE = ["patient_exit_event.py"]
 # SCRIPTS_FIRST_PHASE = ["patient_data_generator.py", "staff_communication_during_op.py", "entry_exit_event.py"]
@@ -291,12 +292,18 @@ def execute_scripts(config_loader):
             user_input = get_valid_input(f"Möchten Sie den Synchronisationsclient starten? (j/n): ", ['j', 'n'])
             if user_input == 'j':
                 start_synchronization_client(local_runner)
+        
+
+        user_input = get_valid_input("Möchten Sie die Ingestors starten? (j/n): ", ['j', 'n'])
+        if user_input == 'j':
+            start_ingestors(local_runner, ingestors_path_config)
 
         phases = [
             (SCRIPTS_FIRST_PHASE, "Möchten Sie den {}-generator starten? (j/n): "),
             (SCRIPTS_SECOND_PHASE, "Möchten Sie den {}-generator starten? (j/n): "),
             (SCRIPTS_THIRD_PHASE, "Möchten Sie den {}-generator starten? (j/n): "),
             (SCRIPTS_FOURTH_PHASE, "Möchten Sie den {}-generator starten? (j/n): "),
+            (SCRIPTS_STAFF_COMMUNICATION, "Möchten Sie den {}-generator starten? (j/n): "),
             (SCRIPTS_FIFTH_PHASE, "Möchten Sie den {}-generator starten? (j/n): ")
         ]
         execute_phase_scripts(phases, script_execution_config, raspberry_pis_config, script_paths_config, executors)
@@ -306,9 +313,7 @@ def execute_scripts(config_loader):
         # execute_remaining_scripts(all_scripts, script_execution_config, raspberry_pis_config, script_paths_config, executors)
         
         
-        user_input = get_valid_input("Möchten Sie die Ingestors starten? (j/n): ", ['j', 'n'])
-        if user_input == 'j':
-            start_ingestors(local_runner, ingestors_path_config)
+        
 
         user_input = get_valid_input("Möchten Sie die Patienten-Vitalparameter starten? (j/n): ", ['j', 'n'])
         if user_input == 'j':

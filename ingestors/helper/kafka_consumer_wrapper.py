@@ -46,6 +46,7 @@ class KafkaConsumerWrapper(Base):
                     # value = self.value_deserializer(msg.value())
                     if self.callback:
                         # self.callback(value)
+                        
                         self.executer.submit(self.callback, msg.value())
                     else:
                         value = self.value_deserializer(msg.value())

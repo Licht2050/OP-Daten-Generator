@@ -1,8 +1,10 @@
 
 import os
 import sys
+import threading
 import traceback
 from typing import Any, Dict
+import logging
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '../config'))
 sys.path.append(os.path.join(os.path.dirname(__file__), '../../helper_classes_and_functions'))
@@ -61,6 +63,7 @@ class StaffCommunicationHandler(Base):
         except Exception as e:
             self._handle_exception(f"Error while processing and saving data: {e}")
 
+
     def create_staff_communication_schema(self, data: Dict[str, Any]) -> Dict[str, Any]:
         """Create a schema for the staff_communication measurement.
 
@@ -98,19 +101,39 @@ class StaffCommunicationHandler(Base):
 
 
 if __name__ == "__main__":
-    # Load the configuration
-    config_loader = ConfigLoader(CONFIG_FILE_PATH)
-    config = config_loader.get_all_configs()
+    handler = None
+    data_processor = None
+    try:
+        # Load the configuration
+        config_loader = ConfigLoader(CONFIG_FILE_PATH)
+        config = config_loader.get_all_configs()
 
-    staffC_config = config.get("topics", {}).get("staff_communication")
-    influxdb_config = config.get("influxdb")
-    max_workers = config.get("threads", {}).get("max_workers", 10)
+        staffC_config = config.get("topics", {}).get("staff_communication")
+        influxdb_config = config.get("influxdb")
+        mongodb_config = config.get("mongodb")
+        max_workers = config.get("threads", {}).get("max_workers", 10)
+        patient_entry_exit_events_config = config.get("topics", {}).get("patient_entry_exit_events")
 
-    # Instantiate the data processor and the staff communication handler
-    data_processor = DataProcessor()
-    handler = StaffCommunicationHandler(staffC_config, influxdb_config, max_workers=max_workers)
+        # Instantiate the data processor and the staff communication handler
+        data_processor = DataProcessor(influxdb_config, patient_entry_exit_events_config, mongodb_config, max_workers)
+        thread = threading.Thread(target=data_processor.run)
+        thread.start()
 
-    # Add the data processor as a middleware
-    handler.add_middleware(data_processor.process_data)
-    # Run the handler to start the process
-    handler.run()
+        handler = StaffCommunicationHandler(staffC_config, influxdb_config, max_workers=max_workers)
+
+        # Add the data processor as a middleware
+        handler.add_middleware(data_processor.process_data)
+        # Run the handler to start the process
+        handler.run()
+
+    except KeyboardInterrupt:
+        logging.info("Stopping the staff communication handler...")
+    finally:
+        if data_processor is not None:
+            data_processor.stop()
+        if handler:
+            handler.stop()
+        thread.join(timeout=5) # Wait for the thread to finish
+        if thread.is_alive():
+            print("Thread hat nicht rechtzeitig geantwortet und wird erzwungen beendet.")
+    
