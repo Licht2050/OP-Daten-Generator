@@ -25,6 +25,7 @@ BLOOD_PRESSURE_SOURCE_NAME = "blood_pressure"
 ETCO2_SOURCE_NAME = "etco2"
 HEART_RATE_SOURCE_NAME = "heart_rate"
 OXYGEN_SATURATION_SOURCE_NAME = "oxygen_saturation"
+PATIENT_ENTRY_EXIT_EVENTS_SOURCE_NAME = "patient_entry_exit_events"
 
 
 PATIENT_INFO_NAME = "patient_details"

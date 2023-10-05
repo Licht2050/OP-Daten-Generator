@@ -55,6 +55,10 @@
     "op_record": {
       "bootstrap_servers": "192.168.29.120:9092",
       "topic": "operation_record"
-    }
+    },
+    "patient_entry_exit_events": {
+      "bootstrap_servers": "192.168.29.120:9093",
+      "topic": "patient_entry_exit_events"
+      }
 }
   

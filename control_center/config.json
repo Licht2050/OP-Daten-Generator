@@ -41,7 +41,9 @@
             "blood_pressure.py",
             "consume_patient_record.py",
             "indoor_environment_data.py",
-            "consume_op_record.py"
+            "consume_op_record.py",
+            "patient_enter_event.py",
+            "patient_exit_event.py"
         ],
         "raspberry_pi_3": [
             "consume_patient_record.py",
@@ -75,7 +77,10 @@
         "post_op_record.py": "op_record",
         "consume_patient_record.py": "consume_patient_details",
         "consume_op_record.py": "consume_op_record",
-        "consume_op_team_info.py": "consume_op_team_info"
+        "consume_op_team_info.py": "consume_op_team_info",
+        "patient_enter_event.py": "patient_enter_and_exit_evets",
+        "patient_exit_event.py": "patient_enter_and_exit_evets"
+        
     },
     "dependency_paths":[
         "config",

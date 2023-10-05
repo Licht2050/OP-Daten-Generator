@@ -39,15 +39,17 @@ class KafkaTopicConsumer(Base):
             auto_offset_reset=self.auto_offset_reset,
             value_deserializer=value_deserializer
         )
-
+        self.consumer.subscribe([self.topic_name])
 
     def close(self):
         """Close Kafka consumer connection."""
+        self.logger.info("Closing Kafka consumer...")
         self.consumer.close()
+
 
     def consume(self):
         """Consume messages from Kafka topic."""
-        self.consumer.subscribe([self.topic_name])
+        
 
         # neue integration:
         loop = asyncio.new_event_loop()
@@ -64,18 +66,18 @@ class KafkaTopicConsumer(Base):
                         self.executor.submit(self.callback, message.value)
                 else:
                     self.logger.info(f"Received message: {message.value}")
-        except KeyboardInterrupt:
-            self.logger.info("Interrupted by user. Closing connections...")
-            self.close()  # Closing the Kafka consumer connection
-            self.logger.info("Connections closed. Exiting.")
+        
         except Exception as e:
             self._handle_exception(f"Error while consuming data: {e}")
         finally:
             self.close()
+            self.executor.shutdown(wait=True)
             loop.close()
 
-
-
+    def shutdown(self):
+        self.logger.info("Initiating graceful shutdown...")
+        self.close()
+        self.executor.shutdown(wait=True)
 
 def process_message(message):
     print(f"Processing message: {message}")

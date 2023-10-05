@@ -44,7 +44,12 @@
       "bootstrap_servers": "192.168.29.120:9092",
       "topic_name": "operation_record",
       "group_id": "OPRecord_To_MongoDB"
-    }
+    },
+    "patient_entry_exit_events": {
+      "bootstrap_servers": "192.168.29.120:9093",
+      "topic_name": "patient_entry_exit_events",
+      "group_id": "PatientEntryExitEvents_To_InfluxDB_Korrelator"
+      }
   },
   "mongodb": {
     "host": "localhost",

@@ -21,7 +21,11 @@ logger = logging.getLogger(__name__)
 SCRIPTS_FIRST_PHASE = ["consume_op_team_info.py", "consume_op_record.py", "consume_patient_record.py"]
 SCRIPTS_SECOND_PHASE = ["patient_data_generator.py"]
 SCRIPTS_THIRD_PHASE = ["op_team.py", "pre_op_record.py"]
+SCRIPTS_FOURTH_PHASE = ["entry_exit_event.py", "indoor_environment_data.py", "outdoor_environment.py"]
+SCRIPTS_FIFTH_PHASE = ["patient_enter_event.py"]
+SCRIPTS_SIXTH_PHASE = ["heart_rate.py", "blood_pressure.py", "bis.py", "etco2.py", "oxygen_saturation_producer.py", "staff_communication_during_op.py"]
 SCRIPTS_POST_OP_PHASE = ["post_op_record.py"]
+SCRIPTS_SEVENTH_PHASE = ["patient_exit_event.py"]
 # SCRIPTS_FIRST_PHASE = ["patient_data_generator.py", "staff_communication_during_op.py", "entry_exit_event.py"]
 # SCRIPTS_SECOND_PHASE = ["op_team.py"]
 
@@ -272,6 +276,7 @@ def execute_scripts_on_raspberries(script_execution_config, raspberry_pis_config
 
 def execute_scripts(config_loader):
     executors = []
+    vital_parameter_executors = []
     local_runner = BackgroundScriptRunner()
     try:
         raspberry_pis_config = config_loader.load_config("raspberry_pis")
@@ -290,20 +295,39 @@ def execute_scripts(config_loader):
         phases = [
             (SCRIPTS_FIRST_PHASE, "Möchten Sie den {}-generator starten? (j/n): "),
             (SCRIPTS_SECOND_PHASE, "Möchten Sie den {}-generator starten? (j/n): "),
-            (SCRIPTS_THIRD_PHASE, "Möchten Sie den {}-generator starten? (j/n): ")
+            (SCRIPTS_THIRD_PHASE, "Möchten Sie den {}-generator starten? (j/n): "),
+            (SCRIPTS_FOURTH_PHASE, "Möchten Sie den {}-generator starten? (j/n): "),
+            (SCRIPTS_FIFTH_PHASE, "Möchten Sie den {}-generator starten? (j/n): ")
         ]
         execute_phase_scripts(phases, script_execution_config, raspberry_pis_config, script_paths_config, executors)
-        all_scripts = get_all_scripts_from_config(script_execution_config)
-        execute_remaining_scripts(all_scripts, script_execution_config, raspberry_pis_config, script_paths_config, executors)
+        
+        
+        # all_scripts = get_all_scripts_from_config(script_execution_config)
+        # execute_remaining_scripts(all_scripts, script_execution_config, raspberry_pis_config, script_paths_config, executors)
         
         
         user_input = get_valid_input("Möchten Sie die Ingestors starten? (j/n): ", ['j', 'n'])
         if user_input == 'j':
             start_ingestors(local_runner, ingestors_path_config)
 
+        user_input = get_valid_input("Möchten Sie die Patienten-Vitalparameter starten? (j/n): ", ['j', 'n'])
+        if user_input == 'j':
+            vital_parameter_executors += execute_scripts_on_raspberries(script_execution_config, raspberry_pis_config, script_paths_config, SCRIPTS_SIXTH_PHASE)
+
+        user_input = get_valid_input("Möchten Sie die Patienten-Vitalparameter beenden? (j/n): ", ['j', 'n'])
+        if user_input == 'j':
+            for vital_parameter_executor in vital_parameter_executors:
+                vital_parameter_executor.stop_generators_on_raspberry()
+
+        
         user_input = get_valid_input("Möchten Sie den Post-OP-Generator starten? (j/n): ", ['j', 'n'])
         if user_input == 'j':
             executors += execute_scripts_on_raspberries(script_execution_config, raspberry_pis_config, script_paths_config, SCRIPTS_POST_OP_PHASE)
+
+        user_input = get_valid_input("Möchten Sie die Patient_Exit_Event starten? (j/n): ", ['j', 'n'])
+        if user_input == 'j':
+            executors += execute_scripts_on_raspberries(script_execution_config, raspberry_pis_config, script_paths_config, SCRIPTS_SEVENTH_PHASE)
+
 
         return executors, local_runner
     except Exception as e:
@@ -348,4 +372,5 @@ if __name__ == "__main__":
         if local_runner:
             local_runner.stop_all_processes()
         logger.info("Skripte wurden beendet.")
+        
         

@@ -5,6 +5,7 @@
         "./ingestors/config",
         "./ingestors/schema/influxdb",
         "./ingestors/helper",
-        "./ingestors/data_publisher"
+        "./ingestors/data_publisher",
+        "./ingestors/schema/mongodb"
     ]
 }

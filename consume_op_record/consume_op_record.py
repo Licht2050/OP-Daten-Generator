@@ -32,3 +32,5 @@ if __name__ == "__main__":
         logging.error(f"Error while consuming message: {e}")
     finally:
         consumer.close()
+
+        

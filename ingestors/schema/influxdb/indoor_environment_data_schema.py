@@ -33,6 +33,8 @@ class IndoorEnvironmentDataValue(BaseModel):
     class Config:
         alias_generator = reverse_alias_generator
 
+
+
 class IndoorEnvironmentDataStatus(BaseModel):
     source: str
     value: IndoorEnvironmentDataValue

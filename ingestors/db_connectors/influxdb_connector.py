@@ -74,6 +74,17 @@ class InfluxDBConnector(Base):
             self.client.create_database(db_name)
         except Exception as e:
             self._handle_exception(f"Failed to create database: {e}")
+
+    def create_measurement(self, measurement_name):
+        """Create a new measurement
+        
+        Args:
+            measurement_name (str): Name of the measurement to create.
+        """
+        try:
+            self.client.create_retention_policy(measurement_name, '30d', 3, default=True)
+        except Exception as e:
+            self._handle_exception(f"Failed to create measurement: {e}")
     
     def list_databases(self):
         """List all databases
@@ -86,6 +97,13 @@ class InfluxDBConnector(Base):
         except Exception as e:
             self._handle_exception(f"Failed to list databases: {e}")
             return []
+    
+    def close(self):
+        """Close connection to InfluxDB."""
+        try:
+            self.client.close()
+        except Exception as e:
+            self._handle_exception(f"Failed to close connection: {e}")
 
 
 if __name__ == "__main__":
