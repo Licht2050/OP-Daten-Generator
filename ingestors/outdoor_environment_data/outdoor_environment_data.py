@@ -2,6 +2,7 @@ import datetime
 import sys
 import os
 from threading import Lock
+import threading
 import traceback
 from typing import Any, Dict
 
@@ -95,10 +96,13 @@ class OutdoorEnvironmentDatatHandler(Base):
 
         source = processed_message.get("source", "outdoor_environment")
 
-        fields = {key: value for key, value in outdoor_environment_data.items()}
+        fields = {key: value for key, value in outdoor_environment_data.items() if key != "external_temperature"}
 
         schema = {
             "measurement": source,
+            "tags": {
+                "external_temperature": value_data.external_temperature,
+            },
             "time": timestamp,
             "fields": fields
         }
@@ -130,15 +134,42 @@ class OutdoorEnvironmentDatatHandler(Base):
             self.lock.release()
 
 if __name__ == "__main__":
+    data_processor = None
+    handler = None
+    thread = None
+    try:
+        config_loader = ConfigLoader(CONFIG_FILE_PATH)
+        config = config_loader.get_all_configs()
+        outdoor_environment_data = config.get("topics", {}).get("outdoor_environment_data")
+        influxdb_config = config.get("influxdb")
+        max_workers = config.get("threads", {}).get("max_workers", 10)
 
-    config_loader = ConfigLoader(CONFIG_FILE_PATH)
-    config = config_loader.get_all_configs()
-    outdoor_environment_data = config.get("topics", {}).get("outdoor_environment_data")
-    influxdb_config = config.get("influxdb")
-    max_workers = config.get("threads", {}).get("max_workers", 10)
+        mongodb_config = config.get("mongodb")
+        patient_entry_exit_events_config = config.get("topics", {}).get("patient_entry_exit_events")
 
-    data_processor = DataProcessor()
+        """Add a suffix to the group_id to make it unique"""
+        patient_entry_exit_events_config['group_id'] = patient_entry_exit_events_config['group_id'] + "_outdoor_environment_data"
 
-    handler = OutdoorEnvironmentDatatHandler(outdoor_environment_data, influxdb_config, max_workers=max_workers)
-    handler.add_middleware(data_processor.process_data)
-    handler.run()
+        data_processor = DataProcessor(influxdb_config, patient_entry_exit_events_config, mongodb_config, max_workers)
+        thread = threading.Thread(target=data_processor.run)
+        thread.start()
+
+        handler = OutdoorEnvironmentDatatHandler(outdoor_environment_data, influxdb_config, max_workers=max_workers)
+        handler.add_middleware(data_processor.process_data)
+        handler.run()
+
+    except KeyboardInterrupt:
+        print("Interrupted by user. Closing connections...")
+    except Exception as e:
+        print(f"Error starting IndoorEnvironmentDataHandler: {e}")
+        print(traceback.format_exc())
+    finally:
+        print(f"finally is called")
+        if data_processor is not None:
+            data_processor.stop()
+        if handler is not None:
+            handler.stop()
+        thread.join(timeout=5) # Wait for the thread to finish
+        if thread.is_alive():
+            print("Thread hat nicht rechtzeitig geantwortet und wird erzwungen beendet.")
+        

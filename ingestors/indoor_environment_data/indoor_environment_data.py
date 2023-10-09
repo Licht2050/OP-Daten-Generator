@@ -98,7 +98,7 @@ class IndoorEnvironmentDataHandler(Base):
 
     def create_operation_room_status_schema(self, processed_message: Dict[str, Any]) -> Dict[str, Any]:
         """Create a schema for the operation_room_status measurement."""
-        print(f"Processed message------------------: {processed_message}")
+        # print(f"Processed message------------------: {processed_message}")
         timestamp_str = processed_message.get("timestamp")
         
         timestamp = self._convert_timestamp(timestamp_str) if timestamp_str else self._get_current_timestamp()
@@ -130,7 +130,7 @@ class IndoorEnvironmentDataHandler(Base):
 
     def _convert_timestamp(self, timestamp_str: str) -> str:
         """Convert a timestamp string to ISO format."""
-        print(f"timestamp_str------------------: {timestamp_str}")
+        # print(f"timestamp_str------------------: {timestamp_str}")
         try:
             timestamp_obj = datetime.datetime.strptime(timestamp_str, '%Y-%m-%d %H:%M:%S.%f')
             return timestamp_obj.isoformat() + "Z"
@@ -170,6 +170,10 @@ if __name__ == "__main__":
         indoor_environment_config = config.get("topics", {}).get("indoor_environment_data")
         mongodb_config = config.get("mongodb")
         patient_entry_exit_events_config = config.get("topics", {}).get("patient_entry_exit_events")
+        
+        """Add a suffix to the group_id to make it unique"""
+        patient_entry_exit_events_config['group_id'] = patient_entry_exit_events_config['group_id'] + "_indoor_environment_data"
+
         influxdb_config = config.get("influxdb")
         max_workers = config.get("threads", {}).get("max_workers", 10)
 

@@ -8,6 +8,7 @@ sys.path.extend([
     os.path.join(os.path.dirname(__file__), '../../helper_classes_and_functions'),
     os.path.join(os.path.join(os.path.dirname(__file__), '../schema/influxdb')),
     os.path.join(os.path.dirname(__file__), '../helper'),
+    os.path.join(os.path.dirname(__file__), '../core')
 ])
 
 from base_processor import BaseProcessor
@@ -23,15 +24,16 @@ class DataProcessor(BaseProcessor):
         try:
             staff_communication_datetime_obj = self._convert_to_datetime(processed_data.get("timestamp"))
             value = processed_data.get('value')
-
-            if self.current_patients:
-                for patient_id, timestamp_and_op_room in self.current_patients.items():
-                    op_room = timestamp_and_op_room.get("op_room")
-                    patient_entered_datetime_obj = self._convert_to_datetime(timestamp_and_op_room.get("timestamp"))
-                    
-                    if op_room == value.get("op_room") and staff_communication_datetime_obj >= patient_entered_datetime_obj:
-                        schema = self.create_staff_communication_schema(processed_data, patient_id)
-                        self.influxdb_connector.write_points([schema])
+            
+            for patient_id, timestamp_and_op_room in self.current_patients.items():
+                op_room = timestamp_and_op_room.get("op_room")
+                patient_entered_datetime_obj = timestamp_and_op_room.get("timestamp")
+                msg_op_room = value.get("op_room")
+                print(f"value: {value}")
+                print(f"patient_op_room: {op_room}, data_op_room: {msg_op_room}, patient_entered_datetime_obj: {patient_entered_datetime_obj}, staff_communication_datetime_obj: {staff_communication_datetime_obj}")
+                if op_room == msg_op_room and staff_communication_datetime_obj >= patient_entered_datetime_obj:
+                    schema = self.create_staff_communication_schema(processed_data, patient_id)
+                    self.influxdb_connector.write_points([schema])
         except Exception as e:
             self.logger.error(f"Error processing staff communication data: {e}")
             raise
@@ -50,7 +52,7 @@ class DataProcessor(BaseProcessor):
         timestamp = self._convert_to_datetime(timestamp_str)
         value_data = msg.get("value", {})
 
-        source = patient_id + "_staff_communication"
+        source = f"{patient_id}_staff_communication"
         schema = {
             "measurement":  source,
             "tags": {

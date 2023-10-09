@@ -105,9 +105,9 @@ class OPEventGenerator:
     def _send_event_for_person(self, person, entering):
         """Generates and sends the event for a person entering or exiting."""
         event = {
-            "Operation_Room": self.op_record_config["Operation_Room"],
+            "op_room": self.op_record_config["Operation_Room"],
             "person": person,
-            "event_type": "Eintritt" if entering else "Verlassen",
+            "event": "Eintritt" if entering else "Verlassen",
         }
         self.sender.send_single_data(self.source_name, event)
 

@@ -115,35 +115,34 @@ class OperationTeamHandler(Base):
 
     def _update_or_insert_data(self, source: str, patient_id: str, record_dict: Dict[str, Any]) -> None:
         """Update existing data or insert new data in the database."""
-        existing_patient = self.mongo_connector.find_data({"patient_id": patient_id})
-        if existing_patient:
-            self._update_existing_data(source, record_dict, existing_patient, patient_id)
+        existing_op_details = self.mongo_connector.find_data({"patient_id": patient_id})
+        if existing_op_details:
+            self._update_existing_data(source, record_dict, existing_op_details, patient_id)
         else:
-            new_patient_data = {"patient_id": patient_id, source: [record_dict]}
-            self.mongo_connector.insert_data(new_patient_data)
+            new_op_details = {"patient_id": patient_id, source: [record_dict]}
+            self.mongo_connector.insert_data(new_op_details)
 
-    def _update_existing_data(self, source: str, record_dict: Dict[str, Any], existing_patient: Dict[str, Any], patient_id: str) -> None:
+    def _update_existing_data(self, source: str, record_dict: Dict[str, Any], existing_op_details: Dict[str, Any], patient_id: str) -> None:
         """Update existing data in the database."""
-        if existing_patient:
-            if existing_patient.get(source) is None:
-                # The field is not set in the existing document, so we set it to an array containing the new record
-                update_data = {"$set": {source: [record_dict]}}
-            else:
-                # The field is already an array in the existing document, so we push the new record to it
-                # Get the existing op_team array
-                op_team = existing_patient.get('op_team')
-                if op_team:
-                    # Iterate over the existing op_team array and update the individual role arrays
-                    for team in op_team:
-                        for role, members in record_dict.items():
-                            # Here role will be 'doctors', 'nurses', or 'anesthetists'
-                            # and members will be the array of members for that role in the new record
-                            for new_member in members:                                   
-                                if new_member not in team[role]:
-                                    team[role].append(new_member)
-                update_data = {"$set": {source: op_team}}
-            self.mongo_connector.update_data({"patient_id": patient_id}, update_data, update_many=False)
-
+        
+        # if existing_op_details.get(source) is None:
+            # The field is not set in the existing document, so we set it to an array containing the new record
+        update_data = {"$set": {source: [record_dict]}}
+        # else:
+        #     # The field is already an array in the existing document, so we push the new record to it
+        #     # Get the existing op_team array
+        #     op_team = existing_op_details.get('op_team')
+        #     if op_team:
+        #         # Iterate over the existing op_team array and update the individual role arrays
+        #         for team in op_team:
+        #             for role, members in record_dict.items():
+        #                 # Here role will be 'doctors', 'nurses', or 'anesthetists'
+        #                 # and members will be the array of members for that role in the new record
+        #                 for new_member in members:                                   
+        #                     if new_member not in team[role]:
+        #                         team[role].append(new_member)
+        #     update_data = {"$set": {source: op_team}}
+        self.mongo_connector.update_data({"patient_id": patient_id}, update_data, update_many=False)
 
     def run(self) -> None:
         self.patient_consumer.consume()
@@ -153,7 +152,7 @@ if __name__ == '__main__':
     config_loader = ConfigLoader(CONFIG_FILE_PATH)
     config = config_loader.get_all_configs()
     operation_team_config = config['topics']['operation_team']
-    mongodb_config = config['mongodb']
+    mongodb_config = config['op_details']
     operation_team_handler = OperationTeamHandler(operation_team_config, mongodb_config)
 
     data_processor = DataProcessor()

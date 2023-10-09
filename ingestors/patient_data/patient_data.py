@@ -36,30 +36,45 @@ class PatientDataHandler(Base):
     SOURCE_TO_FIELD_MAP = {
         'patient_records': '',
         'illness_records': 'illness_records',
-        'holiday_records': 'holiday_records',
+        # 'holiday_records': 'holiday_records',
     }
-    def __init__(self, patient_data_config: Dict[str, Any], mongodb_config: Dict[str, Any], max_workers: int=10) -> None:
+    def __init__(self, patient_data_config: Dict[str, Any], mongodb_config: Dict[str, Any], holiday_data_config: Dict[str, Any], max_workers: int=10) -> None:
         super().__init__()
         self._setup_logging()
         self.patient_data_config = patient_data_config
         self.mongodb_config = mongodb_config
+        self.holiday_data_config = holiday_data_config
         self.max_workers = max_workers
         self.middleware_manager = MiddlewareManager()
         self._start_consumer()
         self.lock = Lock()
+        self._initialize_mongodb_connectors()
 
-        # Initialize MongoDBConnector
+        
+    
+    def _initialize_mongodb_connectors(self) -> None:
         try:
-            self.mongo_connector = MongoDBConnector(
+            self.patient_profile_connector = MongoDBConnector(
                 host=self.mongodb_config['host'],
                 port=self.mongodb_config['port'],
                 database_name=self.mongodb_config['database'],
                 collection_name=self.mongodb_config['collection']
             )
+
+            self.holiday_data_connector = MongoDBConnector(
+                host = self.holiday_data_config['host'],
+                port = self.holiday_data_config['port'],
+                database_name = self.holiday_data_config['database'],
+                collection_name = self.holiday_data_config['collection']
+            )
+            
         except Exception as e:
             self._handle_exception(f"Error initializing MongoDB connector: {e}")
             self.logger.error(traceback.format_exc())
             raise
+
+
+        
 
     def _start_consumer(self) -> None:
         """
@@ -97,7 +112,19 @@ class PatientDataHandler(Base):
             
         
             with self.lock:
-                existing_patient = self.mongo_connector.find_data({"patient_id": patient_id})
+
+                if source == 'holiday_records':
+                    existing_holiday_record = self.holiday_data_connector.find_data({"patient_id": patient_id})
+                    record_data = record.model_dump(by_alias=False)
+
+                    if existing_holiday_record:
+                        self.holiday_data_connector.update_data({"patient_id": patient_id}, {"$push": {"records": record_data}})
+                    else:
+                        self.holiday_data_connector.insert_data({"patient_id": patient_id, "records": [record_data]})
+                    return
+
+
+                existing_patient = self.patient_profile_connector.find_data({"patient_id": patient_id})
                 field_name = self.SOURCE_TO_FIELD_MAP.get(source)
 
                 if existing_patient:
@@ -109,18 +136,18 @@ class PatientDataHandler(Base):
                         non_null_fields = {k: v for k, v in record_dict.items() if v is not None and v != []}
                         
                         non_null_fields.pop('illness_records', None)
-                        non_null_fields.pop('holiday_records', None)
-                        non_null_fields.pop('op_team', None)
-                        non_null_fields.pop('operation_records', None)
+                        # non_null_fields.pop('holiday_records', None)
+                        # non_null_fields.pop('op_team', None)
+                        # non_null_fields.pop('operation_records', None)
                         update_data = {"$set": non_null_fields} 
                         print(f"non_null_fields: {update_data}")
-                    self.mongo_connector.update_data({"patient_id": patient_id}, update_data, update_many=False)
+                    self.patient_profile_connector.update_data({"patient_id": patient_id}, update_data, update_many=False)
                 else:
                     record_dict = record.model_dump(by_alias=True)
                     # Create a new Patient data with default values
                     new_patient_data_dict = {"Patient_ID": patient_id}
                     
-                    # If the source is 'illness_records' or 'holiday_records', add the record to the respective list
+                    # If the source is 'illness_records' add the record to the respective list
                     if field_name:
                         new_patient_data_dict[field_name] = [record_dict]
                     # If the source is 'patient_records', update the new patient data with the record data
@@ -134,7 +161,7 @@ class PatientDataHandler(Base):
                     new_patient_data = new_patient_data_model.model_dump(by_alias=False)
 
                     # Insert the new patient data into the database
-                    self.mongo_connector.insert_data(new_patient_data)
+                    self.patient_profile_connector.insert_data(new_patient_data)
 
         except KeyboardInterrupt:
             self.logger.info("Interrupted by user. Closing connections...")
@@ -160,12 +187,12 @@ class PatientDataHandler(Base):
             non_null_fields = {k: v for k, v in record_dict.items() if v is not None and v != []}
             
             non_null_fields.pop('illness_records', None)
-            non_null_fields.pop('holiday_records', None)
-            non_null_fields.pop('op_team', None)
-            non_null_fields.pop('operation_records', None)
+            # non_null_fields.pop('holiday_records', None)
+            # non_null_fields.pop('op_team', None)
+            # non_null_fields.pop('operation_records', None)
             update_data = {"$set": non_null_fields} 
             print(f"non_null_fields: {update_data}")
-        self.mongo_connector.update_data({"patient_id": patient_id}, update_data, update_many=False)
+        self.patient_profile_connector.update_data({"patient_id": patient_id}, update_data, update_many=False)
 
         
 
@@ -184,11 +211,13 @@ if __name__ == "__main__":
     config = config_loader.get_all_configs()
     patient_data_config = config['topics']['patient_data']
     mangodb_config = config['mongodb']
+    holiday_data_config = config['holiday_records']
+
     max_workers = config.get("threads", {}).get("max_workers", 10)
 
     data_processor = DataProcessor()
 
     # Start the staff communication handler
-    patient_data_handler = PatientDataHandler(patient_data_config, mangodb_config, max_workers=max_workers)
+    patient_data_handler = PatientDataHandler(patient_data_config, mangodb_config, holiday_data_config, max_workers=max_workers)
     patient_data_handler.add_middleware(data_processor.process_data)
     patient_data_handler.run()

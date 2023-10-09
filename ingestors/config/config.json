@@ -59,6 +59,20 @@
     "collection_operation_team": "operation_team"
   },
 
+  "op_details": {
+    "host": "localhost",
+    "port": 27017,
+    "database": "medical_data",
+    "collection": "op_details"
+  },
+
+  "holiday_records": {
+    "host": "localhost",
+    "port": 27017,
+    "database": "medical_data",
+    "collection": "holiday_records"
+  },
+
   "cassandra": {
     "nodes": ["127.0.0.1"],
     "keyspace": "medical_data",

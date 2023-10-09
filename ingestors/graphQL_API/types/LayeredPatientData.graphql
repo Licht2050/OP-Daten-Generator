@@ -1,0 +1,9 @@
+# schema/types/combined_data.graphql
+
+
+type LayeredPatientData {
+    patientProfile: Patient
+    vitalParams: VitalParams
+    OpDetails: OpDetails
+}
+

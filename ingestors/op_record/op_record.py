@@ -16,7 +16,7 @@ sys.path.extend([
     os.path.join(os.path.join(os.path.dirname(__file__), '../schema/mongodb'))
 ])
 
-from db_schema import OperationRecord, Patient, PostOPRecord, PreOPRecord
+from db_schema import OpDetails, Patient, PostOPRecord, PreOPRecord
 from base import Base
 from paths_config import CONFIG_FILE_PATH
 from config_loader import ConfigLoader
@@ -120,54 +120,34 @@ class OpRecordHandler(Base):
 
     def _update_or_insert_data(self, source: str, patient_id: str, record) -> None:
         """Update existing data or insert new data in the database."""
-        existing_patient = self.mongo_connector.find_data({"patient_id": patient_id})
-        if existing_patient:
-            self._update_existing_data(source, record, existing_patient, patient_id)
+        existing_op_details = self.mongo_connector.find_data({"patient_id": patient_id})
+        if existing_op_details:
+            self._update_existing_data(source, record, existing_op_details, patient_id)
         else:
             
-            new_patient_data = {
-                "Patient_ID": patient_id, 
-            }
+
             
             record_dict = record.model_dump(by_alias=True)
-            if source == 'pre_op_record':
-                operation_record = OperationRecord(Pre_OP_Record=PreOPRecord.model_validate(record_dict), Post_OP_Record=None)
-            elif source == 'post_op_record':
-                operation_record = OperationRecord(Pre_OP_Record=None, Post_OP_Record=PostOPRecord.model_validate(record_dict))
-            else:
-                self.logger.error(f"Unknown source: {source}")
-                return            
+            # if source == 'pre_op_record':
+            #     op_details = OpDetails(patient_id=patient_id, Pre_OP_Record=PreOPRecord.model_validate(record_dict), Post_OP_Record=None)
+            # elif source == 'post_op_record':
+            #     op_details = OpDetails(patient_id=patient_id, Pre_OP_Record=None, Post_OP_Record=PostOPRecord.model_validate(record_dict))
+            # else:
+            #     self.logger.error(f"Unknown source: {source}")
+            #     return            
 
-            print(f"operation_record: {operation_record}")
+            # print(f"operation_record: {op_details}")
             
-
-            # Create a new Patient model instance
-            new_patient_data_model = Patient.model_validate(new_patient_data)
-            new_patient_data_model.operation_records = operation_record
-
-            # Convert the Patient model instance to a dictionary
-            new_patient_data = new_patient_data_model.model_dump(by_alias=False)
-            self.mongo_connector.insert_data(new_patient_data)
+            new_op_details = {"patient_id": patient_id, source: [record_dict]}
+            self.mongo_connector.insert_data(new_op_details)
 
     def _update_existing_data(self, source: str, record, existing_patient: Dict[str, Any], patient_id: str) -> None:
         """Update existing data in the database."""
-        operation_records = existing_patient.get('operation_records', {})
 
-        
-        if operation_records is None:
-            operation_records = {}
-        # Get the nested dictionary corresponding to the source (e.g., 'pre_op_record')
-        nested_dict = operation_records.get(source, {})
-        if nested_dict is None:
-            nested_dict = {}    
-        
         record_dict = record.model_dump(by_alias=False)
-        # Update the nested dictionary with the new record dictionary
-        nested_dict.update(record_dict)
-
-        operation_records[source] = nested_dict
-        update_data = {"$set": {"operation_records": operation_records}}
-
+        
+        update_data = {"$set": {source: record_dict}}   
+        
         self.mongo_connector.update_data({"patient_id": patient_id}, update_data, update_many=False)
 
 
@@ -180,7 +160,7 @@ if __name__ == '__main__':
     config_loader = ConfigLoader(CONFIG_FILE_PATH)
     config = config_loader.get_all_configs()
     op_record_config = config['topics']['op_record']
-    mongodb_config = config['mongodb']
+    mongodb_config = config['op_details']
     operation_team_handler = OpRecordHandler(op_record_config, mongodb_config)
 
     data_processor = DataProcessor()

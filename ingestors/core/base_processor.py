@@ -70,8 +70,9 @@ class BaseProcessor(Base):
     def _process_patient_entry_exit_events(self, message):
         msg = json.loads(message.decode('utf-8'))
         timestamp = msg.get("timestamp")
+        timestamp_datetime_obj = self._convert_to_datetime(timestamp)
         value = msg.get("value")
-        print(f"Patient entry exit evet-----------------: {value} and time stamp: {timestamp}")
+        print(f"Patient entry exit evet-----------------: {value} and time stamp: {timestamp_datetime_obj}")
         patient_id = value.get("Patient_ID")
 
         with self.patients_locks:
@@ -80,7 +81,7 @@ class BaseProcessor(Base):
                 op_room = self._fetch_patient_op_room(patient_id)
                 self.current_patients[patient_id] = {
                     "op_room": op_room,
-                    "timestamp": timestamp
+                    "timestamp": timestamp_datetime_obj
                 }
             elif value.get("event_type") == "patient_left":
                 del self.current_patients[patient_id]

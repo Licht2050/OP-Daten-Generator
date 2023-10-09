@@ -120,10 +120,12 @@ class StaffCommunicationGenerator:
             if self.consumer is not None:
                 for record in self.consumer:
                     message = record.value["value"]
-                    event_type = message.get("event_type")
-                    handler = event_handlers.get(event_type)
-                    if handler:
-                        handler(message)
+                    op_room = message.get("op_room")
+                    if op_room == self.op_record_config["Operation_Room"]:
+                        event_type = message.get("event")
+                        handler = event_handlers.get(event_type)
+                        if handler:
+                            handler(message)
         except KeyboardInterrupt:
             logging.info("load stopped.")
         finally:
@@ -138,7 +140,7 @@ class StaffCommunicationGenerator:
         :return: A dictionary containing the sender and the generated message.
         """
         return {
-            "Operation_Room": self.op_record_config["Operation_Room"],
+            "op_room": self.op_record_config["Operation_Room"],
             "sender": sender,
             "message": random.choice(self.conversation_messages)
         }   

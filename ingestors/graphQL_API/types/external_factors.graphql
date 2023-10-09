@@ -1,0 +1,33 @@
+# schema/types/external_factors.graphql
+
+# schema/external_factors.graphql (Erweiterung)
+
+type OutdoorEnvironment {
+    time: String
+    airHumidity: Float
+    airPressure: Float
+    externalTemperature: Float
+    windSpeed: Float
+}
+
+
+type HolidayRecord {
+    destination: String
+    activity: String
+    duration: Int
+    start_date: String
+    end_date: String
+}
+
+
+
+
+type ExternalFactorsQuery {
+    outdoorEnvironment: [OutdoorEnvironment]
+    holidayRecords: [HolidayRecord]
+}
+
+type ExternalFactorsSubscription {
+    outdoorEnvironmentUpdated: OutdoorEnvironment
+    holidayRecordsUpdated: HolidayRecord
+}

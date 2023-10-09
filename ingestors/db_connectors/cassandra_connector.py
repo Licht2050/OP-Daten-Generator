@@ -36,7 +36,13 @@ class CassandraConnector:
             print(f"Could not create keyspace {keyspace}: {e}")
 
     def _ensure_table(self, table_definition):
-        self.session.execute(table_definition)
+            try:
+                print(f"Executing: {table_definition}")
+                self.session.execute(table_definition)
+            except Exception as e:
+                logging.error(f"Could not execute table definition: {e}")
+                print(f"Could not execute table definition: {e}")
+
 
     def close(self):
         self.cluster.shutdown()

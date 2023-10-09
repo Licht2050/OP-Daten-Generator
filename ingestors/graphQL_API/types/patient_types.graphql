@@ -1,4 +1,5 @@
 # schema/type_defs.graphql
+# Patientenprofil-Schicht
 
 
 type Address {
@@ -15,38 +16,8 @@ type IllnessRecord {
     additional_info: String
 }
 
-type HolidayRecord {
-    destination: String
-    activity: String
-    duration: Int
-    start_date: String
-    end_date: String
-}
 
-type OPTeam {
-    doctors: [String]
-    nurses: [String]
-    anesthetists: [String]
-}
 
-type PreOPRecord {
-    operation_type: String
-    operation_room: String
-    duration: Int
-    operation_date: String
-    anesthesia_typ: String
-    medical_devices: [String]
-}
-
-type PostOPRecord {
-    operation_outcome: String
-    notes: String
-}
-
-type OperationRecord {
-    pre_op_record: PreOPRecord
-    post_op_record: PostOPRecord
-}
 
 type Patient {
     _id: ID
@@ -60,9 +31,6 @@ type Patient {
     height: Int
     address: Address
     illness_records: [IllnessRecord]
-    holiday_records: [HolidayRecord]
-    op_team: [OPTeam]
-    operation_records: OperationRecord
 }
 
 type PatientQuery {
@@ -104,6 +72,7 @@ type PatientQuery {
         """
         anesthesia_type: String!): [Patient]
 }
+
 
 extend type Query {
     patient: PatientQuery

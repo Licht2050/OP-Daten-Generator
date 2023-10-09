@@ -3,3 +3,17 @@
 type Query{
     _: Boolean
 }
+
+type Subscription{
+    _: Boolean
+}
+
+
+type RealTimeVitalParamsQuery {
+    _: Boolean
+}
+
+type DataStructure{
+    patient: Patient
+    vitalParams: [VitalParamsQuery]
+}

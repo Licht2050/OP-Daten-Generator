@@ -71,6 +71,7 @@ class HolidayRecord(BaseModel):
         alias_generator = reverse_alias_generator
 
 class OperationTeam(BaseModel):
+    patient_id: str = Field(..., alias='Patient_ID')
     doctors: List[str] = Field(default_factory=list)
     nurses: List[str] = Field(default_factory=list)
     anesthetists: List[str] = Field(default_factory=list)
@@ -89,6 +90,7 @@ class PreOPRecord(BaseModel):
         alias_generator = reverse_alias_generator
 
 class PostOPRecord(BaseModel):
+    
     operation_outcome: str = Field(..., alias='Operation_Outcome')
     notes: Optional[str] = Field(None, alias='Notes')
 
@@ -96,9 +98,11 @@ class PostOPRecord(BaseModel):
     class Config:
         alias_generator = reverse_alias_generator
 
-class OperationRecord(BaseModel):
+class OpDetails(BaseModel):
+    patient_id: str = Field(..., alias='Patient_ID')
     pre_op_record: Optional[PreOPRecord] = Field(None, alias='Pre_OP_Record')
     post_op_record: Optional[PostOPRecord] = Field(None, alias='Post_OP_Record')
+    op_team: Optional[OperationTeam] = Field(None)
 
     class Config:
         alias_generator = reverse_alias_generator
@@ -117,9 +121,9 @@ class Patient(BaseModel):
     height: Optional[Union[int, None]] = Field(None, alias='Größe', description="Größe des Patienten in cm")
     address: Optional[Address] = Field(None)
     illness_records: List[IllnessRecord] = Field(default_factory=list)
-    holiday_records: List[HolidayRecord] = Field(default_factory=list)
-    op_team: Optional[OperationTeam] = Field(None)
-    operation_records: Optional[OperationRecord] = Field(None, alias='Operation_Record')
+    # holiday_records: List[HolidayRecord] = Field(default_factory=list)
+    # op_team: Optional[OperationTeam] = Field(None)
+    # operation_records: Optional[OperationRecord] = Field(None, alias='Operation_Record')
 
 
     class Config:

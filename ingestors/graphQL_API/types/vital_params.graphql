@@ -1,0 +1,91 @@
+# schema/types/vital_params.graphql
+# Echtzeit-Vitalparameter-Schicht
+
+
+type BispectralIndex {
+    patient_id: ID
+    bucket_date: String
+    timestamp: String
+    bispectral_index: Float
+    status: String
+}
+
+
+type BloodPressure {
+    patient_id: ID
+    bucket_date: String
+    timestamp: String
+    diastolic: Float
+    estimated_time: String
+    status: String
+    systolic: Float
+}
+
+
+type EtCO2 {
+    patient_id: ID
+    bucket_date: String
+    timestamp: String
+    etco2: Float
+    status: String
+}
+
+
+
+type HeartRate {
+    patient_id: ID
+    bucket_date: String
+    timestamp: String
+    estimated_time: String
+    heart_rate: Int
+    status: String
+}
+
+
+type OxygenSaturation {
+    patient_id: ID
+    bucket_date: String
+    timestamp: String
+    oxygen_saturation: Float
+    status: String
+}
+
+
+
+
+type VitalParams {
+    etco2: EtCO2
+    bloodPressure: BloodPressure
+    bispectralIndex: BispectralIndex
+    heartRate: HeartRate
+    oxygenSaturation: OxygenSaturation
+
+}
+
+
+type RealTimeVitalParamsSubscription {
+    etco2Updated: EtCO2
+    bloodPressureUpdated: BloodPressure
+    bispectralIndexUpdated: BispectralIndex
+    heartRateUpdated: HeartRate
+    oxygenSaturationUpdated: OxygenSaturation
+
+}
+
+
+
+
+type VitalParamsQuery{
+    getHeartRateByDate(patientId: ID!, timestamp: String!, secondsRange: Int): LayeredPatientData
+}
+
+
+# extend
+extend type Query {
+    vitalParamsQuery: VitalParamsQuery
+}
+
+
+# extend type Subscription {
+#     realTimeVitalParams: RealTimeVitalParamsSubscription
+# }

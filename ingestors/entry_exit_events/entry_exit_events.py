@@ -2,6 +2,7 @@ import datetime
 import sys
 import os
 from threading import Lock
+import threading
 import traceback
 from typing import Any, Dict
 
@@ -90,13 +91,14 @@ class EntryExisEventHandler(Base):
         
         value_data = processed_message.get("value", {})
         source = processed_message.get("source")
-
-        fields = {key: value for key, value in value_data.items() if key != "Operation_Room"}
+        
+        value_data_dict = value_data.model_dump()
+        fields = {key: value for key, value in value_data_dict.items() if key != "op_room"}
 
         schema = {
             "measurement": source,
             "tags": {
-                "Operation_Room": value_data.get("Operation_Room"),
+                "op_room": value_data.op_room,
             },
             "time": timestamp,
             "fields": fields
@@ -129,15 +131,41 @@ class EntryExisEventHandler(Base):
             self.lock.release()
 
 if __name__ == "__main__":
+    handler = None
+    data_processor = None
+    thread = None
+    try:
+        config_loader = ConfigLoader(CONFIG_FILE_PATH)
+        config = config_loader.get_all_configs()
+        entry_exit_events_config = config.get("topics", {}).get("entry_exit_events")
+        influxdb_config = config.get("influxdb")
+        max_workers = config.get("threads", {}).get("max_workers", 10)
 
-    config_loader = ConfigLoader(CONFIG_FILE_PATH)
-    config = config_loader.get_all_configs()
-    entry_exit_events_config = config.get("topics", {}).get("entry_exit_events")
-    influxdb_config = config.get("influxdb")
-    max_workers = config.get("threads", {}).get("max_workers", 10)
+        mongodb_config = config.get("mongodb")
+        patient_entry_exit_events_config = config.get("topics", {}).get("patient_entry_exit_events")
 
-    data_processor = DataProcessor()
+        """Add a suffix to the group_id to make it unique"""
+        patient_entry_exit_events_config['group_id'] = patient_entry_exit_events_config['group_id'] + "_entry_exit_events"
 
-    handler = EntryExisEventHandler(entry_exit_events_config, influxdb_config, max_workers=max_workers)
-    handler.add_middleware(data_processor.process_data)
-    handler.run()
+        data_processor = DataProcessor(influxdb_config, patient_entry_exit_events_config, mongodb_config, max_workers)
+        thread = threading.Thread(target=data_processor.run)
+        thread.start()
+
+        handler = EntryExisEventHandler(entry_exit_events_config, influxdb_config, max_workers=max_workers)
+        handler.add_middleware(data_processor.process_data)
+        handler.run()
+
+    except KeyboardInterrupt:
+        print("Interrupted by user. Closing connections...")
+    except Exception as e:
+        print(f"Error starting IndoorEnvironmentDataHandler: {e}")
+        print(traceback.format_exc())
+    finally:
+        print(f"finally is called")
+        if data_processor is not None:
+            data_processor.stop()
+        if handler is not None:
+            handler.stop()
+        threading.join(timeout=5) # Wait for the thread to finish
+        if thread.is_alive():
+            print("Thread hat nicht rechtzeitig geantwortet und wird erzwungen beendet.")

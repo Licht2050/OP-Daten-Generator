@@ -84,7 +84,7 @@ class StaffCommunicationHandler(Base):
         schema = {
             "measurement": "staff_communication",
             "tags": {
-                "Operation_Room": value_data.get("Operation_Room", "Unknown"),
+                "Operation_Room": value_data.get("op_room", "Unknown"),
                 "sender": value_data.get("sender", "Unknown"),
             },
             "time": timestamp_iso,
@@ -113,6 +113,8 @@ if __name__ == "__main__":
         mongodb_config = config.get("mongodb")
         max_workers = config.get("threads", {}).get("max_workers", 10)
         patient_entry_exit_events_config = config.get("topics", {}).get("patient_entry_exit_events")
+        """Add a suffix to the group_id to make it unique"""
+        patient_entry_exit_events_config['group_id'] = patient_entry_exit_events_config['group_id'] + "_staff_communication"
 
         # Instantiate the data processor and the staff communication handler
         data_processor = DataProcessor(influxdb_config, patient_entry_exit_events_config, mongodb_config, max_workers)

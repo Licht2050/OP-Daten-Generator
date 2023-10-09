@@ -1,4 +1,14 @@
-# schema/environment_data.graphql
+# schema/types/op_environment.graphql
+# OP-Umwelt-Schicht
+
+
+type EntryExitEvent {
+    time: String!
+    event: String!
+    person: String!
+}
+
+
 
 type IndoorEnvironmentData {
     temperature: Float
@@ -13,6 +23,33 @@ type IndoorEnvironmentData {
     op_room: String
 }
 
+type StaffCommunication {
+    time: String!
+    message: String!
+    sender: String!
+}
+
+
+
+
+type OpEnvironmentQuery{
+    entryExitEvents: [EntryExitEvent]
+    indoorEnvironmentData: [IndoorEnvironmentData]
+    staffCommunication: [StaffCommunication]
+}
+
+
+type OpEnvironmentSubscription{
+    entryExitEventUpdated: EntryExitEvent
+    indoorEnvironmentDataUpdated: IndoorEnvironmentData
+    staffCommunicationUpdated: StaffCommunication
+}
+
+
+
+
+# old schema
+
 type EnvironmentDataQuery {
     getIndoorEnvironmentData: [IndoorEnvironmentData]
 }
@@ -25,6 +62,6 @@ extend type Query {
     environmentData: EnvironmentDataQuery
 }
 
-type Subscription {
+extend type Subscription {
     indoorEnvironmentDataUpdated: IndoorEnvironmentData
 }

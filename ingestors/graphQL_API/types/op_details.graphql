@@ -1,0 +1,45 @@
+# schema/types/op_details.graphql
+# OP-Details-Schicht
+
+
+type PreOPRecord {
+    operation_type: String
+    operation_room: String
+    duration: Int
+    operation_date: String
+    anesthesia_typ: String
+    medical_devices: [String]
+}
+
+type PostOPRecord {
+    operation_outcome: String
+    notes: String
+}
+
+
+type OPTeam {
+    doctors: [String]
+    nurses: [String]
+    anesthetists: [String]
+}
+
+type OpDetails {
+    pre_op_record: PreOPRecord
+    post_op_record: PostOPRecord
+    op_team: OPTeam
+}
+
+
+
+
+type OpDetailsQuery {
+    getOpDetailsByPatientId(patient_id: String): OpDetails
+}
+
+# type OpDetailsSubscription {
+#     preOpRecordUpdated: PreOPRecord
+#     postOpRecordUpdated: PostOPRecord
+#     opTeamUpdated: OPTeam
+# }
+
+
