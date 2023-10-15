@@ -73,11 +73,17 @@ type RealTimeVitalParamsSubscription {
 }
 
 
-
+type VitalParamsByDate{
+    getVitalParamsByDate(patientId: ID!, timestamp: String!, secondsRange: Int): VitalParams
+}
 
 type VitalParamsQuery{
     getHeartRateByDate(patientId: ID!, timestamp: String!, secondsRange: Int): LayeredPatientData
+
 }
+
+
+
 
 
 # extend

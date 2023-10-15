@@ -88,10 +88,11 @@ class BaseProcessor(Base):
 
     def _fetch_patient_op_room(self, patient_id):
         try:
-            patient = self.mongodb_connector.find_data({'patient_id': patient_id})
-            if patient and 'operation_records' in patient and 'pre_op_record' in patient['operation_records']:
+            # sollte verbessert werden, um nur op_room zu holen nicht alle op_details
+            op_details = self.mongodb_connector.find_data({'patient_id': patient_id})
+            if op_details and 'pre_op_record' in op_details:
                 # print(f"Patinet {patient}")
-                return patient['operation_records']['pre_op_record'].get('operation_room')
+                return op_details['pre_op_record'].get('operation_room')
         except Exception as e:
             self.logger.error(f"Error fetching operation room for patient {patient_id}: {e}")
             return None

@@ -50,11 +50,13 @@ class DataProcessor(BaseProcessor):
     
     def create_outdoor_environment_schema(self, outdoor_data_datetiem_obj, outdoor_environment_value, patient_id):
         """Create a schema for the outdoor_environment measurement."""
-        source = f"{patient_id}_outdoor_environment"
-        fields = {key: value for key, value in outdoor_environment_value.dict().items() if key not in ["external_temperature"]}
+        source = f"correlated_outdoor_environment"
+        # fields = {key: value for key, value in outdoor_environment_value.dict().items() if key not in ["external_temperature"]}
+        fields = {key: value for key, value in outdoor_environment_value.dict().items()}
         schema = {
             "measurement":  source,
             "tags": {
+                "patient_id": patient_id,
                 "external_temperature": outdoor_environment_value.external_temperature,
             },
             "time": outdoor_data_datetiem_obj,

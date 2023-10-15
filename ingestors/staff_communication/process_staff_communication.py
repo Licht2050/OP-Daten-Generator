@@ -12,6 +12,7 @@ sys.path.extend([
 ])
 
 from base_processor import BaseProcessor
+from staff_communication_schema import StaffCommunication
 
 class DataProcessor(BaseProcessor):
     def __init__(self, influxdb_config: Dict[str, Any], patient_entry_exit_events_config: Dict[str, Any], mongodb_config, max_workers: int=10):
@@ -24,16 +25,26 @@ class DataProcessor(BaseProcessor):
         try:
             staff_communication_datetime_obj = self._convert_to_datetime(processed_data.get("timestamp"))
             value = processed_data.get('value')
+            stafff_communication_value = StaffCommunication(**value)
+            msg.add_data("value", stafff_communication_value)
+            
             
             for patient_id, timestamp_and_op_room in self.current_patients.items():
                 op_room = timestamp_and_op_room.get("op_room")
                 patient_entered_datetime_obj = timestamp_and_op_room.get("timestamp")
                 msg_op_room = value.get("op_room")
-                print(f"value: {value}")
-                print(f"patient_op_room: {op_room}, data_op_room: {msg_op_room}, patient_entered_datetime_obj: {patient_entered_datetime_obj}, staff_communication_datetime_obj: {staff_communication_datetime_obj}")
+                
+                # print(f"value: {value}")
+                # print(f"patient_op_room: {op_room}, data_op_room: {msg_op_room}, patient_entered_datetime_obj: {patient_entered_datetime_obj}, staff_communication_datetime_obj: {staff_communication_datetime_obj}")
                 if op_room == msg_op_room and staff_communication_datetime_obj >= patient_entered_datetime_obj:
+                    
+                    print(f"staff_communication_value: {stafff_communication_value}")
+                    msg.add_data("patient_id", patient_id)
+                    
+                    
                     schema = self.create_staff_communication_schema(processed_data, patient_id)
                     self.influxdb_connector.write_points([schema])
+
         except Exception as e:
             self.logger.error(f"Error processing staff communication data: {e}")
             raise
@@ -47,15 +58,16 @@ class DataProcessor(BaseProcessor):
 
         Returns:
             dict: The InfluxDB schema.
-        """
+        """ 
         timestamp_str = msg.get("timestamp")
         timestamp = self._convert_to_datetime(timestamp_str)
         value_data = msg.get("value", {})
 
-        source = f"{patient_id}_staff_communication"
+        source = f"correlated_staff_communication"
         schema = {
             "measurement":  source,
             "tags": {
+                "patient_id": patient_id,
                 "sender": value_data.get("sender", "Unknown"),
             },
             "time": timestamp.isoformat() + "Z",

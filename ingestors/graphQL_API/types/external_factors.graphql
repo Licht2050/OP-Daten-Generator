@@ -4,10 +4,10 @@
 
 type OutdoorEnvironment {
     time: String
-    airHumidity: Float
-    airPressure: Float
-    externalTemperature: Float
-    windSpeed: Float
+    air_humidity: Float
+    air_pressure: Float
+    external_temperature: Float
+    wind_speed: Float
 }
 
 
@@ -20,11 +20,13 @@ type HolidayRecord {
 }
 
 
-
+type ExternalFactors{
+    outdoorEnvironment: OutdoorEnvironment
+    holidayRecords: [HolidayRecord]
+}
 
 type ExternalFactorsQuery {
-    outdoorEnvironment: [OutdoorEnvironment]
-    holidayRecords: [HolidayRecord]
+    getOutdoorEnvironmentByTimeAndPid(patientId: ID!, timestamp: String!, secondsRange: Int, room: String!): ExternalFactors
 }
 
 type ExternalFactorsSubscription {

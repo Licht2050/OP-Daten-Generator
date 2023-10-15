@@ -117,7 +117,20 @@
     "data_format": "ll",
     "buffer_size": 16,
     "generators": ["blood_pressure", "heart_rate"]
+  },
+  "publish_subscribe_channels":{
+    "indoor_environment_channels":{
+      "subscribe_channel": "indoor_environment_data",
+      "unsubscribe_channel": "indoor_environment_data_unsubscribe",
+      "fields_channel": "indoor_environment_fields"
+      
+    },
+    "staff_communication":{
+      "subscribe_channel": "staff_communication"
+    },
+    "entry_exit_events":{
+      "subscribe_channel": "entry_exit_events"
+    }
   }
-  
 }
   

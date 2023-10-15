@@ -112,19 +112,19 @@ class TimSynchronization(Base):
         self.reader.close()
     
 
-if __name__ == "__main__":
-    config_loader = ConfigLoader("../config/config.json")
-    config = config_loader.load_config("synchronization")
-    reader = SharedMemoryReader(config)
+# if __name__ == "__main__":
+#     config_loader = ConfigLoader("../config/config.json")
+#     config = config_loader.load_config("synchronization")
+#     reader = SharedMemoryReader(config)
     
-    try:
-        reader.open()
-        while True:
-            data = reader.read_data()
-            if data:
-                print(f"Message Duration: {data[0]}, Offset: {data[1]}")
-            sleep(1)
-    except KeyboardInterrupt:
-        print("Stopping reader.")
-    finally:
-        reader.close()
+#     try:
+#         reader.open()
+#         while True:
+#             data = reader.read_data()
+#             if data:
+#                 print(f"Message Duration: {data[0]}, Offset: {data[1]}")
+#             sleep(1)
+#     except KeyboardInterrupt:
+#         print("Stopping reader.")
+#     finally:
+#         reader.close()

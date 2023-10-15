@@ -4,6 +4,12 @@
 type LayeredPatientData {
     patientProfile: Patient
     vitalParams: VitalParams
-    OpDetails: OpDetails
+    opDetails: OpDetails
+    opEnvironment: OpEnvironment
+    externalFactros: ExternalFactors
 }
+
+
+
+
 

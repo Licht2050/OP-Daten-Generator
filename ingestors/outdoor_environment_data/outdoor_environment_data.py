@@ -96,7 +96,8 @@ class OutdoorEnvironmentDatatHandler(Base):
 
         source = processed_message.get("source", "outdoor_environment")
 
-        fields = {key: value for key, value in outdoor_environment_data.items() if key != "external_temperature"}
+        # fields = {key: value for key, value in outdoor_environment_data.items() if key != "external_temperature"}
+        fields = {key: value for key, value in outdoor_environment_data.items()}
 
         schema = {
             "measurement": source,
@@ -144,7 +145,7 @@ if __name__ == "__main__":
         influxdb_config = config.get("influxdb")
         max_workers = config.get("threads", {}).get("max_workers", 10)
 
-        mongodb_config = config.get("mongodb")
+        mongodb_config = config.get("op_details")
         patient_entry_exit_events_config = config.get("topics", {}).get("patient_entry_exit_events")
 
         """Add a suffix to the group_id to make it unique"""

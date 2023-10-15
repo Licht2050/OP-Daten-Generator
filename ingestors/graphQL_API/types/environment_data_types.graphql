@@ -10,7 +10,7 @@ type EntryExitEvent {
 
 
 
-type IndoorEnvironmentData {
+type IndoorEnvironment {
     temperature: Float
     humidity: Float
     co2: Float
@@ -19,11 +19,12 @@ type IndoorEnvironmentData {
     illuminance: Float
     noise: Float
     timestamp: String
-    door_state: String
+    door_status: String
     op_room: String
 }
 
 type StaffCommunication {
+    op_room: String
     time: String!
     message: String!
     sender: String!
@@ -31,37 +32,52 @@ type StaffCommunication {
 
 
 
-
-type OpEnvironmentQuery{
-    entryExitEvents: [EntryExitEvent]
-    indoorEnvironmentData: [IndoorEnvironmentData]
-    staffCommunication: [StaffCommunication]
+type OpEnvironment{
+    entryExitEvents: EntryExitEvent
+    indoorEnvironment: IndoorEnvironment
+    staffCommunication: StaffCommunication
 }
 
 
-type OpEnvironmentSubscription{
-    entryExitEventUpdated: EntryExitEvent
-    indoorEnvironmentDataUpdated: IndoorEnvironmentData
-    staffCommunicationUpdated: StaffCommunication
+type OpEnvironmentByTimestampAndPID{
+    getOpEnvironmentByTimestampAndPID(patientId: ID!, timestamp: String!, secondsRange: Int): OpEnvironment
 }
 
 
-
-
-# old schema
-
-type EnvironmentDataQuery {
-    getIndoorEnvironmentData: [IndoorEnvironmentData]
-}
+# type OpEnvironmentSubscription{
+#     # entryExitEventUpdated: EntryExitEvent
+#     indoorEnvironmentDataUpdated(patientId: ID!): IndoorEnvironment
+#     # staffCommunicationUpdated: StaffCommunication
+# }
 
 
 
 
 
-extend type Query {
-    environmentData: EnvironmentDataQuery
-}
 
 extend type Subscription {
-    indoorEnvironmentDataUpdated: IndoorEnvironmentData
+    indoorEnvironmentByPid(patientId: ID!): IndoorEnvironment
+    staffCommunicationByPid(patientId: ID!): StaffCommunication
+    entryExitEventByPid(patientId: ID!): EntryExitEvent
 }
+
+
+
+
+
+# # old schema
+
+# type EnvironmentDataQuery {
+#     getIndoorEnvironmentData: [IndoorEnvironment]
+# }
+
+
+
+
+
+# extend type Query {
+#     environmentData: EnvironmentDataQuery
+#     # opEnvironmentQuery: 
+# }
+
+

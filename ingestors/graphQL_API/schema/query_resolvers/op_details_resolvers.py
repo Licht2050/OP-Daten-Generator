@@ -2,7 +2,8 @@ from datetime import timedelta
 import os
 import sys
 import logging
-from ariadne import ObjectType, QueryType
+from ariadne import ObjectType
+from usable_functions.usable_functions import get_requested_subfields, convert_to_mongo_projection
 
 sys.path.extend([
     os.path.join(os.path.dirname(__file__), '../../../config'),
@@ -43,12 +44,16 @@ op_details_query = ObjectType("OpDetailsQuery")
 
 
 @op_details_query.field("getOpDetailsById")
-def resolve_get_op_details_by_id(root, info, patient_id):
+def resolve_get_op_details_by_id(root, info, patient_id, requested_fields):
     print("Resolver getOpDetailsById aufgerufen")
 
     try:
-        op_details = mongodb_connector.find_data({'patient_id': patient_id})
+        
+        projection = convert_to_mongo_projection(requested_fields)
+        # print(projection)
+        op_details = mongodb_connector.find_data({'patient_id': patient_id}, projection)
         return op_details
     except Exception as e:
         logger.error(f"Error getting op_details: {e}")
         raise e
+    

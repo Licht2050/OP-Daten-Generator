@@ -72,10 +72,10 @@ class MongoDBConnector(Base):
             self._handle_exception(f"Error during data insertion: {e}")
             raise e
 
-    def find_data(self, query):
+    def find_data(self, query, projection=None):
         collection = self.get_collection()
         try:
-            result = collection.find_one(query)
+            result = collection.find_one(query, projection)
             return result
         except Exception as e:
             self._handle_exception(f"Error during data retrieval: {e}")

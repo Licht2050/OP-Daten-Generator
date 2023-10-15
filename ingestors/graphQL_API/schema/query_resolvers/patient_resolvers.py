@@ -2,7 +2,7 @@ from datetime import timedelta
 import os
 import sys
 import logging
-from ariadne import ObjectType, QueryType
+from ariadne import ObjectType
 
 sys.path.extend([
     os.path.join(os.path.dirname(__file__), '../../../config'),
@@ -16,6 +16,7 @@ from mongodb_conncetor import MongoDBConnector
 from config_loader import ConfigLoader
 from paths_config import CONFIG_FILE_PATH
 from dateutil.parser import parse
+from usable_functions.usable_functions import convert_to_mongo_projection, get_requested_subfields
 
 # logger setup
 logger = logging.getLogger(__name__)
@@ -56,7 +57,9 @@ def resolve_get_patient_by_id(root, info, patient_id):
         dict: A dictionary containing the patient data.
     """
     try:
-        patient = mongodb_connector.find_data({'patient_id': patient_id})
+        requested_fields = get_requested_subfields(info.field_nodes[0], "patientProfile")
+        projection = convert_to_mongo_projection(requested_fields)
+        patient = mongodb_connector.find_data({'patient_id': patient_id}, projection)
         return patient
     except Exception as e:
         print(f"Error getting patient by ID: {e}")

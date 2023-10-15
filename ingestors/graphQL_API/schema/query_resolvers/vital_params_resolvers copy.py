@@ -7,7 +7,7 @@ import uuid
 from cassandra.query import named_tuple_factory
 
 
-from usable_functions.usable_functions import calculate_average_value, get_requested_subfields, initialize_patient_data
+from usable_functions.usable_functions import calculate_average, calculate_time_range, str_to_datetime
 
 
 
@@ -36,6 +36,8 @@ from paths_config import (
     VITAL_PARAMS_TABLE_DEFFINATION_PATH
 )
 from cassandra_connector import CassandraConnector
+from schema.query_resolvers.patient_resolvers import resolve_get_patient_by_id
+from schema.query_resolvers.op_details_resolvers import resolve_get_op_details_by_id
 
 
 # logger setup
@@ -66,38 +68,44 @@ except Exception as e:
 
 
 
-vital_params_query = ObjectType("VitalParamsByDate")
+vital_params_query = ObjectType("VitalParamsQuery")
 
 
 
-@vital_params_query.field("getVitalParamsByDate")
-def resolve_get_vital_params_by_date(root, info, patientId, timestamp, secondsRange):
+@vital_params_query.field("getHeartRateByDate")
+def resolve_get_heart_rate_by_date(root, info, patientId, timestamp, secondsRange):
+    print("Resolver getHeartRateByDate aufgerufen----------------------")
+    
     patient_id_uuid, start_timestamp, end_timestamp = initialize_patient_data(patientId, timestamp, secondsRange)
-    requested_vital_params = get_requested_subfields(info.field_nodes[0], "vitalParams")
-    result = {'vitalParams': {}}
+    requested_vital_params = get_requested_subfields(info, "getHeartRateByDate", "vitalParams")
+    # Überprüfe, welche Felder der Client angefordert hat
+    requested_fields = info.field_nodes[0].selection_set.selections
+    requested_field_names = [field.name.value for field in requested_fields]
+    
+
+    result = {'patientProfile': None, 'vitalParams': {}}
 
     try:
+        print("requested_field_names: ", requested_vital_params)
+        if 'patientProfile' in requested_field_names:
+            patient_data = resolve_get_patient_by_id(None, None, patientId)
+            result['patientProfile'] = patient_data
         if 'heartRate' in requested_vital_params:
-            heart_rate_params = requested_vital_params.get("heartRate")
-            heart_rate_entry = fetch_and_process_vital_params(patient_id_uuid, timestamp, start_timestamp, end_timestamp, 'heart_rate', 'heart_rate', HEART_RATE_LOW, HEART_RATE_HIGH, heart_rate_params)
+            heart_rate_entry = fetch_and_process_vital_params(patient_id_uuid, timestamp, start_timestamp, end_timestamp, 'heart_rate', 'heart_rate', HEART_RATE_LOW, HEART_RATE_HIGH)
             result['vitalParams']['heartRate'] = heart_rate_entry
         
         if 'oxygenSaturation' in requested_vital_params:
-            oxygen_saturation_params = requested_vital_params.get("oxygenSaturation")
-            oxygen_saturation_entry = fetch_and_process_vital_params(patient_id_uuid, timestamp, start_timestamp, end_timestamp, 'oxygen_saturation', 'oxygen_saturation', OXYGEN_SATURATION_LOW, OXYGEN_SATURATION_HIGH, oxygen_saturation_params)
+            oxygen_saturation_entry = fetch_and_process_vital_params(patient_id_uuid, timestamp, start_timestamp, end_timestamp, 'oxygen_saturation', 'oxygen_saturation', OXYGEN_SATURATION_LOW, OXYGEN_SATURATION_HIGH)
             result['vitalParams']['oxygenSaturation'] = oxygen_saturation_entry
         
         if 'bispectralIndex' in requested_vital_params:
-            bispectral_index_params = requested_vital_params.get("bispectralIndex")
-            bispectral_index_entry = fetch_and_process_vital_params(patient_id_uuid, timestamp, start_timestamp, end_timestamp, 'bispectral_index', 'bispectral_index', BISPIRAL_INDEX_LOW, BISPIRAL_INDEX_HIGH, bispectral_index_params)
+            bispectral_index_entry = fetch_and_process_vital_params(patient_id_uuid, timestamp, start_timestamp, end_timestamp, 'bispectral_index', 'bispectral_index', BISPIRAL_INDEX_LOW, BISPIRAL_INDEX_HIGH)
             result['vitalParams']['bispectralIndex'] = bispectral_index_entry
         if 'bloodPressure' in requested_vital_params:
-            blood_pressure_params = requested_vital_params.get("bloodPressure")
-            blood_pressure_entry = fetch_and_process_blood_pressure(patient_id_uuid, timestamp, start_timestamp, end_timestamp, blood_pressure_params, 'blood_pressure')
+            blood_pressure_entry = fetch_and_process_blood_pressure(patient_id_uuid, timestamp, start_timestamp, end_timestamp)
             result['vitalParams']['bloodPressure'] = blood_pressure_entry
         if 'etco2' in requested_vital_params:
-            etco2_params = requested_vital_params.get("etco2")
-            etco2_entry = fetch_and_process_vital_params(patient_id_uuid, timestamp, start_timestamp, end_timestamp, 'etco2', 'etco2', ETCO2_LOW, ETCO2_HIGH, etco2_params)
+            etco2_entry = fetch_and_process_vital_params(patient_id_uuid, timestamp, start_timestamp, end_timestamp, 'etco2', 'etco2', ETCO2_LOW, ETCO2_HIGH)
             result['vitalParams']['etco2'] = etco2_entry
          
 
@@ -108,46 +116,58 @@ def resolve_get_vital_params_by_date(root, info, patientId, timestamp, secondsRa
         raise e
     
 
+def get_requested_subfields(info, main_field_name, subfield_name):
+    # Durchsucht alle Feldknoten
+    for node in info.field_nodes:
+        # Prüft, ob der aktuelle Knotenname mit main_field_name übereinstimmt
+        if node.name.value == main_field_name:
+            # Durchsucht die Auswahlmenge des Knotens, um die Unterfelder zu erhalten
+            if node.selection_set:
+                # Extrahiert die Unterfelder von "vitalParams"
+                for selection in node.selection_set.selections:
+                    if selection.name.value == subfield_name and selection.selection_set:
+                        return [field.name.value for field in selection.selection_set.selections]
+    return []
 
 
+def initialize_patient_data(patientId, timestamp, secondsRange):
+    patient_id_uuid = uuid.UUID(patientId)
+    timestamp_datetime = str_to_datetime(timestamp)
+    if secondsRange == None:
+        secondsRange = 0
+    start_timestamp, end_timestamp = calculate_time_range(timestamp_datetime, secondsRange)
+    return patient_id_uuid, start_timestamp, end_timestamp
 
-
-
-
-
-def fetch_vital_params(patien_id_uuid, start_timestamp, end_timestamp, table_name, requested_fields="*"):
+def fetch_vital_params(patien_id_uuid, start_timestamp, end_timestamp, table_name):
     session = cassandra_connector.connect(keyspace='medical_data')
     session.row_factory = named_tuple_factory
-    fields_str = ', '.join(requested_fields)
-    query = f"SELECT {fields_str} FROM medical_data.{table_name} WHERE Patient_ID = ? AND timestamp >= ? AND timestamp <= ? ALLOW FILTERING"
+    query = f"SELECT * FROM medical_data.{table_name} WHERE Patient_ID = ? AND timestamp >= ? AND timestamp <= ? ALLOW FILTERING"
     prepared = session.prepare(query) 
     return session.execute(prepared.bind([patien_id_uuid, start_timestamp, end_timestamp]))
 
 
 
+def calculate_average_value(data, key):
+    values = [result[key] for result in data]
+    return round(calculate_average(values))
 
 
-
-def fetch_and_process_vital_params(patient_id_uuid, timestamp, start_timestamp, end_timestamp, table_name, key, low, high, requested_fields):
-    data = [row._asdict() for row in fetch_vital_params(patient_id_uuid, start_timestamp, end_timestamp, table_name, requested_fields)]
+def fetch_and_process_vital_params(patient_id_uuid, timestamp, start_timestamp, end_timestamp, table_name, key, low, high):
+    data = [row._asdict() for row in fetch_vital_params(patient_id_uuid, start_timestamp, end_timestamp, table_name)]
     avg = calculate_average_value(data, key)
     status = calculate_status(avg, low, high)
-    entry = {}
     if data:
-        for field in requested_fields:
-            if field == key:
-                entry[field] = avg
-            elif field == 'timestamp':
-                entry[field] = timestamp
-            elif field == 'status':
-                entry[field] = status
-            else:
-                entry[field] = data[0].get(field)
-    return entry or None
+        entry = data[0]
+        entry[key] = avg
+        entry['timestamp'] = timestamp
+        entry['status'] = status
+    else:
+        entry = None
+    return entry
 
 
-def fetch_and_process_blood_pressure(patient_id_uuid, timestamp, start_timestamp, end_timestamp, blood_pressure_params, table_name='blood_pressure'):
-    data = [row._asdict() for row in fetch_vital_params(patient_id_uuid, start_timestamp, end_timestamp, table_name,  blood_pressure_params)]
+def fetch_and_process_blood_pressure(patient_id_uuid, timestamp, start_timestamp, end_timestamp):
+    data = [row._asdict() for row in fetch_vital_params(patient_id_uuid, start_timestamp, end_timestamp, 'blood_pressure')]
     
     avg_systolic = calculate_average_value(data, 'systolic')
     status_systolic = calculate_status(avg_systolic, BLOOD_PRESSURE_SYSTOLIC_LOW, BLOOD_PRESSURE_SYSTOLIC_HIGH)

@@ -1,3 +1,4 @@
+import asyncio
 import datetime
 import sys
 import os
@@ -23,8 +24,9 @@ from base import Base
 from paths_config import CONFIG_FILE_PATH
 from config_loader import ConfigLoader
 from kafka_consumer import KafkaTopicConsumer
-from middelware_manager import MiddlewareManager
+from middelware_manager_async import MiddlewareManager
 from process_entry_exit_events import DataProcessor
+from graphql_publisher import GraphQLPublisher
 
 
 class EntryExisEventHandler(Base):
@@ -69,15 +71,15 @@ class EntryExisEventHandler(Base):
     
     def process_middleware(self, message: Dict[str, Any]) -> Dict[str, Any]:
         """Process the message through the middleware manager."""
-        return self.middleware_manager.process_middlewares(message).to_dict()
+        return self.middleware_manager.process_middlewares(message)
 
     
-    def _process_and_save_message(self, data) -> None:
+    async def _process_and_save_message(self, data) -> None:
         """Process and save the message."""
         try:
-            processed_message = self.process_middleware(data)
+            processed_message = await self.process_middleware(data)
             # print(f"Processed message------------------: {processed_message}")
-            schema = self.create_operation_room_status_schema(processed_message) 
+            schema = self.create_operation_room_status_schema(processed_message.to_dict()) 
             self.influxdb_connector.write_points([schema])
         except Exception as e:
             self._handle_exception(f"Error processing message: {e}")
@@ -134,6 +136,7 @@ if __name__ == "__main__":
     handler = None
     data_processor = None
     thread = None
+    loop = asyncio.get_event_loop()
     try:
         config_loader = ConfigLoader(CONFIG_FILE_PATH)
         config = config_loader.get_all_configs()
@@ -141,20 +144,31 @@ if __name__ == "__main__":
         influxdb_config = config.get("influxdb")
         max_workers = config.get("threads", {}).get("max_workers", 10)
 
-        mongodb_config = config.get("mongodb")
+        mongodb_config = config.get("op_details")
         patient_entry_exit_events_config = config.get("topics", {}).get("patient_entry_exit_events")
+
+        pub_sub_config = config.get("publish_subscribe_channels")
+        subscribe_channel = pub_sub_config.get("entry_exit_events").get("subscribe_channel")
 
         """Add a suffix to the group_id to make it unique"""
         patient_entry_exit_events_config['group_id'] = patient_entry_exit_events_config['group_id'] + "_entry_exit_events"
+
+
+        graphql_publisher = GraphQLPublisher(subscribe_channel)
+
 
         data_processor = DataProcessor(influxdb_config, patient_entry_exit_events_config, mongodb_config, max_workers)
         thread = threading.Thread(target=data_processor.run)
         thread.start()
 
+        loop.run_until_complete(graphql_publisher.initialize())
+
         handler = EntryExisEventHandler(entry_exit_events_config, influxdb_config, max_workers=max_workers)
         handler.add_middleware(data_processor.process_data)
+        handler.add_middleware(graphql_publisher.process_data)
         handler.run()
 
+        thread.join()
     except KeyboardInterrupt:
         print("Interrupted by user. Closing connections...")
     except Exception as e:
@@ -166,6 +180,8 @@ if __name__ == "__main__":
             data_processor.stop()
         if handler is not None:
             handler.stop()
+        if graphql_publisher is not None:
+            loop.run_until_complete(graphql_publisher.close_redis())
         threading.join(timeout=5) # Wait for the thread to finish
         if thread.is_alive():
             print("Thread hat nicht rechtzeitig geantwortet und wird erzwungen beendet.")

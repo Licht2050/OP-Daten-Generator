@@ -25,40 +25,43 @@ class DataProcessor(BaseProcessor):
         data = processed_message.raw_message
         try:
             # print(f"Processing data: {data.raw_message}")
-            self.validate_data(data)
+            entry_exit_event_value = self.validate_data(data)
 
             value = data.get('value')
 
-            entry_exit_event_value = EntryExitEventValue(**value)
+            # entry_exit_event_value = EntryExitEventValue(**value)
             processed_message.add_data('value', entry_exit_event_value)
 
 
             entry_exit_events_datetime_obj = self._convert_to_datetime(data.get("timestamp"))
-            self._write_data_for_patient_in_op_room(entry_exit_events_datetime_obj, entry_exit_event_value)
+            self._write_data_for_patient_in_op_room(processed_message, entry_exit_events_datetime_obj, entry_exit_event_value)
 
         except ValidationError as e:
             self.logger.error(f"Data validation error: {e}")
             raise
     
     
-    def _write_data_for_patient_in_op_room(self, entry_exit_events_datetime_obj, entry_exit_event_value):
+    def _write_data_for_patient_in_op_room(self, processed_message, entry_exit_events_datetime_obj, entry_exit_event_value):
         for patient_id, timestamp_and_op_room in self.current_patients.items():
             op_room = timestamp_and_op_room.get("op_room")
             patient_entered_datetime_obj = timestamp_and_op_room.get("timestamp")
-
+            print(f"op_room: {op_room}, patient_entered_datetime_obj: {patient_entered_datetime_obj}, entry_exit_events_datetime_obj: {entry_exit_events_datetime_obj}")
             if op_room == entry_exit_event_value.op_room and entry_exit_events_datetime_obj >= patient_entered_datetime_obj:
                 schema = self._create_entry_exit_events_schema(entry_exit_events_datetime_obj, entry_exit_event_value, patient_id) 
                 self.influxdb_connector.write_points([schema])
+                processed_message.add_data("patient_id", patient_id)
+                processed_message.add_data("op_room", op_room)
 
 
     def _create_entry_exit_events_schema(self, entry_exit_events_datetime_obj, entry_exit_event_value, patient_id):
         """Create a schema for the entry_exit_events measurement."""
         
         
-        source = f"{patient_id}_entry_exit_events"
+        source = f"correlated_entry_exit_events"
         schema = {
             "measurement":  source,
             "tags": {
+                "patient_id": patient_id,
                 "person": entry_exit_event_value.person,
             },
             "time": f"{entry_exit_events_datetime_obj.isoformat()}Z",
@@ -73,7 +76,7 @@ class DataProcessor(BaseProcessor):
     def validate_data(self, data):
         """Validate data before writing to database """
         try:
-            EntryExitEvent(**data)
+            return EntryExitEvent(**data)
         except ValidationError as e:
             self.logger.error(f"Data validation error: {e}")
             raise
