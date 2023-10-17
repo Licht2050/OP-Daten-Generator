@@ -130,6 +130,21 @@
     },
     "entry_exit_events":{
       "subscribe_channel": "entry_exit_events"
+    },
+    "bispectral_index":{
+      "subscribe_channel": "bispectral_index"
+    },
+    "etco2":{
+      "subscribe_channel": "etco2"
+    },
+    "oxygen_saturation":{
+      "subscribe_channel": "oxygen_saturation"
+    },
+    "blood_pressure":{
+      "subscribe_channel": "blood_pressure"
+    },
+    "heart_rate":{
+      "subscribe_channel": "heart_rate"
     }
   }
 }

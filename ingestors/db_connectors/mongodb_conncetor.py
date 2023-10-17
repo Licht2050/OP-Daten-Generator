@@ -85,7 +85,7 @@ class MongoDBConnector(Base):
         collection = self.get_collection()
         try:
             result = collection.find(query)
-            return result
+            return list(result)
         except Exception as e:
             self._handle_exception(f"Error during data retrieval: {e}")
             raise e

@@ -92,6 +92,10 @@ extend type Query {
 }
 
 
-# extend type Subscription {
-#     realTimeVitalParams: RealTimeVitalParamsSubscription
-# }
+extend type Subscription {
+    bispectralIndexByPid(patientId: ID!): BispectralIndex
+    bloodPressureByPid(patientId: ID!): BloodPressure
+    etco2ByPid(patientId: ID!): EtCO2
+    heartRateByPid(patientId: ID!): HeartRate
+    oxygenSaturationByPid(patientId: ID!): OxygenSaturation
+}

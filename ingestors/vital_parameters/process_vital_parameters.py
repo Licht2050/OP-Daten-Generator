@@ -22,7 +22,8 @@ class VitalsChecker(Base):
 
     def check_vitals(self, processed_message: Any)-> None:
         try:
-            message_dict = self._decode_message(processed_message.raw_message)
+            # message_dict = self._decode_message(processed_message.raw_message)
+            message_dict = processed_message.raw_message
             status = self.calculate_status(message_dict)
             processed_message.add_data('status', status)
             # message_dict['status'] = status
@@ -82,7 +83,8 @@ class TimSynchronization(Base):
 
     def synchronize(self, processed_message: Any)-> None:
         try:
-            message_dict = self._decode_message(processed_message.raw_message)
+            # message_dict = self._decode_message(processed_message.raw_message)
+            message_dict = processed_message.raw_message
             source = message_dict['source']
             if source in self.config['generators']:
                 data = self.reader.read_data()
@@ -90,6 +92,7 @@ class TimSynchronization(Base):
                     estimate_send_time = self._calculate_estimate_time(message_dict['timestamp'], data[1], data[0])
                     processed_message.add_data('estimated_time', estimate_send_time)
                     message_dict['estimated_time'] = estimate_send_time
+                    print(f"processed message: {processed_message.to_dict()}")
         except (json.JSONDecodeError, KeyError, Exception) as e:
             self._handle_exception(e)
 

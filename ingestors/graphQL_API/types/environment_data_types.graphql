@@ -3,9 +3,10 @@
 
 
 type EntryExitEvent {
-    time: String!
-    event: String!
-    person: String!
+    op_room: String
+    time: String
+    event: String
+    person: String
 }
 
 

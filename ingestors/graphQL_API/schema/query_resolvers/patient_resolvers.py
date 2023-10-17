@@ -80,9 +80,8 @@ def resolve_get_all_patients(root, info):
     """
     try:
         patients = mongodb_connector.find_all_data({})
-        vitalparameter = None
 
-        return patients, vitalparameter
+        return patients
     except Exception as e:
         print(f"Error getting all patients: {e}")
         raise e

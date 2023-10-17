@@ -25,11 +25,11 @@ class DataProcessor(BaseProcessor):
         data = processed_message.raw_message
         try:
             # print(f"Processing data: {data.raw_message}")
-            entry_exit_event_value = self.validate_data(data)
+            self.validate_data(data)
 
             value = data.get('value')
 
-            # entry_exit_event_value = EntryExitEventValue(**value)
+            entry_exit_event_value = EntryExitEventValue(**value)
             processed_message.add_data('value', entry_exit_event_value)
 
 
@@ -76,7 +76,7 @@ class DataProcessor(BaseProcessor):
     def validate_data(self, data):
         """Validate data before writing to database """
         try:
-            return EntryExitEvent(**data)
+            EntryExitEvent(**data)
         except ValidationError as e:
             self.logger.error(f"Data validation error: {e}")
             raise

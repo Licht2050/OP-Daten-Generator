@@ -1,4 +1,4 @@
-# subscription_resolver/environment_data_sub_resolver.py
+# subscription_resolver/op_environment_resolver.py
 
 
 import asyncio
@@ -108,3 +108,9 @@ async def entry_exit_event_by_pid_generator(obj, info, patientId):
     async for update in redis_sub.get_filtered_messages():
         # print("Update inside indoor_environment_data_updated_generator:", update)
         yield update
+
+
+@subscription.field("entryExitEventByPid")
+def entry_exit_event_by_pid_resolver(update, info, patientId):
+    # print("indoor_environment_data_updated_resolver")
+    return update

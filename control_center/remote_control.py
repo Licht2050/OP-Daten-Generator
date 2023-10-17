@@ -21,7 +21,8 @@ logger = logging.getLogger(__name__)
 SCRIPTS_FIRST_PHASE = ["consume_op_team_info.py", "consume_op_record.py", "consume_patient_record.py"]
 SCRIPTS_SECOND_PHASE = ["patient_data_generator.py"]
 SCRIPTS_THIRD_PHASE = ["op_team.py", "pre_op_record.py"]
-SCRIPTS_FOURTH_PHASE = ["entry_exit_event.py", "indoor_environment_data.py", "outdoor_environment.py"]
+SCRIPT_OUTDOOR_ENVIRONMENT = ["outdoor_environment.py"]
+SCRIPTS_FOURTH_PHASE = ["entry_exit_event.py", "indoor_environment_data.py"]
 SCRIPTS_STAFF_COMMUNICATION = ["staff_communication_during_op.py"]
 SCRIPTS_FIFTH_PHASE = ["patient_enter_event.py"]
 SCRIPTS_SIXTH_PHASE = ["heart_rate.py", "blood_pressure.py", "bis.py", "etco2.py", "oxygen_saturation_producer.py"]
@@ -302,6 +303,7 @@ def execute_scripts(config_loader):
             (SCRIPTS_FIRST_PHASE, "Möchten Sie den {}-generator starten? (j/n): "),
             (SCRIPTS_SECOND_PHASE, "Möchten Sie den {}-generator starten? (j/n): "),
             (SCRIPTS_THIRD_PHASE, "Möchten Sie den {}-generator starten? (j/n): "),
+            (SCRIPT_OUTDOOR_ENVIRONMENT, "Möchten Sie den {}-generator starten? (j/n): "),
             (SCRIPTS_FOURTH_PHASE, "Möchten Sie den {}-generator starten? (j/n): "),
             (SCRIPTS_STAFF_COMMUNICATION, "Möchten Sie den {}-generator starten? (j/n): "),
             (SCRIPTS_FIFTH_PHASE, "Möchten Sie den {}-generator starten? (j/n): ")

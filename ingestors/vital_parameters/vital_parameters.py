@@ -1,3 +1,4 @@
+import asyncio
 import datetime
 import json
 import os
@@ -5,6 +6,7 @@ import sys
 import uuid
 from typing import Callable, Dict, List, Any, Optional, Tuple
 from concurrent.futures import ThreadPoolExecutor
+from multiprocessing import Process
 
 
 # Local imports
@@ -23,6 +25,7 @@ from cassandra_connector import CassandraConnector
 from config_loader import ConfigLoader
 from middelware_manager import MiddlewareManager
 from process_vital_parameters import TimSynchronization, VitalsChecker
+from graphql_pub import GraphQLVitalParamPub
 
 
 class KafkaToCassandra(Base):
@@ -79,7 +82,7 @@ class KafkaToCassandra(Base):
     def save_to_cassandra(self, processed_message: Any) -> None:
         """Save the consumed message into Cassandra database."""
         try:
-            message_dict = self._decode_message(processed_message.raw_message)
+            message_dict = processed_message.raw_message
             # self.logger.info(f"Saving message to Cassandra: {message_dict}")
             source, value, timestamp, patient_id, bucket_date = self.extract_message_details(message_dict)
             query_params = self.create_query_params(source, value, timestamp, patient_id, bucket_date, processed_message)
@@ -170,7 +173,9 @@ class KafkaToCassandra(Base):
                 # processed_message = self.process_middlewares(message)
                 # self.save_to_cassandra(processed_message)
                 # consum message in a thread
-                self.executor.submit(self.process_and_save_message, message)
+                decoded_msg = self._decode_message(message)
+                self.executor.submit(self.process_and_save_message, decoded_msg)
+
 
     def process_and_save_message(self, message: Any) -> None:
         """Process a single message and save it to Cassandra."""
@@ -196,37 +201,54 @@ class KafkaToCassandra(Base):
 
     def run(self) -> None:
         """Run the Kafka consumer."""
-        try:
-            #print("Some debug output...", flush=True)
-            self.consumer.subscribe([self.vital_parameters_config['topic_name']])
-            self.consume_and_store()
-        except KeyboardInterrupt:
-            self._handle_exception("Operation stopped by the user")
-        finally:
-            self.close_connections()
+        #print("Some debug output...", flush=True)
+        self.consumer.subscribe([self.vital_parameters_config['topic_name']])
+        self.consume_and_store()
+    
 
 if __name__ == '__main__':
-    # Load configuration
-    config_loader = ConfigLoader(CONFIG_FILE_PATH)
-    config = config_loader.get_all_configs() 
+    connector = None
+    graphql_publisher = None
+
+    try:
+        # Load configuration
+        config_loader = ConfigLoader(CONFIG_FILE_PATH)
+        config = config_loader.get_all_configs() 
+        
+        # Load CQL table definition
+        cql_loader = CQLLoader(VITAL_PARAMS_TABLE_DEFFINATION_PATH)
+        table_definition = cql_loader.get_commands(category="Schema")
+
+        # Initialize main connector
+        connector = KafkaToCassandra(config, table_definition)
+
+        # Initialize middlewares
+        checker = VitalsChecker(config['thresholds'])
+        sync_config_loader = ConfigLoader("../config/config.json")
+        synchroneizer = TimSynchronization(sync_config_loader.load_config("synchronization"))
+
+
+
+        pub_sub_config = config.get("publish_subscribe_channels")
+        graphql_publisher = GraphQLVitalParamPub(pub_sub_config)
+        # loop.run_until_complete(graphql_publisher.initialize())
+        graphql_publisher.event_loop.run_until_complete(graphql_publisher.initialize())
+        # Add middlewares
+        connector.add_middleware(checker.check_vitals)
+        connector.add_middleware(synchroneizer.synchronize)
+        connector.add_middleware(graphql_publisher.process_data)
+
+
+        # Run the connector
+        connector.run()
     
-    # Load CQL table definition
-    cql_loader = CQLLoader(VITAL_PARAMS_TABLE_DEFFINATION_PATH)
-    table_definition = cql_loader.get_commands(category="Schema")
-
-    # Initialize main connector
-    connector = KafkaToCassandra(config, table_definition)
-
-    # Initialize middlewares
-    checker = VitalsChecker(config['thresholds'])
-    sync_config_loader = ConfigLoader("../config/config.json")
-    synchroneizer = TimSynchronization(sync_config_loader.load_config("synchronization"))
-
-    # Add middlewares
-    connector.add_middleware(checker.check_vitals)
-    connector.add_middleware(synchroneizer.synchronize)
-
-    # Run the connector
-    connector.run()
-    
+    except KeyboardInterrupt:
+        print("Interrupted by user. Closing connections...")
+    finally:
+        if connector:
+            connector.close_connections()
+        if graphql_publisher:
+            print("Closing graphql publisher...")
+            graphql_publisher.event_loop.run_until_complete(graphql_publisher.close())
+            graphql_publisher.event_loop.close() 
 

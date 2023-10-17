@@ -65,12 +65,12 @@ class StaffCommunicationHandler(Base):
             # Step 1: Process data through middlewares
             processed_message = await self.process_middleware(data)
 
-            print(f"processed_message: {processed_message.raw_message}")
+            # print(f"processed_message: {processed_message.raw_message}")
 
             # Step 2: Write the processed data to InfluxDB
             shema = self.create_staff_communication_schema(processed_message.raw_message) 
             self.influxdb_connector.write_points([shema])
-            print(f"shema: {shema}")
+            # print(f"shema: {shema}")
         except Exception as e:
             self._handle_exception(f"Error while processing and saving data: {e}")
 

@@ -20,7 +20,7 @@ formatter = logging.Formatter('%(asctime)s:%(name)s:%(levelname)s:%(message)s')
 
 
 from schema.subscription_resolver.redis_subscription import RedisSubscription
-from schema.subscription_resolver.environment_data_sub_resolver import indoor_environment_data_updated_generator
+from schema.subscription_resolver.op_environment_resolver import indoor_environment_data_updated_generator
 from usable_functions.usable_functions import get_requested_fields, get_requested_subfields
 from config_loader import ConfigLoader
 from paths_config import CONFIG_FILE_PATH

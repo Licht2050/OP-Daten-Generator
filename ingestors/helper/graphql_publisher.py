@@ -1,11 +1,7 @@
 
-import asyncio
 import json
-import threading
 import aioredis
 import logging
-from indoor_environment_data_schema import IndoorEnvironmentDataValue
-from pydantic import BaseModel
 
 
 class GraphQLPublisher():
@@ -28,18 +24,17 @@ class GraphQLPublisher():
     async def process_data(self, processed_message):
         
         data, patient_id, value_data = self.extract_message_details(processed_message)
-        print(f"values===================: {value_data}")
+        # print(f"values===================: {value_data}")
         # self.logger.info(f"Received message in GraphQL Publisher: {processed_message.to_dict()}")
         # print(f"Received message in GraphQL Publisher: {processed_message.to_dict()}")
         channel_name_for_subscription = f"{self.channel_name}_{patient_id}"
-        print(f"channel_name_for_subscription: {channel_name_for_subscription}")
+        # print(f"channel_name_for_subscription: {channel_name_for_subscription}")
         num_subscribers = await self.redis.execute_command("PUBSUB", "NUMSUB", channel_name_for_subscription)
         num_subscribers = int(num_subscribers[1])
-        print(f"Number of subscribers======================================: {num_subscribers}")
+        # print(f"Number of subscribers======================================: {num_subscribers}")
         if num_subscribers > 0:
-            print(f"Publishing to channel: {channel_name_for_subscription}")
-            # message = IndoorEnvironmentDataValue(**value_data)
-            print(f"value data: {value_data}")
+            # print(f"Publishing to channel: {channel_name_for_subscription}")
+            # print(f"value data: {value_data}")
             await self.redis.publish(channel_name_for_subscription, json.dumps(value_data))
                                      
     
